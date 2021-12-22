@@ -2003,8 +2003,4 @@ int main()
 #endif
 #line 107 "lex.l"
 
- int main(){
-    yyin= fopen("prgrm.txt","r");
-   if (yyin==NULL) printf("ERROR \n");
-      else yylex();
-		   }
+

@@ -105,8 +105,4 @@ NOT              {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + str
 \n  {nb_ligne++;   nb_colonne=1;}
 .  				{printf ("erreur lexicale a la ligne : %d ,et la colonne :%d \n",yylineno,nb_colonne);return err_lex; }
 %%
- int main(){
-    yyin= fopen("prgrm.txt","r");
-   if (yyin==NULL) printf("ERROR \n");
-      else yylex();
-		   }
+

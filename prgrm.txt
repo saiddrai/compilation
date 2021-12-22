@@ -1,14 +1,9 @@
-
 #!
-# tete de !programme !
+
 IDENTIFICATION DIVISION.
 
 
-# *****************************la partie declaration **************************************!
-#salut je mappelle
-boukedjani 
-l3 acad
-draiiii
+
 
 PROGRAM-ID.Nompro.        
 DATA DIVISION.
@@ -20,11 +15,10 @@ CONST K = 123 .
 CONST B FLOAT.
 Sb | Fb STRING.
 CONST A = 5.
-CONST B = ‘b’.
+CONST B = 'b'.
 Tab LINE 0 , SIZE 8 FLOAT .
 Tab | M LINE 0 , SIZE 8 INTEGER .
 
-# *****************************la partie expression **************************************!
 
 
 PROCEDURE DIVISION.

@@ -74,7 +74,6 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
 {
   int i;
   int current = 0;
-  int existe = 0;
   switch (y)
   {
   case 0: /*verifier si l'entité existe dans la table des idf et const*/
@@ -86,11 +85,7 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
-      else if (strcmp(entite, tab[i].name))
-      {
-        printf("entité existe déjà\n");
-        existe = 1;
-      }
+      
     }
 
     break;
@@ -103,11 +98,7 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
-      else if (strcmp(entite, tabm[i].name))
-      {
-        printf("entité existe déjà\n");
-        existe = 1;
-      }
+      
     }
     break;
   case 2: /*insertion dans la table des sep*/
@@ -119,11 +110,7 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
-      else if (strcmp(entite, tabs[i].name))
-      {
-        printf("entité existe déjà\n");
-        existe = 1;
-      }
+    
     }
     break;
   }
@@ -135,7 +122,7 @@ void afficher()
 {
   int i;
 
-  printf("/***************Table des symboles IDF*************/\n");
+  printf("\n/***************Table des symboles IDF*************/\n");
   printf("____________________________________________________________________\n");
   printf("\t| Nom_Entite |  Code_Entite | Type_Entite | Val_Entite\n");
   printf("____________________________________________________________________\n");
@@ -148,8 +135,8 @@ void afficher()
       printf("\t|%10s |%15s | %12s | %12f\n", tab[i].name, tab[i].code, tab[i].type, tab[i].val);
     }
   }
-
-  printf("\n/***************Table des symboles mots clés*************/\n");
+  printf("____________________________________________________________________\n");
+  printf("\n/***************Table des symboles Mot cles*************/\n");
 
   printf("_____________________________________\n");
   printf("\t| NomEntite |  CodeEntite | \n");
@@ -162,7 +149,8 @@ void afficher()
       printf("\t|%10s |%12s | \n", tabm[i].name, tabm[i].code);
     }
   }
-  printf("\n/***************Table des symboles séparateurs*************/\n");
+   printf("_____________________________________\n\n");
+  printf("\n/***************Table des symboles separateurs*************/\n");
 
   printf("_____________________________________\n");
   printf("\t| NomEntite |  CodeEntite | \n");
@@ -176,4 +164,5 @@ void afficher()
       printf("\t|%10s |%12s | \n", tabs[i].name, tabs[i].code);
     }
   }
+   printf("_____________________________________\n");
 }
