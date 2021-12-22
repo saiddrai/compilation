@@ -1,0 +1,97 @@
+
+#!
+# tete de !programme !
+IDENTIFICATION DIVISION.
+
+
+# *****************************la partie declaration **************************************!
+#salut je mappelle
+boukedjani 
+l3 acad
+draiiii
+
+PROGRAM-ID.Nompro.        
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+
+A | Bc INTEGER.
+
+CONST K = 123 .
+CONST B FLOAT.
+Sb | Fb STRING.
+CONST A = 5.
+CONST B = ‘b’.
+Tab LINE 0 , SIZE 8 FLOAT .
+Tab | M LINE 0 , SIZE 8 INTEGER .
+
+# *****************************la partie expression **************************************!
+
+
+PROCEDURE DIVISION.
+
+#les expressions arithmetiques !
+
+B=(N-6)+(3,9/7)*( (-9) + K ).
+
+#******************************************!
+#expression in out simple !
+
+DISPLAY (“c’est un entire $”: Mm ).
+DISPLAY (“Bonjour”).
+DISPLAY (“c’est une chaine de caractères #”:Ab ).
+DISPLAY (“c’est un caractère&”:C ).
+ACCEPT (“#”:@ C ).
+ACCEPT(“c’est une chaine de caractères #”:@Q).
+
+#******************************************!
+#if simple !
+
+IF ( NOT(A .L. 8)):
+	ACCEPT(“c’est une chaine de caractères #”:@Q).
+END.
+
+
+
+#if imbriqué !
+IF ((A.GE.5)):
+	ACCEPT (“%”:@ Bb).
+	ACCEPT (“#”:@ C ).
+	IF ((B.GE.C)):
+		ACCEPT (“%”:@ Bb).
+		ACCEPT (“#”:@ C ).
+		ACCEPT (“&”:@ Efgt ).
+	END.
+	ACCEPT (“&”:@ Efgt ).
+END.
+
+
+#if avaec plusieurs condition  !
+IF ( (A .GE.(3 - 1)) AND (V .L. 8) OR NOT (V .L. 8) ):
+	ACCEPT (“#”:@ C ).
+ELSE :
+	ACCEPT (“#”:@ C ).
+END.
+
+#*****************************!
+
+# boucle simple !
+MOVE 3 TO 5
+DISPLAY (“c’est un entire $”: Mm ).
+END.
+
+
+# une boucle vide !
+MOVE 3 TO 5
+END.
+
+# boucle imbriquee !
+MOVE A TO M
+	ACCEPT (“%”:@ Bb).
+	MOVE A TO 5
+		ACCEPT (“%”:@ Bb).
+	END.
+END.
+
+
+
+STOP RUN .
