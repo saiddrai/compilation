@@ -19,7 +19,7 @@ INT_CST \([+-]{chiffre}+\)|{chiffre}+
 FLOAT_CST ({chiffre}+,{chiffre}+)|(\([[+-]{chiffre}+,{chiffre}+\))
 CHAR_CST '.'
 STRING_CST \"[\n.]*\"
-COMMENT \#(.*?)\!
+COMMENT #(([^(!\n)]|\n)*!\n|(.*?)*!\n)
 MSGDISP_ACC \“.*[$%#&].*\”
 MSGDISP \“.*\”
 %%

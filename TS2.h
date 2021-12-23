@@ -85,6 +85,9 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
+      else if(strcmp( tab[i].name , entite)==0){
+        break;
+      }
       
     }
 
@@ -98,6 +101,9 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
+      else if(strcmp( tabm[i].name , entite)==0){
+        break;
+      }
       
     }
     break;
@@ -108,6 +114,9 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
       {
         current = i;
         inserer(entite, code, type, val, y, current);
+        break;
+      }
+      else if(strcmp( tabs[i].name , entite)==0){
         break;
       }
     
