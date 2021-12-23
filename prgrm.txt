@@ -1,4 +1,4 @@
-#!
+# fhjdshfds j ! dlsajdsa !
 
 IDENTIFICATION DIVISION.
 
@@ -19,8 +19,7 @@ CONST B = 'b'.
 Tab LINE 0 , SIZE 8 FLOAT .
 Tab | M LINE 0 , SIZE 8 INTEGER .
 
-#!
-#test!
+
 
 PROCEDURE DIVISION.
 
@@ -79,7 +78,6 @@ END.
 MOVE 3 TO 5
 END.
 
-# boucle imbriquee !
 MOVE A TO M
 	ACCEPT (“%”:@ Bb).
 	MOVE A TO 5

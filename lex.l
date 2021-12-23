@@ -9,7 +9,7 @@
 extern nb_ligne;
 extern nb_colonne;
 extern YYSTYPE yylval;
-
+int i;
 %}
 
 lettre [a-z]
@@ -19,9 +19,9 @@ INT_CST \([+-]{chiffre}+\)|{chiffre}+
 FLOAT_CST ({chiffre}+,{chiffre}+)|(\([[+-]{chiffre}+,{chiffre}+\))
 CHAR_CST '.'
 STRING_CST \"[\n.]*\"
-COMMENT #[^!\n]*!
-MSGDISP_ACC \".*[$%#&].*\"
-MSGDISP \".*\"
+COMMENT \#(.*?)\!
+MSGDISP_ACC \“.*[$%#&].*\”
+MSGDISP \“.*\”
 %%
 
 {COMMENT} { printf ("Un Commentaire reconnue\n");
@@ -95,4 +95,4 @@ NOT              {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + str
 [ \t ]           {nb_colonne = nb_colonne + strlen(yytext);}
 \n  {nb_ligne++;   nb_colonne=1;}
 .  				{printf ("erreur lexicale a la ligne : %d ,et la colonne :%d \n",yylineno,nb_colonne);return err_lex; }
-%%²
+%%

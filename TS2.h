@@ -20,7 +20,7 @@ typedef struct
 } elt;
 
 element tab[1000];
-elt tabs[40], tabm[40];
+elt tabs[100], tabm[100];
 extern char sav[20];
 char chaine[] = "";
 
@@ -33,7 +33,7 @@ void initialisation()
   for (i = 0; i < 1000; i++)
     tab[i].state = 0;
 
-  for (i = 0; i < 40; i++)
+  for (i = 0; i < 100; i++)
   {
     tabs[i].state = 0;
     tabm[i].state = 0;
@@ -62,7 +62,7 @@ void inserer(char entite[], char code[], char type[], float val, int y, int i)
     break;
 
   case 2: /*insertion dans la table des séparateurs*/
-    tab[i].state = 1;
+    tabs[i].state = 1;
     strcpy(tabs[i].name, entite);
     strcpy(tabs[i].code, code);
     break;
@@ -90,7 +90,7 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
 
     break;
   case 1: /*pour les MC*/
-    for (i = 0; i < 1000; i++)
+    for (i = 0; i < 100; i++)
     {
       if (tabm[i].state == 0)
       {
@@ -102,7 +102,7 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
     }
     break;
   case 2: /*insertion dans la table des sep*/
-    for (i = 0; i < 1000; i++)
+    for (i = 0; i < 100; i++)
     {
       if (tabs[i].state == 0)
       {
@@ -122,7 +122,7 @@ void afficher()
 {
   int i;
 
-  printf("\n/***************Table des symboles IDF*************/\n");
+  printf("\n/***************Table des symboles IDF ET CONST*************/\n");
   printf("____________________________________________________________________\n");
   printf("\t| Nom_Entite |  Code_Entite | Type_Entite | Val_Entite\n");
   printf("____________________________________________________________________\n");
@@ -132,31 +132,32 @@ void afficher()
 
     if (tab[i].state == 1)
     {
-      printf("\t|%10s |%15s | %12s | %12f\n", tab[i].name, tab[i].code, tab[i].type, tab[i].val);
+      printf("\t|%10s  |%13s | %11s | %12f |\n", tab[i].name, tab[i].code, tab[i].type, tab[i].val);
     }
   }
-  printf("____________________________________________________________________\n");
+  printf("____________________________________________________________________\n\n");
+
   printf("\n/***************Table des symboles Mot cles*************/\n");
 
-  printf("_____________________________________\n");
-  printf("\t| NomEntite |  CodeEntite | \n");
-  printf("_____________________________________\n");
+  printf("_______________________________________\n");
+  printf("\t| NomEntite     |  CodeEntite | \n");
+  printf("_______________________________________\n");
 
-  for (i = 0; i < 40; i++)
+  for (i = 0; i < 100; i++)
   {
     if (tabm[i].state == 1)
     {
-      printf("\t|%10s |%12s | \n", tabm[i].name, tabm[i].code);
+      printf("\t|%14s |%12s | \n", tabm[i].name, tabm[i].code);
     }
   }
-   printf("_____________________________________\n\n");
+   printf("_______________________________________\n\n");
   printf("\n/***************Table des symboles separateurs*************/\n");
 
-  printf("_____________________________________\n");
+  printf("_________________________________________\n");
   printf("\t| NomEntite |  CodeEntite | \n");
-  printf("_____________________________________\n");
+  printf("_________________________________________\n");
 
-  for (i = 0; i < 40; i++)
+  for (i = 0; i < 100; i++)
   {
 
     if (tabs[i].state == 1)
