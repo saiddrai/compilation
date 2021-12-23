@@ -19,22 +19,13 @@ INT_CST \([+-]{chiffre}+\)|{chiffre}+
 FLOAT_CST ({chiffre}+,{chiffre}+)|(\([[+-]{chiffre}+,{chiffre}+\))
 CHAR_CST '.'
 STRING_CST \"[\n.]*\"
-COMMENT #[\n.]*!
+COMMENT #[^!]*!
 MSGDISP_ACC \".*[$%#&].*\"
 MSGDISP \".*\"
 %%
 
 {COMMENT} { printf ("Un Commentaire reconnue\n");
-          int l=strlen(yytext);
-		   int i= 0;
-          for(i=0;i<l;i++){
-          		if(yytext[i] =='\n' )
-				  {
-         	 		nb_ligne ++;  
-         	 		nb_colonne = 1;
-				  }  
-     	 	nb_colonne++;  
-      				}}
+          for(i=0;i<strlen(yytext);i++){if(yytext[i] =='\n' ){nb_ligne ++;  nb_colonne = 1;	  }  nb_colonne++;	}}
                                                      /*declaration des mots cles*/
 IDENTIFICATION   {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC identification reconnu \n");          return mc_idf;    }
 DIVISION         {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC division reconnu \n");                return mc_div;    }

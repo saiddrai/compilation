@@ -19,7 +19,8 @@ CONST B = 'b'.
 Tab LINE 0 , SIZE 8 FLOAT .
 Tab | M LINE 0 , SIZE 8 INTEGER .
 
-
+#!
+#test!
 
 PROCEDURE DIVISION.
 
