@@ -15,7 +15,7 @@
 %token mc_int mc_char mc_float mc_str mc_const mc_and mc_or mc_not mc_line mc_size
 %token mc_accept mc_display mc_if mc_else mc_end mc_move mc_to hash dol pourc an aro Dpoint
 %token moin plus slash egl cote mul pipe pa_ouv pa_fer point l g ge le eq di
-%token idf cst_char cst_int cst_reel cst_str msgdispacc msgdisp 
+%token <str>idf <str>cst_char <entier>cst_int <reel>cst_reel <str>cst_str msgdispacc msgdisp 
 %start S
 
 %%
