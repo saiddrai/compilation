@@ -72,10 +72,12 @@
 
 	int nb_ligne=1;
 	int nb_colonne=1;
+	char sauvType[25];
+
 
 
 /* Line 189 of yacc.c  */
-#line 79 "syntax.tab.c"
+#line 81 "syntax.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -171,7 +173,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 7 "syntax.y"
+#line 9 "syntax.y"
  
    int entier; 
    char* str;
@@ -181,7 +183,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 185 "syntax.tab.c"
+#line 187 "syntax.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -193,7 +195,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 197 "syntax.tab.c"
+#line 199 "syntax.tab.c"
 
 #ifdef short
 # undef short
@@ -509,13 +511,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    22,    22,    26,    27,    28,    29,    31,    33,    35,
-      36,    36,    38,    38,    38,    38,    40,    40,    42,    42,
-      42,    43,    43,    45,    46,    47,    48,    49,    51,    51,
-      52,    53,    54,    57,    58,    59,    60,    61,    62,    63,
-      65,    65,    66,    66,    67,    67,    68,    68,    68,    68,
-      68,    68,    71,    71,    72,    72,    75,    76,    77,    78,
-      78,    78,    78
+       0,    24,    24,    28,    29,    30,    31,    33,    35,    37,
+      38,    38,    40,    40,    40,    40,    42,    42,    44,    44,
+      44,    45,    45,    47,    48,    49,    50,    51,    53,    53,
+      54,    55,    56,    59,    60,    61,    62,    63,    64,    65,
+      67,    67,    68,    68,    69,    69,    70,    70,    70,    70,
+      70,    70,    73,    74,    75,    75,    77,    78,    79,    80,
+      80,    80,    80
 };
 #endif
 
@@ -1524,8 +1526,8 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 22 "syntax.y"
-    { printf ("syntaxe correcte \n \n");
+#line 24 "syntax.y"
+    { printf ("syntaxe correcte /n /n");
 						YYACCEPT;
 						;}
     break;
@@ -1533,7 +1535,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1537 "syntax.tab.c"
+#line 1539 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1745,7 +1747,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 81 "syntax.y"
+#line 83 "syntax.y"
 
 int yyerror(char*msg)
 {

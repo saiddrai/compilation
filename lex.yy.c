@@ -912,22 +912,22 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 52 "lex.l"
-{rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC integer reconnu \n");                 return mc_int;    }
+{rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC integer reconnu \n");                 return mc_int;    }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 53 "lex.l"
-{rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC char reconnu \n");                    return mc_char;   }	
+{rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC char reconnu \n");                    return mc_char;   }	
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 54 "lex.l"
-{rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC float reconnu \n");                   return mc_float;  }	 
+{rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC float reconnu \n");                   return mc_float;  }	 
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 55 "lex.l"
-{rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC string reconnu \n");                  return mc_str;    }  
+{rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC string reconnu \n");                  return mc_str;    }  
 	YY_BREAK
 /*declaration des operateurs de comparaison*/
 case 27:
@@ -1065,59 +1065,59 @@ case 53:
 YY_RULE_SETUP
 #line 84 "lex.l"
 {if (yyleng <=9)
-				 {rechercher(yytext,"IDF","",0,0);	nb_colonne = nb_colonne+ strlen(yytext); 	   printf("IDF reconnu %s \n",yytext);   			return idf; }
+				 {rechercher(yytext,"IDF","",0,0); 	nb_colonne = nb_colonne+ strlen(yytext); 	   printf("IDF reconnu %s \n",yytext);  yylval.str =strdup(yytext); 			return idf; }
        			 else {nb_colonne = nb_colonne + strlen(yytext); 								   printf("ERREUR ligne :%d  et colonne :%d  IDF %s est tres long\n",nb_ligne,nb_colonne, yytext);}}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 87 "lex.l"
-{rechercher(yytext,"CONST","CHAR",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext); printf("CST char reconnu \n");			return cst_char;}
+#line 88 "lex.l"
+{rechercher(yytext,"CONST","CHAR",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext); printf("CST char reconnu \n");  yylval.str =strdup(yytext);	   	return cst_char;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 88 "lex.l"
+#line 90 "lex.l"
 {if(atoi(yytext)<=32767 && atoi(yytext)>= -32768){
-				 rechercher(yytext,"CONST","INT",0,atof(yytext)); nb_colonne = nb_colonne+ strlen(yytext);printf("CST entiere reconnue \n");		    return cst_int;}
+				 rechercher(yytext,"CONST","INT",0,atof(yytext)); nb_colonne = nb_colonne+ strlen(yytext);printf("CST entiere reconnue \n");		  yylval.entier = atoi(yytext);  return cst_int;}
 			else{nb_colonne = nb_colonne + strlen(yytext);	printf("erreur lexicale a la ligne :%d et colonne :%d  depassement de capacite\n",nb_ligne, nb_colonne) ;}}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 91 "lex.l"
-{rechercher(yytext,"CONST","FLOAT",0,atof(yytext));	nb_colonne = nb_colonne + strlen(yytext);      printf("CST reelle reconnue \n");   return cst_reel; }
+#line 94 "lex.l"
+{rechercher(yytext,"CONST","FLOAT",0,atof(yytext));	nb_colonne = nb_colonne + strlen(yytext);      printf("CST reelle reconnue \n");  yylval.reel = atof(yytext); return cst_reel; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 92 "lex.l"
-{rechercher(yytext,"CONST","STRING",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext);        printf("CST string reconnue \n");     return cst_str; }
+#line 96 "lex.l"
+{rechercher(yytext,"CONST","STRING",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext);        printf("CST string reconnue \n");   yylval.str =strdup(yytext);  return cst_str; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 93 "lex.l"
+#line 98 "lex.l"
 {   printf("msg pour instruction display reconnu \n");nb_colonne = nb_colonne + strlen(yytext);   	return msgdispacc; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 94 "lex.l"
+#line 100 "lex.l"
 {nb_colonne = nb_colonne + strlen(yytext);      printf("msg pour instruction display reconnu \n");										   return msgdisp;    }	
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 95 "lex.l"
+#line 101 "lex.l"
 {nb_colonne = nb_colonne + strlen(yytext);}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 96 "lex.l"
+#line 102 "lex.l"
 {nb_ligne++;   nb_colonne=1;}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 97 "lex.l"
+#line 103 "lex.l"
 {printf ("erreur lexicale a la ligne : %d ,et la colonne :%d \n",yylineno,nb_colonne);return err_lex; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 98 "lex.l"
+#line 104 "lex.l"
 ECHO;
 	YY_BREAK
 #line 1124 "lex.yy.c"
@@ -2004,4 +2004,4 @@ int main()
 	return 0;
 	}
 #endif
-#line 98 "lex.l"
+#line 104 "lex.l"

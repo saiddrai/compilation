@@ -20,7 +20,7 @@ typedef struct
 } elt;
 
 element tab[1000];
-elt tabs[100], tabm[100];
+elt tabs[40], tabm[40];
 extern char sav[20];
 char chaine[] = "";
 
@@ -33,7 +33,7 @@ void initialisation()
   for (i = 0; i < 1000; i++)
     tab[i].state = 0;
 
-  for (i = 0; i < 100; i++)
+  for (i = 0; i < 40; i++)
   {
     tabs[i].state = 0;
     tabm[i].state = 0;
@@ -93,7 +93,7 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
 
     break;
   case 1: /*pour les MC*/
-    for (i = 0; i < 100; i++)
+    for (i = 0; i < 40; i++)
     {
       if (tabm[i].state == 0)
       {
@@ -108,7 +108,7 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
     }
     break;
   case 2: /*insertion dans la table des sep*/
-    for (i = 0; i < 100; i++)
+    for (i = 0; i < 40; i++)
     {
       if (tabs[i].state == 0)
       {
@@ -152,7 +152,7 @@ void afficher()
   printf("\t| NomEntite     |  CodeEntite | \n");
   printf("_______________________________________\n");
 
-  for (i = 0; i < 100; i++)
+  for (i = 0; i < 40; i++)
   {
     if (tabm[i].state == 1)
     {
@@ -166,7 +166,7 @@ void afficher()
   printf("\t| NomEntite |  CodeEntite | \n");
   printf("_________________________________________\n");
 
-  for (i = 0; i < 100; i++)
+  for (i = 0; i < 40; i++)
   {
 
     if (tabs[i].state == 1)
@@ -175,4 +175,42 @@ void afficher()
     }
   }
    printf("_____________________________________\n");
+}
+
+
+int Rechercher_PosIDF(char entite[])
+{
+	int i=0;
+	while(i<1000)
+	  {
+	    if (strcmp(entite,tab[i].name)==0) return i;	
+	    i++;
+	  }
+   
+return -1;
+		
+}
+
+void insererTypeIDF(char entite[], char type[])
+	{
+    int pos;
+	  pos=Rechercher_PosIDF(entite);
+	  if(pos!=-1)  {
+       strcpy(tab[pos].type,type);
+                 }
+	}
+    
+	
+	int doubleDeclaration(char entite[])
+	{
+	 int pos;
+	 pos=Rechercher_PosIDF(entite);
+	 if(strcmp(tab[pos].type,"")==0) return 0;
+	    else return -1;
+	}
+  
+void modifierIDF (char idf[] ,char type[])
+{
+	strcpy (tab[Rechercher_PosIDF(idf)].type,type);
+	
 }

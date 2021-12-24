@@ -49,10 +49,10 @@ MOVE             {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strl
 TO               {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC TO reconnu \n");                      return mc_to;     }
 CONST            {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC const reconnu \n");                   return mc_const;  }
                                                  /*declaration des types*/
-INTEGER          {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC integer reconnu \n");                 return mc_int;    }
-CHAR             {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC char reconnu \n");                    return mc_char;   }	
-FLOAT            {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC float reconnu \n");                   return mc_float;  }	 
-STRING           {rechercher(yytext,"MC","",1,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC string reconnu \n");                  return mc_str;    }  
+INTEGER          {rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC integer reconnu \n");                 return mc_int;    }
+CHAR             {rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC char reconnu \n");                    return mc_char;   }	
+FLOAT            {rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC float reconnu \n");                   return mc_float;  }	 
+STRING           {rechercher(yytext,"MC","",1,0); yylval.str =strdup(yytext);	nb_colonne = nb_colonne + strlen(yytext);      printf("MC string reconnu \n");                  return mc_str;    }  
                                         /*declaration des operateurs de comparaison*/
 AND              {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("oper and reconnu \n");                     return mc_and;  }
 OR               {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + strlen(yytext);      printf("oper or reconnu \n");                      return mc_or;   }
@@ -82,15 +82,21 @@ NOT              {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + str
 ")"              {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + strlen(yytext);      printf( ") reconnu \n");                         return pa_fer;    }
 "."              {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + strlen(yytext);      printf(". reconnu \n");                          return point;     }
 {IDF} 			 {if (yyleng <=9)
-				 {rechercher(yytext,"IDF","",0,0);	nb_colonne = nb_colonne+ strlen(yytext); 	   printf("IDF reconnu %s \n",yytext);   			return idf; }
+				 {rechercher(yytext,"IDF","",0,0); 	nb_colonne = nb_colonne+ strlen(yytext); 	   printf("IDF reconnu %s \n",yytext);  yylval.str =strdup(yytext); 			return idf; }
        			 else {nb_colonne = nb_colonne + strlen(yytext); 								   printf("ERREUR ligne :%d  et colonne :%d  IDF %s est tres long\n",nb_ligne,nb_colonne, yytext);}}
-{CHAR_CST}  	{rechercher(yytext,"CONST","CHAR",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext); printf("CST char reconnu \n");yylval.str =strdup(yytext);		return cst_char;}
+
+{CHAR_CST}  	{rechercher(yytext,"CONST","CHAR",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext); printf("CST char reconnu \n");  yylval.str =strdup(yytext);	   	return cst_char;}
+
 {INT_CST}  {if(atoi(yytext)<=32767 && atoi(yytext)>= -32768){
 				 rechercher(yytext,"CONST","INT",0,atof(yytext)); nb_colonne = nb_colonne+ strlen(yytext);printf("CST entiere reconnue \n");		  yylval.entier = atoi(yytext);  return cst_int;}
 			else{nb_colonne = nb_colonne + strlen(yytext);	printf("erreur lexicale a la ligne :%d et colonne :%d  depassement de capacite\n",nb_ligne, nb_colonne) ;}}
+
 {FLOAT_CST}      {rechercher(yytext,"CONST","FLOAT",0,atof(yytext));	nb_colonne = nb_colonne + strlen(yytext);      printf("CST reelle reconnue \n");  yylval.reel = atof(yytext); return cst_reel; }
+
 {STRING_CST}     {rechercher(yytext,"CONST","STRING",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext);        printf("CST string reconnue \n");   yylval.str =strdup(yytext);  return cst_str; }
+
 {MSGDISP_ACC}    {   printf("msg pour instruction display reconnu \n");nb_colonne = nb_colonne + strlen(yytext);   	return msgdispacc; }
+
 {MSGDISP}        {nb_colonne = nb_colonne + strlen(yytext);      printf("msg pour instruction display reconnu \n");										   return msgdisp;    }	
 [ \t ]           {nb_colonne = nb_colonne + strlen(yytext);}
 \n  {nb_ligne++;   nb_colonne=1;}
