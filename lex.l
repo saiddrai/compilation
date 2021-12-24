@@ -84,12 +84,12 @@ NOT              {rechercher(yytext,"sep","",2,0);	nb_colonne = nb_colonne + str
 {IDF} 			 {if (yyleng <=9)
 				 {rechercher(yytext,"IDF","",0,0);	nb_colonne = nb_colonne+ strlen(yytext); 	   printf("IDF reconnu %s \n",yytext);   			return idf; }
        			 else {nb_colonne = nb_colonne + strlen(yytext); 								   printf("ERREUR ligne :%d  et colonne :%d  IDF %s est tres long\n",nb_ligne,nb_colonne, yytext);}}
-{CHAR_CST}  	{rechercher(yytext,"CONST","CHAR",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext); printf("CST char reconnu \n");			return cst_char;}
+{CHAR_CST}  	{rechercher(yytext,"CONST","CHAR",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext); printf("CST char reconnu \n");yylval.str =strdup(yytext);		return cst_char;}
 {INT_CST}  {if(atoi(yytext)<=32767 && atoi(yytext)>= -32768){
-				 rechercher(yytext,"CONST","INT",0,atof(yytext)); nb_colonne = nb_colonne+ strlen(yytext);printf("CST entiere reconnue \n");		    return cst_int;}
+				 rechercher(yytext,"CONST","INT",0,atof(yytext)); nb_colonne = nb_colonne+ strlen(yytext);printf("CST entiere reconnue \n");		  yylval.entier = atoi(yytext);  return cst_int;}
 			else{nb_colonne = nb_colonne + strlen(yytext);	printf("erreur lexicale a la ligne :%d et colonne :%d  depassement de capacite\n",nb_ligne, nb_colonne) ;}}
-{FLOAT_CST}      {rechercher(yytext,"CONST","FLOAT",0,atof(yytext));	nb_colonne = nb_colonne + strlen(yytext);      printf("CST reelle reconnue \n");   return cst_reel; }
-{STRING_CST}     {rechercher(yytext,"CONST","STRING",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext);        printf("CST string reconnue \n");     return cst_str; }
+{FLOAT_CST}      {rechercher(yytext,"CONST","FLOAT",0,atof(yytext));	nb_colonne = nb_colonne + strlen(yytext);      printf("CST reelle reconnue \n");  yylval.reel = atof(yytext); return cst_reel; }
+{STRING_CST}     {rechercher(yytext,"CONST","STRING",0,atof(yytext));nb_colonne = nb_colonne + strlen(yytext);        printf("CST string reconnue \n");   yylval.str =strdup(yytext);  return cst_str; }
 {MSGDISP_ACC}    {   printf("msg pour instruction display reconnu \n");nb_colonne = nb_colonne + strlen(yytext);   	return msgdispacc; }
 {MSGDISP}        {nb_colonne = nb_colonne + strlen(yytext);      printf("msg pour instruction display reconnu \n");										   return msgdisp;    }	
 [ \t ]           {nb_colonne = nb_colonne + strlen(yytext);}
