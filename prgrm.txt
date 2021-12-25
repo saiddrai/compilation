@@ -12,7 +12,7 @@ WORKING-STORAGE SECTION.
 A | Bc INTEGER.
 
 CONST K = 123 .
-CONST B FLOAT.
+CONST B FLOAT. 
 Sb | Fb STRING.
 CONST A = 5.
 CONST B = 'b'.
@@ -26,7 +26,7 @@ PROCEDURE DIVISION.
 #les expressions arithmetiques !
 
 B=(N-6)+(3,9/7)*( (-9) + K ).
-
+Bc=5.
 #******************************************!
 #expression in out simple !
 
