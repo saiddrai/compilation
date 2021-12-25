@@ -27,6 +27,7 @@ PROCEDURE DIVISION.
 
 B=(N-6)+(3,9/7)*( (-9) + K ).
 Bc=5.
+B= 2/0.
 #******************************************!
 #expression in out simple !
 

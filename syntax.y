@@ -39,8 +39,7 @@ P_DEC_TAB: LIST_IDF mc_line cst_int vrg mc_size cst_int TYPE point /* {				 Tab 
 													else printf("\n \n Erreur semantique: double declaration  de %s a la ligne %d\n",$1,nb_ligne);   
 													if (($3 <= 0) ||  ($6 <= 0)) 
 													 printf("\n \n Erreur semantique:la taille de tableau %s doit etre positive et !=0 a la ligne  %d\n",$1,nb_ligne);
-													 else  ncreeyiw fonction inserer taille bah mhatou la  taille ta3 tablou 
-
+													 else  /* appeli insererTaille(entité, taille) ma3reftch njib issem l'idf*/
 																	}   
 																	*/
 ;
