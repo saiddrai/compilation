@@ -512,13 +512,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    24,    24,    28,    29,    30,    31,    36,    48,    50,
-      51,    51,    53,    53,    53,    53,    55,    61,    68,    68,
-      68,    69,    69,    74,    75,    76,    77,    78,    80,    80,
-      81,    82,    83,    86,    87,    88,    92,    93,    94,    95,
-      97,    97,    98,    98,    99,    99,   100,   100,   100,   100,
-     100,   100,   103,   104,   105,   105,   110,   111,   112,   113,
-     114,   114,   114,   114
+       0,    24,    24,    28,    29,    30,    31,    36,    47,    49,
+      50,    50,    52,    52,    52,    52,    54,    60,    67,    67,
+      67,    68,    68,    73,    74,    75,    76,    77,    79,    79,
+      80,    81,    82,    85,    86,    87,    91,    92,    93,    94,
+      96,    96,    97,    97,    98,    98,    99,    99,    99,    99,
+      99,    99,   102,   103,   104,   104,   109,   110,   111,   112,
+     113,   113,   113,   113
 };
 #endif
 
@@ -1536,7 +1536,7 @@ yyreduce:
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 55 "syntax.y"
+#line 54 "syntax.y"
     {
 									 if(doubleDeclaration((yyvsp[(1) - (3)].str))==0)
                                      insererTypeIDF((yyvsp[(1) - (3)].str),sauvType);
@@ -1548,7 +1548,7 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 61 "syntax.y"
+#line 60 "syntax.y"
     {
 				if(doubleDeclaration((yyvsp[(1) - (1)].str))==0)
                                      insererTypeIDF((yyvsp[(1) - (1)].str),sauvType);
@@ -1772,7 +1772,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 117 "syntax.y"
+#line 116 "syntax.y"
 
 int yyerror(char*msg)
 {

@@ -114,10 +114,10 @@ N:idf | cst_int;
 EXPRESSION1: CST_NUM | idf ;
 EXPRESSION2: EXPRESSION1 | CALCUL ;
 
-/* hna nabdaw b devision sur 0 w nzidou win tkoun resultat float w n'affectiwha l int */
+/* hna nabdaw b devision sur 0 w nzidou win tkoun resultat float w naffectiwha l int */
 
 
-EXPR_ARITH:idf egl CALCUL point;                      									  /* A= .... */
+EXPR_ARITH:idf egl EXPRESSION2 point;                      									  /* A= .... */
 
 OPERATEUR : mul | plus | moin | slash ;
 
@@ -125,13 +125,7 @@ OPERATEUR : mul | plus | moin | slash ;
 
 
 
-CALCUL: pa_ouv EXPRESSION2 OPERATEUR EXPRESSION2 pa_fer |EXPRESSION1;{
-	
-		
-			printf("erreur semantique=============================================");
-		
-	
-}
+CALCUL: EXPRESSION2 OPERATEUR EXPRESSION2;
 
 /* les calcul reja3thom haka : expression1(idf wela cst) w expression2(idf wela cst wela une operation calcul) kima kano, omba3d creyit les 5 operations omba3d dert calcul tkon whda m les 5 operations. */
 
