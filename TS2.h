@@ -85,10 +85,10 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
-      else if(strcmp( tab[i].name , entite)==0){
+      else if (strcmp(tab[i].name, entite) == 0)
+      {
         break;
       }
-      
     }
 
     break;
@@ -101,10 +101,10 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
-      else if(strcmp( tabm[i].name , entite)==0){
+      else if (strcmp(tabm[i].name, entite) == 0)
+      {
         break;
       }
-      
     }
     break;
   case 2: /*insertion dans la table des sep*/
@@ -116,10 +116,10 @@ void rechercher(char entite[], char code[], char type[], int y, float val)
         inserer(entite, code, type, val, y, current);
         break;
       }
-      else if(strcmp( tabs[i].name , entite)==0){
+      else if (strcmp(tabs[i].name, entite) == 0)
+      {
         break;
       }
-    
     }
     break;
   }
@@ -159,7 +159,7 @@ void afficher()
       printf("\t|%14s |%12s | \n", tabm[i].name, tabm[i].code);
     }
   }
-   printf("_______________________________________\n\n");
+  printf("_______________________________________\n\n");
   printf("\n/***************Table des symboles separateurs*************/\n");
 
   printf("_________________________________________\n");
@@ -174,43 +174,49 @@ void afficher()
       printf("\t|%10s |%12s | \n", tabs[i].name, tabs[i].code);
     }
   }
-   printf("_____________________________________\n");
+  printf("_____________________________________\n");
 }
-
 
 int Rechercher_PosIDF(char entite[])
 {
-	int i=0;
-	while(i<1000)
-	  {
-	    if (strcmp(entite,tab[i].name)==0) return i;	
-	    i++;
-	  }
-   
-return -1;
-		
+  int i = 0;
+  while (i < 1000)
+  {
+    if (strcmp(entite, tab[i].name) == 0)
+      return i;
+    i++;
+  }
+
+  return -1;
 }
 
 void insererTypeIDF(char entite[], char type[])
-	{
-    int pos;
-	  pos=Rechercher_PosIDF(entite);
-	  if(pos!=-1)  {
-       strcpy(tab[pos].type,type);
-                 }
-	}
-    
-	
-	int doubleDeclaration(char entite[])
-	{
-	 int pos;
-	 pos=Rechercher_PosIDF(entite);
-	 if(strcmp(tab[pos].type,"")==0) return 0;
-	    else return -1;
-	}
-  
-void modifierIDF (char idf[] ,char type[])
 {
-	strcpy (tab[Rechercher_PosIDF(idf)].type,type);
-	
+  int pos;
+  pos = Rechercher_PosIDF(entite);
+  if (pos != -1)
+  {
+    strcpy(tab[pos].type, type);
+  }
+}
+
+int doubleDeclaration(char entite[])
+{
+  int pos;
+  pos = Rechercher_PosIDF(entite);
+  if (strcmp(tab[pos].type, "") == 0)
+    return 0;
+  else
+    return -1;
+}
+
+void modifierIDF(char idf[], char type[])
+{
+  strcpy(tab[Rechercher_PosIDF(idf)].type, type);
+}
+
+void insererTaille(char entite[], int taille)
+{
+  int i = Rechercher_PosIDF(entite);
+  tab[i].val = taille;
 }

@@ -83,16 +83,12 @@ SORT: mc_display pa_ouv msgdispacc Dpoint idf pa_fer point		/* DISPLAY (“psps 
 ENT: mc_accept pa_ouv msgdispacc Dpoint aro idf pa_fer point;    /* ACCEPT (“#”:@ C ). */
 
 
+
+
 CONDITION_IF: mc_if pa_ouv CONDITION pa_fer Dpoint P_INST ELSE mc_end point;
 ELSE: mc_else Dpoint P_INST  
 	  | ;
 
-
-/* f condition lazamna ndirou cas tae 2 condition mat3akssin */	  
-CONDITION :  pa_ouv EXPRESSION2 EXP_COMPA EXPRESSION2 pa_fer EXP_LOG CONDITION     /* hady IF ( (A .GE.(3 - 1)) AND (V .L. 8)) */
-			|mc_not EXPRESSION2 pa_fer EXP_LOG CONDITION 						  /* IF ( NOT (V .L. 8) ) */
-			|pa_ouv EXPRESSION2 EXP_COMPA EXPRESSION2 pa_fer  					  /*IF ( (A .GE.(3 - 1)) */
-			| mc_not CONDITION ;												  /*IF ( NOT (A .GE.(3 - 1)) */
 			
 COMPARAISON: EXPRESSION2 EXP_COMPA EXPRESSION2;
 CONDITION: CONDITION | COMPARAISON | CONDITION EXP_LOG CONDITION | COMPARAISON EXP_LOG COMPARAISON | CONDITION EXP_LOG COMPARAISON | COMPARAISON EXP_LOG CONDITION
@@ -100,6 +96,10 @@ CONDITION: CONDITION | COMPARAISON | CONDITION EXP_LOG CONDITION | COMPARAISON E
 
 EXP_LOG :mc_and | mc_or ;
 EXP_COMPA: l | g | ge | le | eq | di ;
+
+
+
+
 
 /* f move ndirou win ykoun $2 kbar man $4  w tani ki  ykoun resultat ta $4 float */
 MOVE: mc_move idf mc_to N P_INST mc_end point 			   /* MOVE A TO M P_inst END.  , MOVE A TO 10 P_inst END. */
