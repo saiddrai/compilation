@@ -94,8 +94,10 @@ CONDITION :  pa_ouv EXPRESSION2 EXP_COMPA EXPRESSION2 pa_fer EXP_LOG CONDITION  
 			|pa_ouv EXPRESSION2 EXP_COMPA EXPRESSION2 pa_fer  					  /*IF ( (A .GE.(3 - 1)) */
 			| mc_not CONDITION ;												  /*IF ( NOT (A .GE.(3 - 1)) */
 			
-EXPRESSION1: CST_NUM | idf ;
-EXPRESSION2: EXPRESSION1 | CALCUL ;
+COMPARAISON: EXPRESSION2 EXP_COMPA EXPRESSION2;
+CONDITION: CONDITION | COMPARAISON | CONDITION EXP_LOG CONDITION | COMPARAISON EXP_LOG COMPARAISON | CONDITION EXP_LOG COMPARAISON | COMPARAISON EXP_LOG CONDITION
+ /* sema condition = comparaison wela (comparaison && comparaison) wela (condition && condition) */
+
 EXP_LOG :mc_and | mc_or ;
 EXP_COMPA: l | g | ge | le | eq | di ;
 
@@ -106,12 +108,33 @@ N:idf | cst_int;
 
 
 
+
+
+/* les calcules */
+
+EXPRESSION1: CST_NUM | idf ;
+EXPRESSION2: EXPRESSION1 | CALCUL ;
+
 /* hna nabdaw b devision sur 0 w nzidou win tkoun resultat float w n'affectiwha l int */
-EXPR_ARITH:idf egl CALCUL point;                       									  /* A= .... */
-CALCUL: pa_ouv EXPRESSION1 OPERATEUR EXPRESSION1 pa_fer OPERATEUR CALCUL				  /*B=(k-3)+(9/7)*( (-77) + A ).*/
-		| pa_ouv EXPRESSION1 OPERATEUR EXPRESSION1 pa_fer     							  /*R=B+(N*6)*/
-		| EXPRESSION1;																	 /* A=b. */
+EXPR_ARITH:idf egl CALCUL point;                      									  /* A= .... */
+
 OPERATEUR : mul | plus | moin | slash ;
+
+
+
+DEVISION: EXPRESSION1|EXPRESSION2 slash EXPRESSION1|EXPRESSION2; {
+	if($3==0) printf("erreur devision par zero");
+}
+MULTIPLICATION: EXPRESSION1|EXPRESSION2 mul EXPRESSION1|EXPRESSION2;
+ADDITION: EXPRESSION1|EXPRESSION2 plus EXPRESSION1|EXPRESSION2;
+SOUSTRACTION: EXPRESSION1|EXPRESSION2 moin EXPRESSION1|EXPRESSION2;
+AFFECTATION: idf egl cst;
+
+CALCUL: DEVISION|MULTIPLICATION|SOUSTRACTION|ADDITION;
+
+/* les calcul reja3thom haka : expression1(idf wela cst) w expression2(idf wela cst wela une operation calcul) kima kano, omba3d creyit les 5 operations omba3d dert calcul tkon whda m les 5 operations. */
+
+
 
 
 %%
