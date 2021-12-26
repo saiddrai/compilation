@@ -2,7 +2,8 @@
 	int nb_ligne=1;
 	int nb_colonne=1;
 	char sauvType[25];
-
+	int taille;
+  float i,p;
 %}
 
 %union 
@@ -33,23 +34,32 @@ P_DEC: P_DEC_VAR P_DEC
 
 
 		  
-P_DEC_TAB: LIST_IDF mc_line cst_int vrg mc_size cst_int TYPE point /* {				 Tab | M LINE 0 , SIZE 8 INTEGER . 
+P_DEC_TAB: LIST_IDF mc_line cst_int vrg mc_size cst_int TYPE point /* {								 Tab | M LINE 0 , SIZE 8 INTEGER . 
 													if(doubleDeclaration($1)==0)
                                      			      insererTypeIDF($1,sauvType);
 													else printf("\n \n Erreur semantique: double declaration  de %s a la ligne %d\n",$1,nb_ligne);   
-													if (($3 <= 0) ||  ($6 <= 0)) 
+													if ($3 > $6)
+													printf("\n \n Erreur semantique: size doit etre supérieure à line a la ligne %d",nb_ligne);
+													if (($3 <= 0) ||  ($6 <= 0))   
 													 printf("\n \n Erreur semantique:la taille de tableau %s doit etre positive et !=0 a la ligne  %d\n",$1,nb_ligne);
-													 else  /* appeli insererTaille(entité, taille) ma3reftch njib issem l'idf*/
+													 else {
+														taille= $3*$6; 
+													   appeli insererTaille($1, taille) ma3reftch njib issem l'idf
+													  	}
 																	}   
 																	*/
 ;
 
-P_DEC_VAR: LIST_IDF TYPE point;  					 /*A | Bc INTEGER. */ 
+P_DEC_VAR: LIST_IDF TYPE point;  					 										/*A | Bc INTEGER. */ 
 			  
-P_DEC_CONST: mc_const idf TYPE point P_DEC_CONST        /*CONST B FLOAT.*/
+P_DEC_CONST: mc_const idf TYPE point P_DEC_CONST      								    	  /*CONST B FLOAT.*/
 			    | mc_const idf egl CST point P_DEC_CONST |;			
 				
-TYPE : mc_char|mc_int|mc_str|mc_float;   
+TYPE : mc_char   {strcpy(sauvType,"CHAR");}
+	  |mc_int    {strcpy(sauvType,"INT");}
+      |mc_str	 {strcpy(sauvType,"STRING");}
+      |mc_float  {strcpy(sauvType,"FLOAT");} ;
+
 
 LIST_IDF : idf pipe LIST_IDF {
 									 if(doubleDeclaration($1)==0)
@@ -84,40 +94,71 @@ ENT: mc_accept pa_ouv msgdispacc Dpoint aro idf pa_fer point;    /* ACCEPT (“#
 
 
 
-CONDITION_IF: mc_if pa_ouv CONDITION pa_fer Dpoint P_INST ELSE mc_end point;
+ /* CONDITION_IF: mc_if pa_ouv CONDITION pa_fer Dpoint P_INST ELSE mc_end point;
 ELSE: mc_else Dpoint P_INST  
 	  | ;
 
 			
 COMPARAISON: EXPRESSION2 EXP_COMPA EXPRESSION2;
-CONDITION: CONDITION | COMPARAISON | CONDITION EXP_LOG CONDITION | COMPARAISON EXP_LOG COMPARAISON | CONDITION EXP_LOG COMPARAISON | COMPARAISON EXP_LOG CONDITION
- /* sema condition = comparaison wela (comparaison && comparaison) wela (condition && condition) */
+CONDITION:COMPARAISON 
+		| CONDITION EXP_LOG CONDITION 
+		| COMPARAISON EXP_LOG COMPARAISON 
+		| CONDITION EXP_LOG COMPARAISON 
+		| COMPARAISON EXP_LOG CONDITION;
+
 
 EXP_LOG :mc_and | mc_or ;
 EXP_COMPA: l | g | ge | le | eq | di ;
+*/
+
+CONDITION_IF: mc_if pa_ouv CONDITION pa_fer Dpoint P_INST ELSE mc_end point;
+ELSE: mc_else Dpoint P_INST  
+	  | ;
 
 
 
+CONDITION :  pa_ouv EXPRESSION2 EXP_COMPA EXPRESSION2 pa_fer EXP_LOG CONDITION
+			|mc_not EXPRESSION2 pa_fer EXP_LOG CONDITION
+			|pa_ouv EXPRESSION2 EXP_COMPA EXPRESSION2 pa_fer
+			| mc_not CONDITION ;
+			
+EXPRESSION1: CST_NUM | idf ;
+EXPRESSION2: EXPRESSION1 | CALCUL ;
+EXP_LOG :mc_and | mc_or ;
+EXP_COMPA: l | g | ge | le | eq | di ;
+
+MOVE: mc_move idf mc_to idf P_INST mc_end point {			 				   /* MOVE A TO M P_inst END.  , MOVE A TO 10 P_inst END. */
+												i=rechercherVal($2);
+												p=rechercherVal($4);
+												if (p<i)
+												{printf("\n \n Erreur semantique: la 1er parametre de move supperieur a la 2eme.  a la ligne %d\n",nb_ligne);}
+												}
+	  |mc_move idf mc_to cst_int P_INST mc_end point {			 				   /* MOVE A TO M P_inst END.  , MOVE A TO 10 P_inst END. */
+												i=rechercherVal($2);												
+												if ($4<i)
+												{printf("\n \n Erreur semantique: la 1er parametre de move supperieur a la 2eme. a la ligne %d\n",nb_ligne);}
+												}											
+	  |mc_move cst_int mc_to cst_int P_INST mc_end point {			 /* MOVE 1 TO 3 P_inst END. */
+												if ($4<$2)
+												{printf("\n \n Erreur semantique: la 1er parametre de move supperieur a la 2eme.  a la ligne %d\n",nb_ligne);}
+															};
 
 
-/* f move ndirou win ykoun $2 kbar man $4  w tani ki  ykoun resultat ta $4 float */
-MOVE: mc_move idf mc_to N P_INST mc_end point 			   /* MOVE A TO M P_inst END.  , MOVE A TO 10 P_inst END. */
-	  |mc_move cst_int mc_to cst_int P_INST mc_end point;	 /* MOVE 1 TO 3 P_inst END. */
-N:idf | cst_int;
+
+EXPR_ARITH:idf egl CALCUL point;
+CALCUL: pa_ouv EXPRESSION1 OPERATEUR EXPRESSION1 pa_fer OPERATEUR CALCUL
+		| pa_ouv EXPRESSION1 OPERATEUR EXPRESSION1 pa_fer
+		|EXPRESSION1;
+OPERATEUR : mul | plus | moin | slash ;
 
 
-
-
-
-/* les calcules */
-
+/*
 EXPRESSION1: CST_NUM | idf ;
 EXPRESSION2: EXPRESSION1 | CALCUL ;
 
-/* hna nabdaw b devision sur 0 w nzidou win tkoun resultat float w n'affectiwha l int */
 
 
-EXPR_ARITH:idf egl CALCUL point;                      									  /* A= .... */
+EXPR_ARITH:idf egl CALCUL point;                      									  
 
 OPERATEUR : mul | plus | moin | slash ;
 
@@ -125,15 +166,10 @@ OPERATEUR : mul | plus | moin | slash ;
 
 
 
-CALCUL: pa_ouv EXPRESSION2 OPERATEUR EXPRESSION2 pa_fer |EXPRESSION1;{
-	
-		
-			printf("erreur semantique=============================================");
-		
-	
-}
+CALCUL: pa_ouv EXPRESSION2 OPERATEUR EXPRESSION2 pa_fer 
+		|EXPRESSION1;
+*/	
 
-/* les calcul reja3thom haka : expression1(idf wela cst) w expression2(idf wela cst wela une operation calcul) kima kano, omba3d creyit les 5 operations omba3d dert calcul tkon whda m les 5 operations. */
 
 
 

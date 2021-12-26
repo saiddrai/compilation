@@ -220,3 +220,13 @@ void insererTaille(char entite[], int taille)
   int i = Rechercher_PosIDF(entite);
   tab[i].val = taille;
 }
+
+
+float rechercherVal(char entite[])
+{
+ int pos;
+ float k;
+ pos = Rechercher_PosIDF(entite);
+ k=tab[pos].val;
+ return k;
+}
