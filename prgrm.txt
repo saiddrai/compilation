@@ -17,7 +17,7 @@ CONST B FLOAT.
 Sb | Fb STRING.
 CONST B = 'b'.
 
-Tab | W LINE 0 , SIZE 8 INTEGER .
+Tab | W LINE 1 , SIZE 8 INTEGER .
 
 
 
