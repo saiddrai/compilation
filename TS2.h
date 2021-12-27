@@ -9,7 +9,8 @@ typedef struct
   char name[20];
   char code[20];
   char type[20];
-  float val;
+  char val[20];
+  int VS;         /*si 1 --> varriable si 0 --> Constante */
 } element;
 
 typedef struct
@@ -42,7 +43,7 @@ void initialisation()
 
 /***Step 3: insertion des entititées lexicales dans les tables des symboles ***/
 
-void inserer(char entite[], char code[], char type[], float val, int y, int i)
+void inserer(char entite[], char code[], char type[], char val[], int y, int i)
 {
 
   switch (y)
@@ -52,7 +53,7 @@ void inserer(char entite[], char code[], char type[], float val, int y, int i)
     strcpy(tab[i].name, entite);
     strcpy(tab[i].code, code);
     strcpy(tab[i].type, type);
-    tab[i].val = val;
+    strcpy(tab[i].val,val);
     break;
 
   case 1: /*insertion dans la table des mc*/
@@ -70,7 +71,7 @@ void inserer(char entite[], char code[], char type[], float val, int y, int i)
 }
 
 /***Step 4: La fonction Rechercher permet de verifier  si l'entité existe dèja dans la table des symboles */
-void rechercher(char entite[], char code[], char type[], int y, float val)
+void rechercher(char entite[], char code[], char type[], int y, char val[20])
 {
   int i;
   int current = 0;
@@ -141,7 +142,7 @@ void afficher()
 
     if (tab[i].state == 1)
     {
-      printf("\t|%10s  |%13s | %11s | %12f |\n", tab[i].name, tab[i].code, tab[i].type, tab[i].val);
+      printf("\t|%10s  |%13s | %11s | %12s |\n", tab[i].name, tab[i].code, tab[i].type, tab[i].val);
     }
   }
   printf("____________________________________________________________________\n\n");
@@ -218,15 +219,51 @@ void modifierIDF(char idf[], char type[])
 void insererTaille(char entite[], int taille)
 {
   int i = Rechercher_PosIDF(entite);
-  tab[i].val = taille;
+  char Taille=taille+"0";
+  strcpy(tab[i].val,taille);
 }
 
 
-float rechercherVal(char entite[])
+char rechercherVal(char entite[])
 {
  int pos;
- float k;
+ char k[20];
  pos = Rechercher_PosIDF(entite);
- k=tab[pos].val;
+ strcpy(k,tab[pos].val);
  return k;
+}
+
+void Change_affich(char val[20])
+{
+ int i,j=0;
+ char t[20];
+ for (i=0 ; i<strlen(val) ; i++)     /*si cst est un float*/
+    {
+      if (val[i]==',') {val[i]='.';
+                        };
+    }
+
+ if (val[0] =='(' )                  /* si y'a un moin dans le cst */
+	{ 
+    for (i=1 ; i<strlen(val)-1 ; i++) {
+    	                            t[j] = val[i];
+                                  j++; 
+                                      }
+                                      
+                                     t[j]=""; 
+  strcpy(val ,t);
+  }    
+ 
+}
+
+void DonnerVS(char entite[] , int i)
+{
+ tab[Rechercher_PosIDF(entite)].VS =i;
+}
+
+void Re_TAB(char TAB[100][20] , int n )
+{
+	int i;
+	for (i=0 ; i<n ; i++)
+		strcpy (TAB[i] , "");
 }
