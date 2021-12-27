@@ -64,20 +64,24 @@ P_DEC_TAB: LIST_IDF mc_line cst_int vrg mc_size cst_int TYPE point { strcpy(sauv
 
 P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 								   { if(doubleDeclaration(IDF[j])==0)	
-								   	{insererTypeIDF(IDF[j] , save);
-								   	 DonnerVS(IDF[j] ,1);}
-								      else { if(doubleDeclaration(IDF[j])==-1)
 								   	{
-										   printf("tsama haka hab y9ol hna lghlta psk     %d     ",i);
-										   printf("\n ==============> Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
-								   	return -1;}
-								     }
+										insererTypeIDF(IDF[j] , save);
+								   		DonnerVS(IDF[j] ,1);
+									}
+								      	else{
+											 if(doubleDeclaration(IDF[j])==-1)
+								   				{
+										   		printf("tsama haka hab y9ol hna lghlta psk     %d     ",i);
+										   		printf("\n ==============> Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
+								   				return -1;
+												}
+								     		}
 								   }
 								   	Re_TAB(IDF,i); i=0;
 								   	};  					 
 /*__________________________________________________________________________________________________________________________*/
 
-P_DEC_CONST: mc_const idf TYPE point P_DEC_CONST {for (j=0; j<i; j++)
+P_DEC_CONST: mc_const idf TYPE point {for (j=0; j<i; j++)
 										{ if(doubleDeclaration(IDF[j])==0)	
 											{insererTypeIDF(IDF[j] , save );
 											 DonnerVS(IDF[j] ,0);}
