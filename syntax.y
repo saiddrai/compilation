@@ -76,6 +76,9 @@ P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 								   				return -1;
 												}
 								     		}
+									if(Rechercher_PosIDF(IDF[j])<0){
+										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
+									}
 								   }
 								   	Re_TAB(IDF,i); i=0;
 								   	};  					 
