@@ -186,7 +186,7 @@ EXPR_ARITH:idf egl CALCUL point;
 		   |idf egl idf point;
 /*__________________________________________________________________________________________________________________________*/
 
-CALCUL: idf OPERATEUR idf { if(doubleDeclaration(IDF[0] )==-1 || doubleDeclaration(IDF[1])==-1){
+CALCUL: idf OPERATEUR idf { if(nonDeclared($1)==-1 || nonDeclared($3)==-1){
 										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
 									}}
 		| idf OPERATEUR CST_NUM
