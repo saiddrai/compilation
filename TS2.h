@@ -213,9 +213,9 @@ int doubleDeclaration(char entite[])
 
 int nonDeclared(char entite[])
 {
-  for (int i = 0; i < tab.size(); i++)
+  for (int i = 0; i < tab.size() - 1; i++)
   {
-    if (strcmp(entite, tab[i].name))
+    if (strcmp(entite, tab[i].name) == 0)
       return 0;
   }
   return -1;
