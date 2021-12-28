@@ -159,12 +159,12 @@ CONDITION :  pa_ouv EXPRESSION EXP_COMPA EXPRESSION pa_fer EXP_LOG CONDITION
 			|mc_not EXPRESSION pa_fer EXP_LOG CONDITION
 			|mc_not CONDITION ;
 /*__________________________________________________________________________________________________________________________*/
-EXPRESSION: EX1 
+EXPRESSION: EX1 { //hab hna naccedi idf}
 		   |CALCUL;
 
 /*__________________________________________________________________________________________________________________________*/
 
-EX1: CST_NUM | idf{ if(doubleDeclaration(IDF[j])==-1){
+EX1: CST_NUM | idf{ if(doubleDeclaration($1)==-1){
 										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
 									}} ;
 /*__________________________________________________________________________________________________________________________*/
