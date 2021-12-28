@@ -159,14 +159,12 @@ CONDITION :  pa_ouv EXPRESSION EXP_COMPA EXPRESSION pa_fer EXP_LOG CONDITION
 			|mc_not EXPRESSION pa_fer EXP_LOG CONDITION
 			|mc_not CONDITION ;
 /*__________________________________________________________________________________________________________________________*/
-EXPRESSION: EX1 { //hab hna naccedi idf}
+EXPRESSION: EX1 
 		   |CALCUL;
 
 /*__________________________________________________________________________________________________________________________*/
 
-EX1: CST_NUM | idf{ if(doubleDeclaration($1)==-1){
-										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
-									}} ;
+EX1: CST_NUM | idf;
 /*__________________________________________________________________________________________________________________________*/
 
 EXP_LOG :mc_and | mc_or ;
@@ -190,7 +188,9 @@ EXPR_ARITH:idf egl CALCUL point;
 		   |idf egl idf point;
 /*__________________________________________________________________________________________________________________________*/
 
-CALCUL: idf OPERATEUR idf 
+CALCUL: idf OPERATEUR idf { if(doubleDeclaration($1 )==-1 || doubleDeclaration($3)==-1){
+										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
+									}} 
 | idf OPERATEUR CST_NUM
 | CST_NUM OPERATEUR CST_NUM
 | CST_NUM OPERATEUR idf 
