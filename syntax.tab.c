@@ -1698,7 +1698,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 189 "syntax.y"
-    { if(doubleDeclaration(IDF[0] )==-1 || doubleDeclaration(IDF[1])==-1){
+    { if(nonDeclared((yyvsp[(1) - (3)].str))==-1 || nonDeclared((yyvsp[(3) - (3)].str))==-1){
 										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
 									};}
     break;
