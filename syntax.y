@@ -76,9 +76,7 @@ P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 								   				return -1;
 												}
 								     		}
-									if(doubleDeclaration(IDF[j])==-1){
-										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
-									}
+
 								   }
 								   	Re_TAB(IDF,i); i=0;
 								   	};  					 
@@ -188,18 +186,18 @@ EXPR_ARITH:idf egl CALCUL point;
 		   |idf egl idf point;
 /*__________________________________________________________________________________________________________________________*/
 
-CALCUL: idf OPERATEUR idf { if(doubleDeclaration($1 )==-1 || doubleDeclaration($3)==-1){
+CALCUL: idf OPERATEUR idf { if(doubleDeclaration(IDF[0] )==-1 || doubleDeclaration(IDF[1])==-1){
 										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
-									}} 
-| idf OPERATEUR CST_NUM
-| CST_NUM OPERATEUR CST_NUM
-| CST_NUM OPERATEUR idf 
-| idf OPERATEUR CALCUL	   
-| CALCUL OPERATEUR idf	   
-| CST_NUM OPERATEUR CALCUL 
-| CALCUL  OPERATEUR CST_NUM
-| pa_ouv CALCUL pa_fer	   
-| CALCUL OPERATEUR CALCUL  
+									}}
+		| idf OPERATEUR CST_NUM
+		| CST_NUM OPERATEUR CST_NUM
+		| CST_NUM OPERATEUR idf 
+		| idf OPERATEUR CALCUL	   
+		| CALCUL OPERATEUR idf	   
+		| CST_NUM OPERATEUR CALCUL 
+		| CALCUL  OPERATEUR CST_NUM
+		| pa_ouv CALCUL pa_fer	   
+		| CALCUL OPERATEUR CALCUL  
 ;
 /*__________________________________________________________________________________________________________________________*/
 
