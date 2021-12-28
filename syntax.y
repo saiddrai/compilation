@@ -148,8 +148,7 @@ IDF_sort : idf vrg IDF_sort
 CONDITION_IF: mc_if pa_ouv CONDITION pa_fer Dpoint P_INST ELSE mc_end point;
 /*__________________________________________________________________________________________________________________________*/
 
-ELSE: mc_else Dpoint P_INST  
-	  | ;
+ELSE: mc_else Dpoint P_INST {printf("====================================================")};
 /*__________________________________________________________________________________________________________________________*/
 
 CONDITION :  pa_ouv EXPRESSION EXP_COMPA EXPRESSION pa_fer EXP_LOG CONDITION
@@ -172,7 +171,7 @@ EXP_COMPA: l | g | ge | le | eq | di ;
 /*__________________________________________________________________________________________________________________________*/
 
 
-MOVE: mc_move A mc_to A P_INST mc_end point {};			 				   /* MOVE A TO M P_inst END.  , MOVE A TO 10 P_inst END. */
+MOVE: mc_move A mc_to A P_INST mc_end point ;			 				   /* MOVE A TO M P_inst END.  , MOVE A TO 10 P_inst END. */
 												
 
 /*__________________________________________________________________________________________________________________________*/
@@ -181,14 +180,16 @@ A: 	idf
 ;	
 /*__________________________________________________________________________________________________________________________*/
 
-EXPR_ARITH:idf egl CALCUL point;
+EXPR_ARITH:idf egl CALCUL point  {
+										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
+									}
 		   |idf egl CST point
 		   |idf egl idf point;
 /*__________________________________________________________________________________________________________________________*/
 
-CALCUL: idf OPERATEUR idf { if(nonDeclared($1)==-1 || nonDeclared($3)==-1){
+CALCUL: idf OPERATEUR idf { 
 										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
-									}}
+									}
 		| idf OPERATEUR CST_NUM
 		| CST_NUM OPERATEUR CST_NUM
 		| CST_NUM OPERATEUR idf 
