@@ -212,11 +212,32 @@ int doubleDeclaration(char entite[])
 }
 
 int nonDeclared(char entite[]){
-int i = Rechercher_PosIDF(entite);
-return i;
+int i = rechercherDeclared(entite);printf("%s %d \n",entite,i);
+  if(i == -1) {return -1;}
+  if(i>-1){
+    if(strcmp(tab[i].code,"CST")==0){
+      return 1; // constante
+    }
+    else return 0; //declarer idf
   }
 
- 
+
+  }
+
+ int rechercherDeclared(char entite[]){
+   int i = 0;
+  while (i < 1000)
+  {
+    if (strcmp(entite, tab[i].name) == 0)
+      if(strcmp(tab[i].type,"")==0)
+        return -1;
+      else 
+        return i;
+    i++;
+  }
+
+  return -1;
+ }
 
 void modifierIDF(char idf[], char type[])
  {
@@ -274,15 +295,21 @@ void Re_TAB(char TAB[100][20] , int n ){
 
 
 
-void updateCodeCst(char entite[]){
-    int i = 0;
+int updateCodeCst(char entite[]){
+    int i = Rechercher_PosIDF(entite);
+    strcpy(tab[i].code, "CST");printf("constante updated===================================== %s \n", tab[i].code);
+    return 0;
+}
+
+
+void updateType(char entite[], char type[]){
+  int i =0;printf("========================================================");
   while (i < 1000)
-  {
+  {printf("hey");
     if (strcmp(entite, tab[i].name) == 0){
-      strcpy(tab[i].code, "CST");printf("constante updated===================================== %s \n", tab[i].code);
+      strcpy(tab[i].type, type);
       break;
     }
     i++;
   }
 }
-

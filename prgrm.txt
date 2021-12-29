@@ -27,9 +27,10 @@ PROCEDURE DIVISION.
 
 #les expressions arithmetiques !
 B=1.
-B=(N-6)+(3,9/7)*( (-9) + K ).
 Bc=5.
+A=A+Bc.
 A=C+B.
+A=(N-6)+(3,9/7)*( (-9) + K ).
 C=1.
 #******************************************!
 #expression in out simple !

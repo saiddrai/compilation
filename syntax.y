@@ -48,7 +48,7 @@ P_DEC_TAB: LIST_IDF mc_line cst_int vrg mc_size cst_int TYPE point { strcpy(sauv
 																		 DonnerVS(IDF[j] ,1);
 																		 }
 																	   else { if(doubleDeclaration(IDF[j])==-1)
-																		{printf("\n ==============> Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
+																		{printf("\n /52==============> Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
 																		return -1;}
 																	  }
 																	}
@@ -73,7 +73,7 @@ P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 								      	else{
 											 if(doubleDeclaration(IDF[j])==-1)
 								   				{
-										   		printf("\n ==============> Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
+										   		printf("\n ==============> /76Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
 								   				return -1;
 												}
 								     		}
@@ -83,18 +83,22 @@ P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 								   	};  					 
 /*__________________________________________________________________________________________________________________________*/
 
-P_DEC_CONST: mc_const idf TYPE point {for (j=0; j<i; j++)
+P_DEC_CONST: mc_const idf TYPE point { printf("shuuuuuuuuuut"); 
+						for (j=0; j<i; j++)
 										{ if(doubleDeclaration(IDF[j])==0)	
-											{insererTypeIDF(IDF[j] , save );
+											{insererTypeIDF(IDF[j] , save );printf("siuisudisypjdpjjpodjppsojdpjf");
 											 DonnerVS(IDF[j] ,0);}
 										   else { if(doubleDeclaration(IDF[j])==-1)
-											{printf("\n ==============> Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
+											{printf("\n ==============> /91 Erreur Semantique Double declaration a la ligne %d <==============\n",nb_ligne);
 											return -1;}
 										  }
 										}
 											Re_TAB(IDF,i);i=0;
+											printf("denleknjdlknjdlknlesnflknfknnnknkn");
 	
-									updateCodeCst($2);
+									int i = updateCodeCst($2);printf("upddddddddddddd");
+									updateType($2,$3);printf("typppppppppppppppe");
+									return -1;
 												
 												}
 
@@ -184,46 +188,51 @@ A: 	idf
 ;	
 /*__________________________________________________________________________________________________________________________*/
 
-EXPR_ARITH:idf egl CALCUL point {
-
-			int x = nonDeclared(IDF[0]);
-			printf(" xxxx %d \n",x);
-			switch(x){
-				case 1:
-				{
-					printf ("Erreur Semantique a la ligne %d: la variable %s est Declarer constante    !!! \n",$1,nb_ligne);
-					return -1;
-					break;
-				}
-				case -1:
-				{
-					printf ("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!! \n",$1,nb_ligne);
-										return -1;break;
-				}
+EXPR_ARITH:idf egl CALCUL point{
+			   int x = nonDeclared($1); printf("=================================  x = %d\n",x);
+										if(x==1){
+											printf("erreur semantique: variable declare comme constante\n");
+											return -1;
+										}
+										if (x == -1) {
+										printf("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!! \n",$1,nb_ligne);
+										return -1;
+																	}
+								}
 				
-			}
-}	
+				
+			
+	
 
 
 
 		   |idf egl CST point {
-			   int x = nonDeclared(IDF[0]); printf("=================================%d",x);if (x == -1) {
-										printf ("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!! \n",$1,nb_ligne);
+			   int x = nonDeclared($1); printf("=================================  x = %d\n",x);
+										if(x==1){
+											printf("erreur semantique: variable declare comme constante\n");
+											return -1;
+										}
+										if (x == -1) {
+										printf("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!! \n",$1,nb_ligne);
 										return -1;
 																	}
 								}
 
 
 
-		   |idf egl idf point{if (nonDeclared(IDF[0]) == -1) {
+		   |idf egl idf point{  if(nonDeclared($1) == -1) {
 										printf ("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!!\n",$1,nb_ligne);
 										return -1;
 																}
 								};
 /*__________________________________________________________________________________________________________________________*/
 
-CALCUL: idf OPERATEUR idf { if(nonDeclared(IDF[0] )==-1 || nonDeclared(IDF[1])==-1){
-										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
+CALCUL: idf OPERATEUR idf {
+	 if(nonDeclared($1 )==-1 ){
+		 printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 }
+	 if(nonDeclared($3)==-1){
+										printf("\n 227==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne); return -1;
 									}}
 		| idf OPERATEUR CST_NUM
 		| CST_NUM OPERATEUR CST_NUM
