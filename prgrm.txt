@@ -15,6 +15,7 @@ A INTEGER.
 
 CONST K = 123 .
 CONST B FLOAT. 
+CONST B FLOAT. 
 Sb | Fb STRING.
 CONST B = 'b'.
 
@@ -28,7 +29,7 @@ PROCEDURE DIVISION.
 
 B=(N-6)+(3,9/7)*( (-9) + K ).
 Bc=5.
-C=(B+Bc).
+C=1.
 #******************************************!
 #expression in out simple !
 

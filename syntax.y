@@ -31,10 +31,10 @@
 S: mc_idf mc_div point mc_prog moin mc_id point idf{i=0;} point mc_data mc_div point mc_work moin mc_storage mc_section point P_DEC mc_proc mc_div point P_INST mc_stop mc_run point{ printf ("Syntaxe correcte /n /n");
 						YYACCEPT;
 						};
-P_DEC: P_DEC_VAR P_DEC 				
+P_DEC: P_DEC_VAR P_DEC 		
 		| P_DEC_CONST P_DEC 
-		| P_DEC_TAB P_DEC  
-		|;
+		| P_DEC_TAB P_DEC  {strcpy(sauvType,save);	 printf("================dec========================")}		
+		;
 
 
 
@@ -180,9 +180,19 @@ A: 	idf
 ;	
 /*__________________________________________________________________________________________________________________________*/
 
-EXPR_ARITH:idf egl CALCUL point  {
-										printf("\n ==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne);
-									}
+EXPR_ARITH:idf egl CALCUL point  { strcpy(sauvType,save);	
+																	for (j=0; j<i; j++)
+																	{ if(nonDeclared(IDF[j])==-1)	
+																		{printf("fffffffffffuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuck");
+																		 }
+																	   else printf("fzfz====================================");
+																	  }
+																	
+
+																    
+																	return -1;}
+																		
+																
 		   |idf egl CST point
 		   |idf egl idf point;
 /*__________________________________________________________________________________________________________________________*/
@@ -202,7 +212,7 @@ CALCUL: idf OPERATEUR idf {
 ;
 /*__________________________________________________________________________________________________________________________*/
 
-OPERATEUR : mul | plus | moin | slash ;
+OPERATEUR : mul | plus{printf("=================================s")} | moin | slash ;
 		 /*___________________________________________________________________________________________________________________*/
 				/*_______________________________________________________________________________________________________*/
 					/*___________________________________________________________________________________________*/

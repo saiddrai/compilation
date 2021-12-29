@@ -1565,6 +1565,13 @@ yyreduce:
 						;}
     break;
 
+  case 4:
+
+/* Line 1455 of yacc.c  */
+#line 34 "syntax.y"
+    {strcpy(sauvType,save);	 printf("================dec========================");;}
+    break;
+
   case 8:
 
 /* Line 1455 of yacc.c  */
@@ -1712,10 +1719,17 @@ yyreduce:
 									;}
     break;
 
+  case 71:
+
+/* Line 1455 of yacc.c  */
+#line 205 "syntax.y"
+    {printf("=================================s");}
+    break;
+
 
 
 /* Line 1455 of yacc.c  */
-#line 1719 "syntax.tab.c"
+#line 1733 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
