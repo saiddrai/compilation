@@ -26,9 +26,10 @@ Tab | W LINE 1 , SIZE 8 INTEGER .
 PROCEDURE DIVISION.
 
 #les expressions arithmetiques !
-
+B=1.
 B=(N-6)+(3,9/7)*( (-9) + K ).
 Bc=5.
+A=C+B.
 C=1.
 #******************************************!
 #expression in out simple !

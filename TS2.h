@@ -10,7 +10,7 @@ typedef struct
   char code[20];
   char type[20];
   char val[20];
-  int VS; /*si 1 --> varriable si 0 --> Constante */
+  int VS;         /*si 1 --> varriable si 0 --> Constante */
 } element;
 
 typedef struct
@@ -53,7 +53,7 @@ void inserer(char entite[], char code[], char type[], char val[], int y, int i)
     strcpy(tab[i].name, entite);
     strcpy(tab[i].code, code);
     strcpy(tab[i].type, type);
-    strcpy(tab[i].val, val);
+    strcpy(tab[i].val,val);
     break;
 
   case 1: /*insertion dans la table des mc*/
@@ -211,70 +211,78 @@ int doubleDeclaration(char entite[])
     return -1;
 }
 
-int nonDeclared(char entite[])
-{
-  for (int i = 0; i < tab.size() - 1; i++)
-  {
-    if (strcmp(entite, tab[i].name) == 0)
-      return 0;
+int nonDeclared(char entite[]){
+int i = Rechercher_PosIDF(entite);
+return i;
   }
-  return -1;
-}
+
+ 
 
 void modifierIDF(char idf[], char type[])
-{
+ {
   strcpy(tab[Rechercher_PosIDF(idf)].type, type);
-}
+ }
 
-void insererTaille(char entite[], int taille)
-{
+/*void insererTaille(char entite[], int taille)
+ {
   int i = Rechercher_PosIDF(entite);
-  char Taille = taille + "0";
-  strcpy(tab[i].val, taille);
-}
+  char Taille=taille+"0";
+  strcpy(tab[i].val,taille);
+ }*/
 
-char rechercherVal(char entite[])
-{
-  int pos;
-  char k[20];
-  pos = Rechercher_PosIDF(entite);
-  strcpy(k, tab[pos].val);
-  return k;
-}
+
+/*char rechercherVal(char entite[])
+ {
+ int pos;
+ char k[20];
+ pos = Rechercher_PosIDF(entite);
+ strcpy(k,tab[pos].val);
+ return k;
+ }*/
 
 void Change_affich(char val[20])
-{
-  int i, j = 0;
-  char t[20];
-  for (i = 0; i < strlen(val); i++) /*si cst est un float*/
-  {
-    if (val[i] == ',')
-    {
-      val[i] = '.';
-    };
+ { 
+ char R [20];
+	int i,j=0;
+	if ( val[0] =='(' )
+	{ for (i=1 ; i<strlen(val)-1 ; i++) {
+                        	R[j]=val[i];
+                          j++; }
+	strcpy(val ,R); 
+  }
+  
+	for (i=0 ; i<strlen(val) ; i++){ 
+                        if (val[i]==',') val[i]='.';
+                                  }
+
+ }
+
+void DonnerVS(char entite[] , int i)
+ {
+ tab[Rechercher_PosIDF(entite)].VS =i;
+ }
+
+void Re_TAB(char TAB[100][20] , int n ){
+	int i;
+	for (i=0 ; i<n ; i++)
+		strcpy (TAB[i] , "");
   }
 
-  if (val[0] == '(') /* si y'a un moin dans le cst */
+
+
+
+
+
+
+void updateCodeCst(char entite[]){
+    int i = 0;
+  while (i < 1000)
   {
-    for (i = 1; i < strlen(val) - 1; i++)
-    {
-      t[j] = val[i];
-      j++;
+    if (strcmp(entite, tab[i].name) == 0){
+      strcpy(tab[i].code, "CST");printf("constante updated===================================== %s \n", tab[i].code);
+      break;
     }
-
-    t[j] = "";
-    strcpy(val, t);
+    i++;
   }
 }
 
-void DonnerVS(char entite[], int i)
-{
-  tab[Rechercher_PosIDF(entite)].VS = i;
-}
-
-void Re_TAB(char TAB[100][20], int n)
-{
-  int i;
-  for (i = 0; i < n; i++)
-    strcpy(TAB[i], "");
-}
