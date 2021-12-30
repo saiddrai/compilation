@@ -83,7 +83,7 @@ P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 								   	};  					 
 /*__________________________________________________________________________________________________________________________*/
 
-P_DEC_CONST: mc_const idf TYPE point { printf("shuuuuuuuuuut"); 
+P_DEC_CONST: mc_const idf TYPE point { 
 						for (j=0; j<i; j++)
 										{ if(doubleDeclaration(IDF[j])==0)	
 											{insererTypeIDF(IDF[j] , save );printf("siuisudisypjdpjjpodjppsojdpjf");
@@ -94,11 +94,9 @@ P_DEC_CONST: mc_const idf TYPE point { printf("shuuuuuuuuuut");
 										  }
 										}
 											Re_TAB(IDF,i);i=0;
-											printf("denleknjdlknjdlknlesnflknfknnnknkn");
 	
-									int i = updateCodeCst($2);printf("upddddddddddddd");
-									updateType($2,$3);printf("typppppppppppppppe");
-									return -1;
+									int i = updateCodeCst($2);
+									updateType($2,save);
 												
 												}
 
@@ -209,7 +207,7 @@ EXPR_ARITH:idf egl CALCUL point{
 		   |idf egl CST point {
 			   int x = nonDeclared($1); printf("=================================  x = %d\n",x);
 										if(x==1){
-											printf("erreur semantique: variable declare comme constante\n");
+											printf("erreur semantique a la ligne %d: variable %s declare comme constante\n", nb_ligne,$1);
 											return -1;
 										}
 										if (x == -1) {
@@ -220,10 +218,19 @@ EXPR_ARITH:idf egl CALCUL point{
 
 
 
-		   |idf egl idf point{  if(nonDeclared($1) == -1) {
+		   |idf egl idf point{  
+			   					if(nonDeclared($1)==1){
+									   printf("erreur semantique a la ligne %d: variable % s declare comme constante\n", nb_ligne, $1);return -1;
+								   }
+			   					if(nonDeclared($1) == -1) {
 										printf ("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!!\n",$1,nb_ligne);
 										return -1;
 																}
+								if(nonDeclared($3)==-1){
+									printf("errur semantique: variable %s non declare a la ligne %d \n",$3,nb_ligne);return -1;
+								}
+								
+								
 								};
 /*__________________________________________________________________________________________________________________________*/
 
@@ -233,12 +240,27 @@ CALCUL: idf OPERATEUR idf {
 	 }
 	 if(nonDeclared($3)==-1){
 										printf("\n 227==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne); return -1;
-									}}
-		| idf OPERATEUR CST_NUM
-		| CST_NUM OPERATEUR CST_NUM
-		| CST_NUM OPERATEUR idf 
-		| idf OPERATEUR CALCUL	   
-		| CALCUL OPERATEUR idf	   
+									}
+		
+		}
+		| idf OPERATEUR CST_NUM {
+	 if(nonDeclared($1 )==-1 ){
+		 printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 }
+		}
+		| CST_NUM OPERATEUR CST_NUM 
+		| CST_NUM OPERATEUR idf  {
+	 								if(nonDeclared($3 )==-1 ){
+		 								printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 									}	}
+		| idf OPERATEUR CALCUL	   {
+	 								if(nonDeclared($1 )==-1 ){
+		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 									}}
+		| CALCUL OPERATEUR idf	   {
+	 								if(nonDeclared($3 )==-1 ){
+		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 									}}
 		| CST_NUM OPERATEUR CALCUL 
 		| CALCUL  OPERATEUR CST_NUM
 		| pa_ouv CALCUL pa_fer	   

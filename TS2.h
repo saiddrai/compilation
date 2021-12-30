@@ -305,7 +305,7 @@ int updateCodeCst(char entite[]){
 void updateType(char entite[], char type[]){
   int i =0;printf("========================================================");
   while (i < 1000)
-  {printf("hey");
+  {
     if (strcmp(entite, tab[i].name) == 0){
       strcpy(tab[i].type, type);
       break;
