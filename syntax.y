@@ -57,7 +57,6 @@ P_DEC_TAB: LIST_IDF mc_line cst_int vrg mc_size cst_int TYPE point { strcpy(sauv
 																	if (($6<$3) || ($6<0))
 																	{printf("\n ==============> Erreur Semantique fausse taille  a la ligne %d <==============\n",nb_ligne);
 																	return -1;}
-																		
 																	   };
 
 
