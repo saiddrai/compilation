@@ -212,7 +212,7 @@ int doubleDeclaration(char entite[])
 }
 
 int nonDeclared(char entite[]){
-int i = rechercherDeclared(entite);printf("%s %d \n",entite,i);
+ int i = rechercherDeclared(entite);printf("%s %d \n",entite,i);
   if(i == -1) {return -1;}
   if(i>-1){
     if(strcmp(tab[i].code,"CST")==0){
@@ -239,8 +239,7 @@ int i = rechercherDeclared(entite);printf("%s %d \n",entite,i);
   return -1;
  }
 
-void modifierIDF(char idf[], char type[])
- {
+void modifierIDF(char idf[], char type[]){
   strcpy(tab[Rechercher_PosIDF(idf)].type, type);
  }
 
@@ -312,4 +311,66 @@ void updateType(char entite[], char type[]){
     }
     i++;
   }
+}
+
+
+int idfVsType( char entite[], char type2[] ){
+  int i = Rechercher_PosIDF(entite);
+  if (i>-1)
+    if(strcmp(tab[i].type,type2)!=0)
+      return -1;
+  
+   return 0;
+
+
+}
+int idfVsIdf(char entite1[], char entite2[] ){
+  int i = Rechercher_PosIDF(entite1);
+  int j = Rechercher_PosIDF(entite2);
+  if (i>-1)
+    if(strcmp(tab[i].type,tab[j].type)!=0)
+      return -1;
+  
+   return -1;
+}
+
+
+float calcul(char entite1[],char entite2[],char oper){
+
+  // atof 
+  switch(oper){
+    case '+':
+      
+        return 0 ;
+  }
+}
+
+void affecter(char entite[], int valInt, float valFloat, char valChar, char valStr[],int type){
+  int i = Rechercher_PosIDF(entite);
+  char str[7];
+char val[20];
+switch(type){
+  case 1: 
+    val[0]=valChar;
+    break;
+  case 2:
+    strcpy(val,valStr);
+    break;
+  case 3:
+    snprintf(str, sizeof(str), "%d", valInt);
+  strcpy(val,str);
+    break;
+  case 4:
+  gcvt(valFloat, 6, val);
+  break;
+}
+strcpy( tab[i].val,val);
+
+}
+
+void affectInt(char entite[], int val){
+  int i = Rechercher_PosIDF(entite);
+  tab[i].val="4";
+  
+  
 }

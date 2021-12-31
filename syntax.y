@@ -4,12 +4,22 @@
 	int i=0;	
 	int j;
 	int s;
+	char operateur;
+	float X;
+	int affect;
+	int type;
 	
 	char sauvType[25];
 	char save[20];
 	char saveCst[20];
 	char IDF[100][20];
 	char IDFF[20];
+	char cst[10];
+	int  valCst;
+	char *valChar;
+	float valFloat;
+	char *valStr;
+
 
 
 %}
@@ -117,10 +127,10 @@ LIST_IDF : idf pipe LIST_IDF {  strcpy(IDFF , $1);  strcpy(IDF[i] , IDFF);  i++;
 		 ;
 /*__________________________________________________________________________________________________________________________*/
 
-CST : cst_char|cst_str | CST_NUM;
+CST : cst_char { strcpy(cst,"CHAR"); }|cst_str { strcpy(cst,"STRING"); if(affect==1) { strcpy(valStr,$1); type =2; }} | CST_NUM;
 /*__________________________________________________________________________________________________________________________*/
 
-CST_NUM : cst_int | cst_reel;
+CST_NUM : cst_int {strcpy(cst,"INT"); if(affect==1){ valCst= $1;type=3; }} | cst_reel{strcpy(cst,"FLOAT"); if(affect==1) {valFloat=$1; type =4; } };
 
 /*__________________________________________________________________________________________________________________________*/
 
@@ -213,6 +223,19 @@ EXPR_ARITH:idf egl CALCUL point{
 										printf("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!! \n",$1,nb_ligne);
 										return -1;
 																	}
+										
+										if(idfVsType($1, cst)== -1){
+											printf("Erreur Semantique : imncompatibilté de type  a la ligne %d !!! \n",nb_ligne);
+										return -1;
+										}printf("suiiiiiiiiiiiiiiiii");
+										
+										affectInt($1,valCst);printf("SUUUUUUUUUUUUIIIIIIIII");
+
+
+
+										
+										/*affecter($1,valCst,valFloat,valChar,valStr,type);valFloat=0.0; valChar='\0';strcpy(valStr,""); valCst=0; affect=0;printf("SUUUUUUUUUUUUIIIIIIIII");*/
+										
 								}
 
 
@@ -229,17 +252,29 @@ EXPR_ARITH:idf egl CALCUL point{
 									printf("errur semantique: variable %s non declare a la ligne %d \n",$3,nb_ligne);return -1;
 								}
 								
-								
+								if(idfVsIdf($1,$3) == -1){
+									printf("Erreur Semantique : imncompatibilté de type  a la ligne %d !!! \n",$1,nb_ligne);
+										return -1;
+								}
+
+
+
 								};
 /*__________________________________________________________________________________________________________________________*/
 
 CALCUL: idf OPERATEUR idf {
-	 if(nonDeclared($1 )==-1 ){
-		 printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
-	 }
-	 if(nonDeclared($3)==-1){
+	 				if(nonDeclared($1 )==-1 ){
+		 				printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 				}
+	 				if(nonDeclared($3)==-1){
 										printf("\n 227==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne); return -1;
 									}
+					X= calcul($1,$3);
+					
+
+
+
+
 		
 		}
 		| idf OPERATEUR CST_NUM {
@@ -267,7 +302,7 @@ CALCUL: idf OPERATEUR idf {
 ;
 /*__________________________________________________________________________________________________________________________*/
 
-OPERATEUR : mul | plus | moin | slash ;
+OPERATEUR : mul { operateur='*'; }| plus | moin | slash ;
 		 /*___________________________________________________________________________________________________________________*/
 				/*_______________________________________________________________________________________________________*/
 					/*___________________________________________________________________________________________*/

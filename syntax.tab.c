@@ -75,18 +75,28 @@
 	int i=0;	
 	int j;
 	int s;
+	char operateur;
+	float X;
+	int affect;
+	int type;
 	
 	char sauvType[25];
 	char save[20];
 	char saveCst[20];
 	char IDF[100][20];
 	char IDFF[20];
+	char cst[10];
+	int  valCst;
+	char *valChar;
+	float valFloat;
+	char *valStr;
+
 
 
 
 
 /* Line 189 of yacc.c  */
-#line 90 "syntax.tab.c"
+#line 100 "syntax.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -182,7 +192,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 18 "syntax.y"
+#line 28 "syntax.y"
  
    int entier; 
    char* str;
@@ -192,7 +202,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 196 "syntax.tab.c"
+#line 206 "syntax.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -204,7 +214,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 208 "syntax.tab.c"
+#line 218 "syntax.tab.c"
 
 #ifdef short
 # undef short
@@ -525,14 +535,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    33,    33,    33,    36,    37,    38,    39,    44,    67,
-      86,   103,   104,   108,   109,   110,   111,   116,   117,   121,
-     121,   121,   124,   124,   128,   129,   130,   131,   132,   136,
-     136,   138,   142,   143,   148,   149,   153,   156,   157,   160,
-     161,   162,   163,   165,   166,   170,   170,   173,   173,   176,
-     176,   176,   176,   176,   176,   180,   184,   185,   189,   207,
-     221,   237,   249,   250,   251,   252,   253,   254,   255,   256,
-     257,   261,   261,   261,   261
+       0,    43,    43,    43,    46,    47,    48,    49,    54,    76,
+      95,   112,   113,   117,   118,   119,   120,   125,   126,   130,
+     130,   130,   133,   133,   137,   138,   139,   140,   141,   145,
+     145,   147,   151,   152,   157,   158,   162,   165,   166,   169,
+     170,   171,   172,   174,   175,   179,   179,   182,   182,   185,
+     185,   185,   185,   185,   185,   189,   193,   194,   198,   216,
+     243,   265,   280,   285,   286,   290,   294,   298,   299,   300,
+     301,   305,   305,   305,   305
 };
 #endif
 
@@ -1554,14 +1564,14 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 33 "syntax.y"
+#line 43 "syntax.y"
     {i=0;;}
     break;
 
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 33 "syntax.y"
+#line 43 "syntax.y"
     { printf ("Syntaxe correcte /n /n");
 						YYACCEPT;
 						;}
@@ -1570,7 +1580,7 @@ yyreduce:
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 44 "syntax.y"
+#line 54 "syntax.y"
     { strcpy(sauvType,save);	
 																	for (j=0; j<i; j++)
 																	{ if(doubleDeclaration(IDF[j])==0)	
@@ -1587,14 +1597,13 @@ yyreduce:
 																	if (((yyvsp[(6) - (8)].entier)<(yyvsp[(3) - (8)].entier)) || ((yyvsp[(6) - (8)].entier)<0))
 																	{printf("\n ==============> Erreur Semantique fausse taille  a la ligne %d <==============\n",nb_ligne);
 																	return -1;}
-																		
 																	   ;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 67 "syntax.y"
+#line 76 "syntax.y"
     {  for (j=0; j<i; j++)
 								   { if(doubleDeclaration(IDF[j])==0)	
 								   	{
@@ -1617,7 +1626,7 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 86 "syntax.y"
+#line 95 "syntax.y"
     { 
 						for (j=0; j<i; j++)
 										{ if(doubleDeclaration(IDF[j])==0)	
@@ -1639,70 +1648,98 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 103 "syntax.y"
+#line 112 "syntax.y"
     {Re_TAB(IDF,i);i=0;;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 104 "syntax.y"
+#line 113 "syntax.y"
     {Re_TAB(IDF,i);i=0;;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 108 "syntax.y"
+#line 117 "syntax.y"
     {strcpy(save,"INT");;}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 109 "syntax.y"
+#line 118 "syntax.y"
     {strcpy(save,"FLOAT");;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 110 "syntax.y"
+#line 119 "syntax.y"
     {strcpy(save,"CHAR");;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 111 "syntax.y"
+#line 120 "syntax.y"
     {strcpy(save,"STRING");;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 116 "syntax.y"
+#line 125 "syntax.y"
     {  strcpy(IDFF , (yyvsp[(1) - (3)].str));  strcpy(IDF[i] , IDFF);  i++;  ;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 117 "syntax.y"
+#line 126 "syntax.y"
     { strcpy(IDFF , (yyvsp[(1) - (1)].str));  strcpy(IDF[i], IDFF);  i++;  ;}
+    break;
+
+  case 19:
+
+/* Line 1455 of yacc.c  */
+#line 130 "syntax.y"
+    { strcpy(cst,"CHAR"); ;}
+    break;
+
+  case 20:
+
+/* Line 1455 of yacc.c  */
+#line 130 "syntax.y"
+    { strcpy(cst,"STRING"); if(affect==1) { strcpy(valStr,(yyvsp[(1) - (1)].str)); type =2; };}
+    break;
+
+  case 22:
+
+/* Line 1455 of yacc.c  */
+#line 133 "syntax.y"
+    {strcpy(cst,"INT"); if(affect==1){ valCst= (yyvsp[(1) - (1)].entier);type=3; };}
+    break;
+
+  case 23:
+
+/* Line 1455 of yacc.c  */
+#line 133 "syntax.y"
+    {strcpy(cst,"FLOAT"); if(affect==1) {valFloat=(yyvsp[(1) - (1)].reel); type =4; } ;}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 180 "syntax.y"
+#line 189 "syntax.y"
     {;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 189 "syntax.y"
+#line 198 "syntax.y"
     {
 			   int x = nonDeclared((yyvsp[(1) - (4)].str)); printf("=================================  x = %d\n",x);
 										if(x==1){
@@ -1719,27 +1756,40 @@ yyreduce:
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 207 "syntax.y"
+#line 216 "syntax.y"
     {
 			   int x = nonDeclared((yyvsp[(1) - (4)].str)); printf("=================================  x = %d\n",x);
 										if(x==1){
-											printf("erreur semantique: variable declare comme constante\n");
+											printf("erreur semantique a la ligne %d: variable %s declare comme constante\n", nb_ligne,(yyvsp[(1) - (4)].str));
 											return -1;
 										}
 										if (x == -1) {
 										printf("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!! \n",(yyvsp[(1) - (4)].str),nb_ligne);
 										return -1;
 																	}
+										
+										if(idfVsType((yyvsp[(1) - (4)].str), cst)== -1){
+											printf("Erreur Semantique : imncompatibilté de type  a la ligne %d !!! \n",nb_ligne);
+										return -1;
+										}printf("suiiiiiiiiiiiiiiiii");
+										
+										affectInt((yyvsp[(1) - (4)].str),valCst);printf("SUUUUUUUUUUUUIIIIIIIII");
+
+
+
+										
+										/*affecter($1,valCst,valFloat,valChar,valStr,type);valFloat=0.0; valChar='\0';strcpy(valStr,""); valCst=0; affect=0;printf("SUUUUUUUUUUUUIIIIIIIII");*/
+										
 								;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 221 "syntax.y"
+#line 243 "syntax.y"
     {  
 			   					if(nonDeclared((yyvsp[(1) - (4)].str))==1){
-									   printf("erreur semantique: variable declare comme constante\n");return -1;
+									   printf("erreur semantique a la ligne %d: variable % s declare comme constante\n", nb_ligne, (yyvsp[(1) - (4)].str));return -1;
 								   }
 			   					if(nonDeclared((yyvsp[(1) - (4)].str)) == -1) {
 										printf ("Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d !!!\n",(yyvsp[(1) - (4)].str),nb_ligne);
@@ -1749,32 +1799,89 @@ yyreduce:
 									printf("errur semantique: variable %s non declare a la ligne %d \n",(yyvsp[(3) - (4)].str),nb_ligne);return -1;
 								}
 								
-								
+								if(idfVsIdf((yyvsp[(1) - (4)].str),(yyvsp[(3) - (4)].str)) == -1){
+									printf("Erreur Semantique : imncompatibilté de type  a la ligne %d !!! \n",(yyvsp[(1) - (4)].str),nb_ligne);
+										return -1;
+								}
+
+
+
 								;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 237 "syntax.y"
+#line 265 "syntax.y"
+    {
+	 				if(nonDeclared((yyvsp[(1) - (3)].str) )==-1 ){
+		 				printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 				}
+	 				if(nonDeclared((yyvsp[(3) - (3)].str))==-1){
+										printf("\n 227==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne); return -1;
+									}
+					X= calcul((yyvsp[(1) - (3)].str),(yyvsp[(3) - (3)].str));
+					
+
+
+
+
+		
+		;}
+    break;
+
+  case 62:
+
+/* Line 1455 of yacc.c  */
+#line 280 "syntax.y"
     {
 	 if(nonDeclared((yyvsp[(1) - (3)].str) )==-1 ){
 		 printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 }
-	 if(nonDeclared((yyvsp[(3) - (3)].str))==-1){
-										printf("\n 227==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne); return -1;
-									}
-		if(nonDeclared((yyvsp[(1) - (3)].str))==1){
-			printf("erreur semantique a la ligne %d: variable declare comme constante \n", nb_ligne);
-											return -1;
-		}
 		;}
+    break;
+
+  case 64:
+
+/* Line 1455 of yacc.c  */
+#line 286 "syntax.y"
+    {
+	 								if(nonDeclared((yyvsp[(3) - (3)].str) )==-1 ){
+		 								printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 									}	;}
+    break;
+
+  case 65:
+
+/* Line 1455 of yacc.c  */
+#line 290 "syntax.y"
+    {
+	 								if(nonDeclared((yyvsp[(1) - (3)].str) )==-1 ){
+		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 									};}
+    break;
+
+  case 66:
+
+/* Line 1455 of yacc.c  */
+#line 294 "syntax.y"
+    {
+	 								if(nonDeclared((yyvsp[(3) - (3)].str) )==-1 ){
+		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
+	 									};}
+    break;
+
+  case 71:
+
+/* Line 1455 of yacc.c  */
+#line 305 "syntax.y"
+    { operateur='*'; ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1778 "syntax.tab.c"
+#line 1885 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1986,7 +2093,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 268 "syntax.y"
+#line 312 "syntax.y"
 
 int yyerror(char*msg)
 {

@@ -11,7 +11,7 @@ WORKING-STORAGE SECTION.
 
 E INTEGER.
 A INTEGER.
-
+H CHAR.
 
 CONST K = 123 .
 CONST B FLOAT. 
@@ -26,10 +26,9 @@ Tab | W LINE 1 , SIZE 8 INTEGER .
 PROCEDURE DIVISION.
 
 #les expressions arithmetiques !
-B=A.
-B=1.
-Bc=5.
-A=A+Bc.
+A=3.
+A=A+1.
+A=4.
 A=C+B.
 A=(N-6)+(3,9/7)*( (-9) + K ).
 C=1.
