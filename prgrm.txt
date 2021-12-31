@@ -28,10 +28,10 @@ PROCEDURE DIVISION.
 #les expressions arithmetiques !
 A=3.
 A=A+1.
-A=4.
-A=C+B.
-A=(N-6)+(3,9/7)*( (-9) + K ).
-C=1.
+A=K.
+
+A=(K-6)+(3,9/7)*( (-9) + K ).
+
 #******************************************!
 #expression in out simple !
 

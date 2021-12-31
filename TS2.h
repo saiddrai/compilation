@@ -201,6 +201,19 @@ void insererTypeIDF(char entite[], char type[])
   }
 }
 
+int get_type(char entite[])
+{
+int pos=Rechercher_PosIDF(entite);
+if (pos != -1)
+{
+if (strcmp(tab[pos].type,"INT")==0)      return 1;
+if (strcmp(tab[pos].type,"FLOAT")==0)   return 2;
+if (strcmp(tab[pos].type,"CHAR")==0)    return 3;
+if (strcmp(tab[pos].type,"STRING")==0)  return 4;
+}
+
+}
+
 int doubleDeclaration(char entite[])
 {
   int pos;
@@ -211,20 +224,20 @@ int doubleDeclaration(char entite[])
     return -1;
 }
 
+
 int nonDeclared(char entite[]){
- int i = rechercherDeclared(entite);printf("%s %d \n",entite,i);
-  if(i == -1) {return -1;}
-  if(i>-1){
-    if(strcmp(tab[i].code,"CST")==0){
-      return 1; // constante
-    }
-    else return 0; //declarer idf
-  }
+ int pos;
+  pos = Rechercher_PosIDF(entite);
+  if (strcmp(tab[pos].type, "") == 0)
+    return -1;
+  else
+    return 0;
+}
 
 
-  }
 
- int rechercherDeclared(char entite[]){
+
+/* int rechercherDeclared(char entite[]){
    int i = 0;
   while (i < 1000)
   {
@@ -238,6 +251,7 @@ int nonDeclared(char entite[]){
 
   return -1;
  }
+ */
 
 void modifierIDF(char idf[], char type[]){
   strcpy(tab[Rechercher_PosIDF(idf)].type, type);
@@ -282,12 +296,27 @@ void DonnerVS(char entite[] , int i)
  tab[Rechercher_PosIDF(entite)].VS =i;
  }
 
+
+ int DemanderVS(char entite[])
+{
+   int V;
+   V=tab[Rechercher_PosIDF(entite)].VS; 
+	return V ; 
+}
+
+
 void Re_TAB(char TAB[100][20] , int n ){
 	int i;
 	for (i=0 ; i<n ; i++)
 		strcpy (TAB[i] , "");
   }
-
+ void insererVAL(char entite[], char val[])
+{
+  int pos = Rechercher_PosIDF(entite);
+  if  (pos != -1) {
+                    strcpy(tab[pos].val,val);
+                   }
+}                   
 
 
 
@@ -314,7 +343,7 @@ void updateType(char entite[], char type[]){
 }
 
 
-int idfVsType( char entite[], char type2[] ){
+/*int idfVsType( char entite[], int type2[] ){
   int i = Rechercher_PosIDF(entite);
   if (i>-1)
     if(strcmp(tab[i].type,type2)!=0)
@@ -324,6 +353,8 @@ int idfVsType( char entite[], char type2[] ){
 
 
 }
+*/ 
+
 int idfVsIdf(char entite1[], char entite2[] ){
   int i = Rechercher_PosIDF(entite1);
   int j = Rechercher_PosIDF(entite2);
@@ -368,9 +399,9 @@ strcpy( tab[i].val,val);
 
 }
 
-void affectInt(char entite[], int val){
+/*void affectInt(char entite[], int val){
   int i = Rechercher_PosIDF(entite);
-  tab[i].val="4";
+  tab[i].val=;
   
   
-}
+}*/ 
