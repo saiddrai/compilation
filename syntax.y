@@ -4,8 +4,9 @@
 	int i=0;	
 	int j;
 	int s;
-	char operateur;
+	int operateur;
 	float X;
+	float k;
 	int affect;
 	int type;
 	int y=0;
@@ -251,6 +252,11 @@ EXPR_ARITH:idf egl CALCUL point{
 															return -1;
 															}
 								else{} /* if (get_type($1) != get_type()) {printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);} */
+								
+								printf("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv %d \n",k);
+								sprintf(v , "%f" , k);												
+													insererVAL($1,v);  // zidlha type
+								
 								}
 								
 				
@@ -316,6 +322,8 @@ EXPR_ARITH:idf egl CALCUL point{
 										return -1;
 								}
 
+								updateValIdf($1,$3);
+
 
 
 								};
@@ -328,7 +336,16 @@ CALCUL: idf OPERATEUR idf {
 	 				if(nonDeclared($3)==-1){
 										printf("\n 227==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne); return -1;
 									}
-					X= calcul($1,$3);
+					if(operateur==3 && strcmp($3,"0")==0){printf("division par zeroooooooooooooooooooooooooo");
+						printf("Erreur Semantique : division par zero  a la ligne %d !!! \n",nb_ligne);
+										return -1;
+					}
+
+					if(get_type($1) != get_type($3)){
+									printf("Erreur Semantique : incompatibilte de type  a la ligne %d !!! \n",nb_ligne);
+										return -1;
+								}
+					calcul($1,$3,operateur,&k);printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=   %f",k);
 					
 
 
@@ -341,21 +358,39 @@ CALCUL: idf OPERATEUR idf {
 		 							printf(" erreur semantique idf non declare a la ligne %d ",nb_ligne);
 									return -1;
 	 							}
+								 calculIdfXCst($1,valCst,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);
+
+
+
 		}
-		| CST_NUM OPERATEUR CST_NUM {}
+		| CST_NUM OPERATEUR CST_NUM{
+		}
 		| CST_NUM OPERATEUR idf  {
 	 								if(nonDeclared($3 )==-1 ){
 		 								printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
-	 									}	}
+	 									}
+										 
+										 
+										 
+										 
+										 	}
 		| idf OPERATEUR CALCUL	   {
 	 								if(nonDeclared($1 )==-1 ){
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
+
+
+
+
 									}
 		| CALCUL OPERATEUR idf	   {
 	 								if(nonDeclared($3 )==-1 ){
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
-	 									}}
+	 									}
+										 
+										 
+										 
+										 }
 		| CST_NUM OPERATEUR CALCUL 
 		| CALCUL  OPERATEUR CST_NUM
 		| pa_ouv CALCUL pa_fer	   
@@ -363,7 +398,7 @@ CALCUL: idf OPERATEUR idf {
 ;
 /*__________________________________________________________________________________________________________________________*/
 
-OPERATEUR : mul { operateur='*'; }| plus | moin | slash ;
+OPERATEUR : mul { operateur=3; }| plus { operateur=1; }| moin { operateur=2; }| slash { operateur=4; };
 		 /*___________________________________________________________________________________________________________________*/
 				/*_______________________________________________________________________________________________________*/
 					/*___________________________________________________________________________________________*/

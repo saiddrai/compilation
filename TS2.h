@@ -201,15 +201,14 @@ void insererTypeIDF(char entite[], char type[])
   }
 }
 
-int get_type(char entite[])
-{
-int pos=Rechercher_PosIDF(entite);
-if (pos != -1)
-{
-if (strcmp(tab[pos].type,"INT")==0)      return 1;
-if (strcmp(tab[pos].type,"FLOAT")==0)   return 2;
-if (strcmp(tab[pos].type,"CHAR")==0)    return 3;
-if (strcmp(tab[pos].type,"STRING")==0)  return 4;
+int get_type(char entite[]){
+  int pos=Rechercher_PosIDF(entite);
+  if (pos != -1)
+  {
+  if (strcmp(tab[pos].type,"INT")==0)      return 1;
+  if (strcmp(tab[pos].type,"FLOAT")==0)   return 2;
+  if (strcmp(tab[pos].type,"CHAR")==0)    return 3;
+  if (strcmp(tab[pos].type,"STRING")==0)  return 4;
 }
 
 }
@@ -366,36 +365,99 @@ int idfVsIdf(char entite1[], char entite2[] ){
 }
 
 
-float calcul(char entite1[],char entite2[],char oper){
+void calcul(char entite1[],char entite2[],int oper,float *x){
 
   // atof 
+  int i = Rechercher_PosIDF(entite1);
+  int j = Rechercher_PosIDF(entite2);
+  char val1[10];
+  char val2[10];
+  strcpy(val1,tab[i].val);
+  strcpy(val2,tab[j].val);
+
+  float v1= atof(val1);
+  float v2 = atof(val2);
+  float result=0;
+printf("%f %f \n",v1,v2);
   switch(oper){
-    case '+':
-      
-        return 0 ;
+    case 1:
+        result = v1+v2;printf("%f\n",result);
+      *x= result; break;
+    case 2:
+      result = v1-v2;printf("%f\n",result);
+      *x= result;break;
+    case 3:
+      result= v1*v2;printf("%f\n",result);
+      *x= result;break;
+    case 4:
+      result=v1/v2;printf("%f\n",result);
+      *x= result;break;
   }
+
 }
+
+
+void calculIdfXCst(char entite1[],float v2,int oper,float *x){
+
+  // atof 
+  int i = Rechercher_PosIDF(entite1);
+  char val1[10];
+
+  strcpy(val1,tab[i].val);
+
+  float v1= atof(val1);
+  
+  float result=0;
+printf("%f %f \n",v1,v2);
+  switch(oper){
+    case 1:
+        result = v1+v2;printf("%f\n",result);
+      *x= result;break;
+    case 2:
+      result = v1-v2;printf("%f\n",result);
+      *x= result;break;
+    case 3:
+      result= v1*v2;printf("%f\n",result);
+      *x= result;break;
+    case 4:
+      result=v1/v2;printf("%f\n",result);
+      *x= result;break;
+  }
+
+}
+
+
+
+void updateValCst(char entite[],float x){
+  int i = Rechercher_PosIDF(entite);
+  char v[10];
+    printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa %d \n",x);
+
+  sprintf(v , "%f" , x);	
+  strcpy(tab[i].val,v);
+}
+
 
 void affecter(char entite[], int valInt, float valFloat, char valChar, char valStr[],int type){
   int i = Rechercher_PosIDF(entite);
   char str[7];
-char val[20];
-switch(type){
-  case 1: 
-    val[0]=valChar;
-    break;
-  case 2:
-    strcpy(val,valStr);
-    break;
-  case 3:
-    snprintf(str, sizeof(str), "%d", valInt);
-  strcpy(val,str);
-    break;
-  case 4:
-  gcvt(valFloat, 6, val);
-  break;
-}
-strcpy( tab[i].val,val);
+  char val[20];
+  switch(type){
+    case 1: 
+      val[0]=valChar;
+      break;
+    case 2:
+      strcpy(val,valStr);
+      break;
+    case 3:
+      snprintf(str, sizeof(str), "%d", valInt);
+      strcpy(val,str);
+      break;
+    case 4:
+      gcvt(valFloat, 6, val);
+      break;
+  }
+  strcpy( tab[i].val,val);
 
 }
 
@@ -405,3 +467,13 @@ strcpy( tab[i].val,val);
   
   
 }*/ 
+
+
+void updateValIdf(char entite1[],char entite2[]){
+  int i = Rechercher_PosIDF(entite1);
+  int j = Rechercher_PosIDF(entite2);
+
+  if(i!=-1 && j != -1){
+    strcpy(tab[i].val,tab[j].val);
+  }
+}
