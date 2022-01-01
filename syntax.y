@@ -2,7 +2,7 @@
 	int nb_ligne=1;
 	int nb_colonne=1;
 	int i=0;	
-	int j;
+	int j=0;
 	int s;
 	int operateur;
 	int X;
@@ -19,6 +19,7 @@
 	char vide[20]; // pour ecraser le contenue de IDFF
 	char cstStr[10];
 	float cstNum[10];
+	float calculResult[10];
 	char STR[100];
 	char v[20];
 	int  valCst;
@@ -179,8 +180,8 @@ CST :cst_char { strcpy(cstStr,$1);   type =3; }
 	|CST_NUM;
 /*__________________________________________________________________________________________________________________________*/
 
-CST_NUM : cst_int  {valCst=$1; cstNum[y]=valCst; y++; type=1; } 
-		| cst_reel {valCst=$1; cstNum[y]=valCst; y++; type=2; }
+CST_NUM : cst_int  {valCst=$1;valFloat=$1; cstNum[y]=valCst; y++; type=1; } 
+		| cst_reel {valCst=$1; valFloat=$1; cstNum[y]=valCst; y++; type=2; }
 		;
 
 /*__________________________________________________________________________________________________________________________*/
@@ -381,8 +382,8 @@ EXPR_ARITH:idf egl CALCUL point{
 															}
 								else{} /* if (get_type($1) != get_type()) {printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne); return -1 ;} */
 								
-								printf("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv %d \n",k);
-								sprintf(v , "%f" , k);												
+								printf("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv %d \n",calculResult[j]);
+								sprintf(v , "%f" , calculResult[j]);												
 													insererVAL($1,v);  // zidlha type
 								
 								}
@@ -412,12 +413,12 @@ EXPR_ARITH:idf egl CALCUL point{
 								else switch (type)
 											{
 											case 1 : 
-
-												sprintf(v , "%d" , valCst);
+											printf("floooooooat = %f\n",valFloat);
+												sprintf(v , "%f" , valFloat);printf("%s\n",v);
 												insererVAL($1,v);
 											break;
 											case 2 :
-												sprintf(v , "%f" , valCst);												
+												sprintf(v , "%f" , valFloat);												
 												insererVAL($1,v);
 											break;
 											case 3 :
@@ -431,7 +432,7 @@ EXPR_ARITH:idf egl CALCUL point{
 							
 		   }
 									
-									/*affecter($1,valCst,valFloat,valChar,valStr,type);valFloat=0.0; valChar='\0';strcpy(valStr,""); valCst=0; affect=0;printf("SUUUUUUUUUUUUIIIIIIIII");*/
+									
 									
 								
 
@@ -472,6 +473,7 @@ CALCUL: idf OPERATEUR idf {
 										return -1;
 								}
 					calcul($1,$3,operateur,&k);printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=   %f",k);
+					calculResult[j]= k; 
 					
 
 
@@ -488,12 +490,15 @@ CALCUL: idf OPERATEUR idf {
 									printf("Erreur Semantique : imncompatibilte de type  a la ligne %d !!! \n",nb_ligne);
 								return -1;}
 								
-								 calculIdfXCst($1,valCst,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);
-								
 								if(valCst==0 && operateur==4){
 									printf("erreur semantique devision sur zerooooooooo a la ligne %d \n",nb_ligne);
 									return -1;
 								}
+								printf("valFloat before the function = %f \n",valFloat);
+								 calculIdfXCst($1,&valFloat,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);
+								 					calculResult[j]= k; 
+
+								
 
 
 
@@ -514,19 +519,23 @@ CALCUL: idf OPERATEUR idf {
 									printf("Erreur Semantique : imncompatibilte de type  a la ligne %d !!! \n",nb_ligne);
 								return -1;}
 								
-								 calculIdfXCst($3,valCst,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);	 
-										 
+								 calculIdfXCst($3,&valFloat,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);	 
+										 					calculResult[j]= k; 
+
 										 
 										 	}
-		| idf OPERATEUR CALCUL	   {
+		| idf OPERATEUR CALCUL	   { 
 	 								if(nonDeclared($1 )==-1 ){
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
 										printf("\n%d\n",k);
-								calculIdfXCst($1,(int)k,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); 
+								calculIdfXCst($1,&calculResult[j],operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); 
+								calculResult[i]= k;
+
+
 								// na7sbo w n7ato f sommet de pile, resultat ta3 calcul tkon f sommet sema hna ndiro idf operateur sommet de pile, apres nremplaciw sommet l9dim b resultat jdida,
 								// f expression arethmetique (idf oper calcul) nvidiw tableau, tkon deja fih ghir 1
-								// f le cas ta3 calcul oper calcul, nahasbo sommet de pile operateur l'element li 9bel sommet, na7iwhom w n7ato resultat? 
+								// f le cas ta3 calcul oper calcul, nahasbo sommet de pile operateur l'element li 9bel sommet, na7iwhom w n7ato resultat
 
 
 
@@ -536,13 +545,22 @@ CALCUL: idf OPERATEUR idf {
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
 										 
-										 
+										 calculIdfXCst($3,&calculResult[j],operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); 
+								calculResult[i]= k;
 										 
 										 }
-		| CST_NUM OPERATEUR CALCUL 
+		| CST_NUM OPERATEUR CALCUL {
+			calculCstXCst(cstNum[y-1],calculResult[j],operateur,&k);
+			calculResult[j]=k;
+
+		}
 		| CALCUL  OPERATEUR CST_NUM
 		| pa_ouv CALCUL pa_fer	   {}
-		| CALCUL OPERATEUR CALCUL  
+		| CALCUL OPERATEUR CALCUL  {
+			j--; 
+			calculCstXCst(calculResult[j], calculResult[j-1],operateur,&k);printf("%d \n",k);
+			calculResult[j]=k;
+		}
 ;
 /*__________________________________________________________________________________________________________________________*/
 

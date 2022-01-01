@@ -311,9 +311,9 @@ void Re_TAB(char TAB[100][20] , int n ){
   }
  void insererVAL(char entite[], char val[])
 {
-  int pos = Rechercher_PosIDF(entite);
+  int pos = Rechercher_PosIDF(entite);printf("pos = %d ===== val = %s\n",pos,val);
   if  (pos != -1) {
-                    strcpy(tab[pos].val,val);
+                    strcpy(tab[pos].val,val);printf("tab.val ===%s\n=========================================");
                    }
 }                   
 
@@ -397,21 +397,45 @@ printf("%f %f \n",v1,v2);
 }
 
 
-void calculIdfXCst(char entite1[],int v2,int oper,float *x){
-
+void calculIdfXCst(char entite1[],float *v2,int oper,float *x){
+printf("valfloat inside the function = %f \n", *v2);
   // atof 
   int i = Rechercher_PosIDF(entite1);
   char val1[10];
-
+  float a=(*v2); printf("v2= %f \n",a);
   strcpy(val1,tab[i].val);
 
   float v1= atof(val1);
   
   float result=0;
+printf("%f %f \n",v1, *v2);
+  switch(oper){
+    case 1:
+        result = v1+(*v2);printf("%f\n",result);
+      *x= result;  printf("%f \n",result); break;
+    case 2:
+      result = v1-(*v2);printf("%f\n",result);
+      *x= result;break;
+    case 3:
+      result= v1*(*v2);printf("%f\n",result);
+      *x= result;break;
+    case 4:
+      result=v1/(*v2);printf("%f\n",result);
+      *x= result;break;
+  }
+
+}
+
+
+
+void calculCstXCst(float v1,float v2,int oper,float *x){
+
+  
+  float result=0;
 printf("%f %f \n",v1,v2);
   switch(oper){
     case 1:
-        result = v1+v2;printf("%f\n",result);
+        result = v1+v2;
       *x= result;  printf("%f \n",result); break;
     case 2:
       result = v1-v2;printf("%f\n",result);
@@ -425,7 +449,6 @@ printf("%f %f \n",v1,v2);
   }
 
 }
-
 
 
 void updateValCst(char entite[],float x){

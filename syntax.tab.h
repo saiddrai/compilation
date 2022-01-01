@@ -106,7 +106,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 34 "syntax.y"
+#line 35 "syntax.y"
  
    int entier; 
    char* str;
