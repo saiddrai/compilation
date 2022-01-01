@@ -523,7 +523,10 @@ CALCUL: idf OPERATEUR idf {
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
 										printf("\n%d\n",k);
-								calculIdfXCst($1,(int)k,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); // wa9il lazem tableau
+								calculIdfXCst($1,(int)k,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); 
+								// na7sbo w n7ato f sommet de pile, resultat ta3 calcul tkon f sommet sema hna ndiro idf operateur sommet de pile, apres nremplaciw sommet l9dim b resultat jdida,
+								// f expression arethmetique (idf oper calcul) nvidiw tableau, tkon deja fih ghir 1
+								// f le cas ta3 calcul oper calcul, nahasbo sommet de pile operateur l'element li 9bel sommet, na7iwhom w n7ato resultat? 
 
 
 
