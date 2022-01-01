@@ -38,7 +38,7 @@ C=K+K.
 #expression in out simple !
 
 DISPLAY ("Bonjour").
-DISPLAY ("cest une chaine de caracteres &            ":H ).
+DISPLAY ("cest une chaine de caracteres $ # ":Sb,A).
 DISPLAY ("cest un caractere $":C ).
 ACCEPT ("$":@ C ).
 

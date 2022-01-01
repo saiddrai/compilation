@@ -3,6 +3,7 @@
 	int nb_colonne=1;
 	int i=0;	
 	int j=0;
+	int t=0;
 	int s;
 	int operateur;
 	int X;
@@ -11,17 +12,25 @@
 	int type;
 	int y=0;
 	int longe;
+	char displ[50];
 	char sauvType[25];
 	char save[20];
 	char sauvCst[20];
 	char IDF[100][20];
+	char sign[40];
 	char IDFF[20];
+	char IDFD[100][20];
 	char vide[20]; // pour ecraser le contenue de IDFF
 	char cstStr[10];
 	float cstNum[10];
 	float calculResult[10];
 	char STR[100];
 	char v[20];
+	char tem[20];
+	int mmmmm;
+	int mmm;
+	int mmmm;
+	int mm;
 	int  valCst;
 	char *valChar;
 	float valFloat;
@@ -251,70 +260,54 @@ ACC : mc_accept pa_ouv cst_str Dpoint aro idf pa_fer point { strcpy(STR,$3);
 																}
 
 		  }	
-
-
-
-
 ;    
 /*__________________________________________________________________________________________________________________________*/
 
-DIS : mc_display pa_ouv cst_str Dpoint idf pa_fer point {if (nonDeclared($5)==-1)
-																{printf("\n ==============> Erreur Semantique valeur non declarer a la ligne %d <==============\n",nb_ligne);
-																 return -1;}
-															else {
-																strcpy(STR,$3);
-																longe=chercher_sign(STR);		
-																switch (STR[longe])
-																{
-																	case '$' :
-																	if (get_type($5)!=1) //get type return 1 si l'idf est un entier
-																	{
-																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
-																	return -1;
-																	}
-
-																	break;
-
-																	case '%' :
-																	if (get_type($5)!=2) //get type return 2 si l'idf est un float
-																	{
-																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
-																	return -1;
-																	}
-
-																	break;
-
-																	case '#' :
-																	if (get_type($5)!=4) //get type return 4 si l'idf est un string
-																	{
-																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
-																	return -1;
-																	}
-
-
-																	break;
-
-																	case '&' :
-																	if (get_type($5)!=3) //get type return 3 si l'idf est un CHAR
-																	{
-																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
-																	return -1;
-																	}
-																	break;
-																	default : {printf("Erreur Semantique : y'a pas le signe de Formatage !! a la ligne %d",nb_ligne);}
+DIS : mc_display pa_ouv cst_str Dpoint idf_DIS pa_fer point { 	strcpy(displ,$3);
+																chercher_sign(displ, sign);
+																SuppMsg($3);
+																if ( strlen(sign) != t)
+																{	
+																printf ("Erreur Semantique : y'a un difference entre le nombre des idf est le sign pour afficher !! a la ligne %d",nb_ligne);
+																return -1;
 																}
-																	SuppMsg($3);}
-}
+																else if (Incomsign(IDFD,sign,t) == -1)
+																{
+															    printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																printf ("\n\n\n======== %s \n ======== %s \n ======== %s \n======== %s \n\n\n", &IDFD[0],&IDFD[1],&sign[0],&sign[1]);
+															    return -1;
+																}
 
-
-
-
-
-
-
+																RE_tab(sign,t);
+																Re_TAB(IDFD,t);
+																t=0;
+																	}
 
 
 	 |mc_display pa_ouv cst_str pa_fer point {SuppMsg($3);}						
+
+;
+/*__________________________________________________________________________________________________________________________*/
+idf_DIS : idf vrg idf_DIS {if (nonDeclared($1)==-1)
+							{printf("\n ==============> Erreur Semantique valeur non declarer a la ligne %d <==============\n",nb_ligne);
+							 return -1;}  
+						  else 	 
+						  {
+							strcpy(IDFD[t],$1);
+							t++;
+						  }
+							 
+							 
+							 }
+
+		|idf {if (nonDeclared($1)==-1)
+				{printf("\n ==============> Erreur Semantique valeur non declarer a la ligne %d <==============\n",nb_ligne);
+				 return -1;}
+		       	else 	 
+		      	  {
+		      		strcpy(IDFD[t],$1);
+		      		t++;
+		      	  }}
 
 ;
 /*__________________________________________________________________________________________________________________________*/

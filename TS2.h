@@ -308,8 +308,9 @@ void Re_TAB(char TAB[100][20] , int n ){
 	int i;
 	for (i=0 ; i<n ; i++)
 		strcpy (TAB[i] , "");
-  }
- void insererVAL(char entite[], char val[])
+}
+
+void insererVAL(char entite[], char val[])
 {
   int pos = Rechercher_PosIDF(entite);printf("pos = %d ===== val = %s\n",pos,val);
   if  (pos != -1) {
@@ -507,20 +508,52 @@ void SuppMsg(char entite [50])
  if (pos != -1)
   {
   strcpy(tab[pos].name,"");
-	strcpy(tab[pos].code, "");
+	strcpy(tab[pos].code,"");
 	strcpy(tab[pos].type,"");
 	strcpy(tab[pos].val,"");
   }
 }
 
-int chercher_sign(char txt[100])
+void chercher_sign(char txt[100],char sign [20])
 {
 int i;
+int j=0;
 
  for (i=0 ; i<strlen(txt) ; i++)
 		{
-			if (txt[i] =='%' || txt[i] =='$' || txt[i] =='#' || txt[i] =='&')
-			 return i;
+			if (txt[i] =='%' || txt[i] == '$' || txt[i] =='#' || txt[i] =='&')
+        {
+          sign[j]=txt[i];
+          j++;
+        }
+			 
       }
+}
 
+void RE_tab(char TAB [100],int t )
+{
+  int i;
+  for (i=0 ; i<t ; i++)
+  {TAB[i] ='\0';}
+}
+
+int Incomsign(char IDFD [100],char sign [40] , int t)
+{
+ int i;
+ int j=t; 
+	char idf [20]; 
+	for (i=0 ; i < t ; i++)
+	{
+  strcpy(idf , &IDFD[i]);
+
+	switch (sign[i])
+	{	
+		case '$' : {if (get_type(idf) != 1){printf ("\n\n\n 1 \n\n\n\n");  return -1;  }}break;
+		case '%' : {if (get_type(idf) != 2){printf ("\n\n\n  2 \n\n\n\n"); return -1;  }}break;
+		case '&' : {if (get_type(idf) != 3){printf ("\n\n\n 3 \n\n\n\n");  return -1; } }break;
+    case '#' : {if (get_type(idf) != 4){printf ("\n\n\n 4   \n\n\n\n");return -1; }}break;
+	}
+	j--;
+	}	
+	return 0 ; 
 }
