@@ -38,47 +38,45 @@ A=(K-6)+(3,9/7)*( (-9) + K ).
 #******************************************!
 #expression in out simple !
 
-DISPLAY (“c’est un entire $”: Mm ).
-DISPLAY (“Bonjour”).
-DISPLAY (“c’est une chaine de caractères #”:Ab ).
-DISPLAY (“c’est un caractère&”:C ).
-ACCEPT (“#”:@ C ).
-ACCEPT(“c’est une chaine de caractères #”:@Q).
+DISPLAY ("Bonjour").
+DISPLAY ("cest une chaine de caracteres &            ":H ).
+DISPLAY ("cest un caractere $":C ).
+ACCEPT ("$":@ C ).
 
 #******************************************!
 #if simple !
 
 IF ( NOT(A .L. 8)):
-	ACCEPT(“c’est une chaine de caractères #”:@Q).
+	ACCEPT("#":@Sb).
 END.
 
 
 
 #if imbriqué !
 IF ((A.GE.5)):
-	ACCEPT (“%”:@ Bb).
-	ACCEPT (“#”:@ C ).
+	ACCEPT ("#":@Fb).
+	ACCEPT ("$":@C ).
 	IF ((B.GE.C)):
-		ACCEPT (“%”:@ Bb).
-		ACCEPT (“#”:@ C ).
-		ACCEPT (“&”:@ Efgt ).
+		ACCEPT ("#":@Fb).
+		ACCEPT ("&":@H ).
+		ACCEPT ("&":@H).
 	END.
-	ACCEPT (“&”:@ Efgt ).
+	ACCEPT ("#":@Sb ).
 END.
 
 
 #if avaec plusieurs condition  !
 IF ( (A .GE.(3 - 1)) AND (V .L. 8) OR NOT (V .L. 8) ):
-	ACCEPT (“#”:@ C ).
+	ACCEPT ("$":@ C ).
 ELSE :
-	ACCEPT (“#”:@ C ).
+	ACCEPT ("$":@ C ).
 END.
 
 #*****************************!
 
 # boucle simple !
 MOVE 3 TO 5
-DISPLAY (“c’est un entire $”: Mm ).
+DISPLAY ("c’est un entire $":A ).
 END.
 
 
@@ -87,9 +85,9 @@ MOVE 3 TO 5
 END.
 
 MOVE A TO M
-	ACCEPT (“%”:@ Bb).
+	ACCEPT ("#":@Fb).
 	MOVE A TO 5
-		ACCEPT (“%”:@ Bb).
+		ACCEPT ("#":@ Sb).
 	END.
 END.
 

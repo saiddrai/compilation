@@ -477,3 +477,28 @@ void updateValIdf(char entite1[],char entite2[]){
     strcpy(tab[i].val,tab[j].val);
   }
 }
+
+void SuppMsg(char entite [100])
+{
+ int pos=Rechercher_PosIDF(entite);
+ printf ("================================== %d ======================================",pos);
+ if (pos != -1)
+  {
+  strcpy(tab[pos].name,"");
+	strcpy(tab[pos].code, "");
+	strcpy(tab[pos].type,"");
+	strcpy(tab[pos].val,"");
+  }
+}
+
+int chercher_sign(char txt[100])
+{
+int i;
+
+ for (i=0 ; i<strlen(txt) ; i++)
+		{
+			if (txt[i] =='%' || txt[i] =='$' || txt[i] =='#' || txt[i] =='&')
+			 return i;
+      }
+
+}

@@ -19,10 +19,8 @@ IDF [A-Z]({lettre}|{chiffre})*
 INT_CST \([+-]{chiffre}+\)|{chiffre}+
 FLOAT_CST ({chiffre}+,{chiffre}+)|(\([[+-]{chiffre}+,{chiffre}+\))
 CHAR_CST '.'
-STRING_CST \"[\n.]*\"
+STRING_CST \".*\"
 COMMENT #(([^(!\n)]|\n)*!\n|(.*?)*!\n)
-MSGDISP_ACC \“.*[$%#&].*\”
-MSGDISP \“.*\”
 %%
 
 {COMMENT} { printf ("Un Commentaire reconnue\n");
@@ -98,9 +96,7 @@ NOT              {rechercher(yytext,"sep","",2,"");	nb_colonne = nb_colonne + st
 
 {STRING_CST}     {rechercher(yytext,"CONST","STRING",0,yytext);nb_colonne = nb_colonne + strlen(yytext);        printf("CST string reconnue \n");   yylval.str =strdup(yytext);  return cst_str; }
 
-{MSGDISP_ACC}    {   printf("msg pour instruction display reconnu \n");nb_colonne = nb_colonne + strlen(yytext);   	return msgdispacc; }
-
-{MSGDISP}        {nb_colonne = nb_colonne + strlen(yytext);      printf("msg pour instruction display reconnu \n");										   return msgdisp;    }	
+								  
 [ \t ]           {nb_colonne = nb_colonne + strlen(yytext);}
 \n  {nb_ligne++;   nb_colonne=1;}
 .  				{printf ("erreur lexicale a la ligne : %d ,et la colonne :%d \n",yylineno,nb_colonne);return err_lex; }

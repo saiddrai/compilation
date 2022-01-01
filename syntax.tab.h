@@ -95,9 +95,7 @@
      cst_char = 311,
      cst_int = 312,
      cst_reel = 313,
-     cst_str = 314,
-     msgdispacc = 315,
-     msgdisp = 316
+     cst_str = 314
    };
 #endif
 
@@ -108,7 +106,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 31 "syntax.y"
+#line 33 "syntax.y"
  
    int entier; 
    char* str;
@@ -118,7 +116,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 122 "syntax.tab.h"
+#line 120 "syntax.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -10,6 +10,7 @@
 	int affect;
 	int type;
 	int y=0;
+	int longe;
 	char sauvType[25];
 	char save[20];
 	char sauvCst[20];
@@ -17,6 +18,7 @@
 	char IDFF[20];
 	char cstStr[10];
 	float cstNum[10];
+	char STR[100];
 	char v[20];
 	int  valCst;
 	char *valChar;
@@ -39,7 +41,7 @@
 %token mc_int mc_char mc_float mc_str mc_const mc_and mc_or mc_not mc_line mc_size
 %token mc_accept mc_display mc_if mc_else mc_end mc_move mc_to hash dol pourc an aro Dpoint
 %token moin plus slash egl cote mul pipe pa_ouv pa_fer point l g ge le eq di
-%token <str>idf <str>cst_char <entier>cst_int <reel>cst_reel <str>cst_str msgdispacc msgdisp 
+%token <str>idf <str>cst_char <entier>cst_int <reel>cst_reel <str>cst_str 
 %start S
 
 %%
@@ -182,7 +184,7 @@ CST_NUM : cst_int  {valCst=$1; cstNum[y]=valCst; y++; type=1; }
 
 /*__________________________________________________________________________________________________________________________*/
 
-P_INST : ENTR_OR_SORT P_INST
+P_INST : ACC_OR_DIS P_INST
 		|CONDITION_IF P_INST
 		|MOVE P_INST
 		|EXPR_ARITH P_INST
@@ -190,21 +192,126 @@ P_INST : ENTR_OR_SORT P_INST
 
 /*__________________________________________________________________________________________________________________________*/
 			
-ENTR_OR_SORT: ENTR | SORT ;
+ACC_OR_DIS: ACC | DIS ;
 
-ENTR: mc_accept pa_ouv msgdispacc Dpoint aro idf pa_fer point;    /* ACCEPT (“#”:@ C ). */
+ACC : mc_accept pa_ouv cst_str Dpoint aro idf pa_fer point {if (strlen($3)!=3)
+															{
+																printf("\n ==============> Erreur Semantique : Message accept FAUSSE !!! a la ligne %d",nb_ligne);
+																return -1;
+															}
+															else if (nonDeclared($6)==-1)
+																{printf("\n ==============> Erreur Semantique valeur non declarer a la ligne %d <==============\n",nb_ligne);
+																 return -1;}
+															else {
+																strcpy(STR,$3);						
+																switch (STR[1])
+																{
+																	case '$' :
+																	if (get_type($6)!=1) //get type return 1 si l'idf est un entier
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
 
+																	break;
+
+																	case '%' :
+																	if (get_type($6)!=2) //get type return 2 si l'idf est un float
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
+
+																	break;
+
+																	case '#' :
+																	if (get_type($6)!=4) //get type return 4 si l'idf est un string
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
+
+
+																	break;
+
+																	case '&' :
+																	if (get_type($6)!=3) //get type return 3 si l'idf est un CHAR
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
+																	break;
+																}
+																SuppMsg($3);
+
+																}
+
+		  }	
+
+
+
+
+;    
 /*__________________________________________________________________________________________________________________________*/
 
-SORT: mc_display pa_ouv msgdispacc Dpoint IDF_sort pa_fer point		/* DISPLAY (“psps $”: hh ).*/
-	 |mc_display pa_ouv msgdisp pa_fer point;						 /*DISPLAY (“hello brother”). */
+DIS : mc_display pa_ouv cst_str Dpoint idf pa_fer point {if (nonDeclared($5)==-1)
+																{printf("\n ==============> Erreur Semantique valeur non declarer a la ligne %d <==============\n",nb_ligne);
+																 return -1;}
+															else {
+																strcpy(STR,$3);
+																longe=chercher_sign(STR);		
+																switch (STR[longe])
+																{
+																	case '$' :
+																	if (get_type($5)!=1) //get type return 1 si l'idf est un entier
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
+
+																	break;
+
+																	case '%' :
+																	if (get_type($5)!=2) //get type return 2 si l'idf est un float
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
+
+																	break;
+
+																	case '#' :
+																	if (get_type($5)!=4) //get type return 4 si l'idf est un string
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
 
 
-/*__________________________________________________________________________________________________________________________*/
+																	break;
 
-IDF_sort : idf vrg IDF_sort							
-		 | idf;  			
-							
+																	case '&' :
+																	if (get_type($5)!=3) //get type return 3 si l'idf est un CHAR
+																	{
+																	printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
+																	return -1;
+																	}
+																	break;
+																}
+																	SuppMsg($3);}
+}
+
+
+
+
+
+
+
+
+
+	 |mc_display pa_ouv cst_str pa_fer point {SuppMsg($3);}						
+
+;
 /*__________________________________________________________________________________________________________________________*/
 
 CONDITION_IF: mc_if pa_ouv CONDITION pa_fer Dpoint P_INST ELSE mc_end point;
