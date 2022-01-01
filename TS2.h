@@ -397,7 +397,7 @@ printf("%f %f \n",v1,v2);
 }
 
 
-void calculIdfXCst(char entite1[],float v2,int oper,float *x){
+void calculIdfXCst(char entite1[],int v2,int oper,float *x){
 
   // atof 
   int i = Rechercher_PosIDF(entite1);
@@ -412,7 +412,7 @@ printf("%f %f \n",v1,v2);
   switch(oper){
     case 1:
         result = v1+v2;printf("%f\n",result);
-      *x= result;break;
+      *x= result;  printf("%f \n",result); break;
     case 2:
       result = v1-v2;printf("%f\n",result);
       *x= result;break;

@@ -406,7 +406,7 @@ EXPR_ARITH:idf egl CALCUL point{
 												insererVAL($1,cstStr);
 											break;
 											
-											} 
+											}
 							
 		   }
 									
@@ -443,10 +443,8 @@ CALCUL: idf OPERATEUR idf {
 	 				if(nonDeclared($3)==-1){
 										printf("\n 227==============> Erreur Semantique idf non declaré a la ligne %d <==============\n",nb_ligne); return -1;
 									}
-					if(operateur==3 && strcmp($3,"0")==0){printf("division par zeroooooooooooooooooooooooooo");
-						printf("Erreur Semantique : division par zero  a la ligne %d !!! \n",nb_ligne);
-										return -1;
-					}
+					
+					
 
 					if(get_type($1) != get_type($3)){
 									printf("Erreur Semantique : incompatibilte de type  a la ligne %d !!! \n",nb_ligne);
@@ -458,26 +456,44 @@ CALCUL: idf OPERATEUR idf {
 
 
 
-		
-		}
+}
 		| idf OPERATEUR CST_NUM {
 	 								if(nonDeclared($1) == -1 ){
 		 							printf(" erreur semantique idf non declare a la ligne %d ",nb_ligne);
 									return -1;
 	 							}
+
+								 if(get_type($1) != type){
+									printf("Erreur Semantique : imncompatibilte de type  a la ligne %d !!! \n",nb_ligne);
+								return -1;}
+								
 								 calculIdfXCst($1,valCst,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);
+								
+								if(valCst==0 && operateur==4){
+									printf("erreur semantique devision sur zerooooooooo a la ligne %d \n",nb_ligne);
+									return -1;
+								}
 
 
 
 		}
 		| CST_NUM OPERATEUR CST_NUM{
+
+							//lzm deuxieme variable const2 bach f grammaire ta3 constante n7ato kol const f wahed , meme type lzm deuxieme
+
+
 		}
 		| CST_NUM OPERATEUR idf  {
+
 	 								if(nonDeclared($3 )==-1 ){
 		 								printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
 										 
-										 
+									 if(get_type($3) != type){
+									printf("Erreur Semantique : imncompatibilte de type  a la ligne %d !!! \n",nb_ligne);
+								return -1;}
+								
+								 calculIdfXCst($3,valCst,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);	 
 										 
 										 
 										 	}
@@ -485,7 +501,8 @@ CALCUL: idf OPERATEUR idf {
 	 								if(nonDeclared($1 )==-1 ){
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
-
+										printf("\n%d\n",k);
+								calculIdfXCst($1,(int)k,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); // wa9il lazem tableau
 
 
 
@@ -500,7 +517,7 @@ CALCUL: idf OPERATEUR idf {
 										 }
 		| CST_NUM OPERATEUR CALCUL 
 		| CALCUL  OPERATEUR CST_NUM
-		| pa_ouv CALCUL pa_fer	   
+		| pa_ouv CALCUL pa_fer	   {}
 		| CALCUL OPERATEUR CALCUL  
 ;
 /*__________________________________________________________________________________________________________________________*/
