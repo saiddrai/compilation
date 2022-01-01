@@ -29,7 +29,7 @@ PROCEDURE DIVISION.
 #les expressions arithmetiques !
 H='h'.
 A=3.
-C=A/0.
+C=A.
 A=3+A.
 A=(C+(1+2)).
 
@@ -85,7 +85,7 @@ END.
 MOVE 3 TO 5
 END.
 
-MOVE A TO M
+MOVE A TO 4
 	ACCEPT ("#":@Fb).
 	MOVE A TO 5
 		ACCEPT ("#":@ Sb).

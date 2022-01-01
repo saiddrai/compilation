@@ -6,10 +6,10 @@
 typedef struct
 {
   int state;
-  char name[20];
-  char code[20];
-  char type[20];
-  char val[20];
+  char name[60];
+  char code[60];
+  char type[60];
+  char val[60];
   int VS;         /*si 1 --> varriable si 0 --> Constante */
 } element;
 
@@ -478,10 +478,9 @@ void updateValIdf(char entite1[],char entite2[]){
   }
 }
 
-void SuppMsg(char entite [100])
+void SuppMsg(char entite [50])
 {
  int pos=Rechercher_PosIDF(entite);
- printf ("================================== %d ======================================",pos);
  if (pos != -1)
   {
   strcpy(tab[pos].name,"");

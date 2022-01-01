@@ -5,7 +5,7 @@
 	int j;
 	int s;
 	int operateur;
-	float X;
+	int X;
 	float k;
 	int affect;
 	int type;
@@ -16,6 +16,7 @@
 	char sauvCst[20];
 	char IDF[100][20];
 	char IDFF[20];
+	char vide[20]; // pour ecraser le contenue de IDFF
 	char cstStr[10];
 	float cstNum[10];
 	char STR[100];
@@ -194,7 +195,10 @@ P_INST : ACC_OR_DIS P_INST
 			
 ACC_OR_DIS: ACC | DIS ;
 
-ACC : mc_accept pa_ouv cst_str Dpoint aro idf pa_fer point {if (strlen($3)!=3)
+ACC : mc_accept pa_ouv cst_str Dpoint aro idf pa_fer point { strcpy(STR,$3);	
+															 SuppMsg($3);
+
+																if (strlen($3)!=3)
 															{
 																printf("\n ==============> Erreur Semantique : Message accept FAUSSE !!! a la ligne %d",nb_ligne);
 																return -1;
@@ -203,7 +207,6 @@ ACC : mc_accept pa_ouv cst_str Dpoint aro idf pa_fer point {if (strlen($3)!=3)
 																{printf("\n ==============> Erreur Semantique valeur non declarer a la ligne %d <==============\n",nb_ligne);
 																 return -1;}
 															else {
-																strcpy(STR,$3);						
 																switch (STR[1])
 																{
 																	case '$' :
@@ -297,6 +300,7 @@ DIS : mc_display pa_ouv cst_str Dpoint idf pa_fer point {if (nonDeclared($5)==-1
 																	return -1;
 																	}
 																	break;
+																	default : {printf("Erreur Semantique : y'a pas le signe de Formatage !! a la ligne %d",nb_ligne);}
 																}
 																	SuppMsg($3);}
 }
@@ -341,14 +345,31 @@ EXP_COMPA: l | g | ge | le | eq | di ;
 /*__________________________________________________________________________________________________________________________*/
 
 
-MOVE: mc_move A mc_to A P_INST mc_end point {};			 				   /* MOVE A TO M P_inst END.  , MOVE A TO 10 P_inst END. */
-												
+MOVE: mc_move idf mc_to idf P_INST mc_end point {if (nonDeclared($2)==-1 || nonDeclared($4)==-1)
+													
+													{printf("Erreur Semantique : l 'idf est non Declarer dans la  partie declaration  a la ligne %d !!! \n",nb_ligne);
+													return -1;}
+													else if (get_type($2) != 1 || get_type($4) != 1)
+													{
+													printf("Erreur semantique : incompatibilite de Type !! il faut ytiliser que des entier ! -- a la ligne  %d", nb_ligne); 
+													return -1 ;
+													}
+												}
 
-/*__________________________________________________________________________________________________________________________*/
-A: 	idf
-	|cst_int
-;	
-/*__________________________________________________________________________________________________________________________*/
+	 |mc_move idf mc_to cst_int P_INST mc_end point { if (nonDeclared($2)==-1)
+													
+													{printf("Erreur Semantique : l'idf est non Declarer dans la  partie declaration  a la ligne %d !!! \n",nb_ligne);
+													return -1;}
+													else if (get_type($2) != 1)
+													{
+													printf("Erreur semantique : incompatibilite de Type !! il faut ytiliser que des entier ! -- a la ligne %d", nb_ligne); 
+													return -1;
+													}
+	 												} 	 		
+     |mc_move cst_int mc_to cst_int P_INST mc_end point 
+
+;
+/*_________________________________________________________________________________________________________________________*/
 
 EXPR_ARITH:idf egl CALCUL point{
 			  					if (nonDeclared($1)==-1)
@@ -358,7 +379,7 @@ EXPR_ARITH:idf egl CALCUL point{
 															printf("Erreur semantique : le %s c'est une constante , tu peut pas fait une affectation  , a la ligne %d",$1,nb_ligne);
 															return -1;
 															}
-								else{} /* if (get_type($1) != get_type()) {printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);} */
+								else{} /* if (get_type($1) != get_type()) {printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne); return -1 ;} */
 								
 								printf("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv %d \n",k);
 								sprintf(v , "%f" , k);												
@@ -522,7 +543,7 @@ CALCUL: idf OPERATEUR idf {
 ;
 /*__________________________________________________________________________________________________________________________*/
 
-OPERATEUR : mul { operateur=3; }| plus { operateur=1; }| moin { operateur=2; }| slash { operateur=4; };
+OPERATEUR : plus { operateur=1; }| moin { operateur=2; }| mul { operateur=3; }| slash { operateur=4; };
 		 /*___________________________________________________________________________________________________________________*/
 				/*_______________________________________________________________________________________________________*/
 					/*___________________________________________________________________________________________*/
