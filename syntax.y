@@ -5,7 +5,8 @@
 	int j=0;
 	int t=0;
 	int s;
-	int operateur;
+	int operateur[10];
+	int opera = 0;
 	float k;
 	int affect;
 	int type;
@@ -459,14 +460,14 @@ CALCUL: idf OPERATEUR idf {
 								}
 					
 					
-					calcul($1,$3,operateur,&k);
+					calcul($1,$3,operateur[opera-1],&k); opera--;
 					calculResult[j]= k;  j++;
 					
 
 
 
 
-}
+ }
 		| idf OPERATEUR CST_NUM {
 	 								if(nonDeclared($1) == -1 ){
 		 							printf("==============> Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);
@@ -477,12 +478,12 @@ CALCUL: idf OPERATEUR idf {
 									printf("==============> Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonne : %d  !!!<============== \n",nb_ligne,col);
 								return -1;}
 								
-								if(valCst==0 && operateur==4){
+								if(valCst==0 && operateur[opera-1]==4){
 									printf("==============> Erreur Semantique : devision sur ZEROOO a la ligne : %d et la colonne : %d <============== \n",nb_ligne,col);
 									return -1;
 								}
 								
-								 calculIdfXCst($1,&valFloat,operateur,&k); 
+								 calculIdfXCst($1,&valFloat,operateur[opera-1],&k); opera--;
 								 					calculResult[j]= k; j++;
 
 								
@@ -492,7 +493,7 @@ CALCUL: idf OPERATEUR idf {
 		}
 		| CST_NUM OPERATEUR CST_NUM{
 			
-			calculCstXCst(&cstNum[y-1],&cstNum[y-2],operateur,&k);
+			calculCstXCst(&cstNum[y-1],&cstNum[y-2],operateur[opera-1],&k); opera--;
 			
 			calculResult[j]=k;	j++;				
 
@@ -508,17 +509,17 @@ CALCUL: idf OPERATEUR idf {
 									printf("==============> Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonne : %d  !!! <============== \n",nb_ligne,col);
 								return -1;}
 								
-								 calculIdfXCst($3,&valFloat,operateur,&k);
+								 calculIdfXCst($3,&valFloat,operateur[opera-1],&k);
 										 					calculResult[j]= k;j++; 
 
 										 
 										 	}
-		| idf OPERATEUR CALCUL	   { 
+		| idf OPERATEUR  CALCUL	   { 
 	 								if(nonDeclared($1 )==-1 ){
 		 							printf("==============> Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n",nb_ligne,col);return -1;
 	 									}
 										
-								calculIdfXCst($1,&calculResult[j-1],operateur,&k);
+								calculIdfXCst($1,&calculResult[j-1],operateur[opera-1],&k);opera--;
 								
 								calculResult[j]= k; j++;
 								 
@@ -536,30 +537,30 @@ CALCUL: idf OPERATEUR idf {
 		 							printf("==============> Erreur Semantique : idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);return -1;
 	 									}
 										 
-										 calculIdfXCst($3,&calculResult[j-1],operateur,&k); 
+										 calculIdfXCst($3,&calculResult[j-1],operateur,&k); opera--;
 										 
 										
 								calculResult[j]= k; j++;
 										 
 										 }
 		| CST_NUM OPERATEUR CALCUL {
-			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k);
+			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k); opera--;
 			calculResult[j]=k;j++;
 
 		}
 		| CALCUL  OPERATEUR CST_NUM {
-			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k);
+			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k); opera--;
 			calculResult[j]=k;j++;
 		}
 		| pa_ouv CALCUL pa_fer	   {}
 		| CALCUL OPERATEUR CALCUL  {
-			calculCstXCst(&calculResult[j-1], &calculResult[j-2],operateur,&k);
+			calculCstXCst(&calculResult[j-1], &calculResult[j-2],operateur,&k);opera--;
 			calculResult[j]=k;j++;
 		}
 ;
 /*__________________________________________________________________________________________________________________________*/
 
-OPERATEUR : plus { operateur=1; }| moin { operateur=2; }| mul { operateur=3; }| slash { operateur=4; };
+OPERATEUR : plus { operateur[opera]=1;opera++; }| moin { operateur[opera]=2;opera++; }| mul { operateur[opera]=3;opera++; }| slash { operateur[opera]=4; opera++;};
 		 /*___________________________________________________________________________________________________________________*/
 				/*_______________________________________________________________________________________________________*/
 					/*___________________________________________________________________________________________*/
