@@ -537,23 +537,22 @@ void RE_tab(char TAB [100],int t )
   {TAB[i] ='\0';}
 }
 
-int Incomsign(char IDFD [100],char sign [40] , int t)
+int Incomsign(char IDFD [100][20],char sign [40] , int t)
 {
- int i;
- int j=t; 
+  int i,j;
 	char idf [20]; 
+  j=t;
 	for (i=0 ; i < t ; i++)
 	{
   strcpy(idf , &IDFD[i]);
-
-	switch (sign[i])
+  j--;
+	switch (sign[j])
 	{	
-		case '$' : {if (get_type(idf) != 1){printf ("\n\n\n 1 \n\n\n\n");  return -1;  }}break;
-		case '%' : {if (get_type(idf) != 2){printf ("\n\n\n  2 \n\n\n\n"); return -1;  }}break;
-		case '&' : {if (get_type(idf) != 3){printf ("\n\n\n 3 \n\n\n\n");  return -1; } }break;
-    case '#' : {if (get_type(idf) != 4){printf ("\n\n\n 4   \n\n\n\n");return -1; }}break;
+		case '$' : {if (get_type(idf) != 1){return -1; }}break;
+		case '%' : {if (get_type(idf) != 2){return -1; }}break;
+		case '&' : {if (get_type(idf) != 3){return -1; }}break;
+    case '#' : {if (get_type(idf) != 4){return -1; }}break;
 	}
-	j--;
 	}	
 	return 0 ; 
 }

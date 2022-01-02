@@ -26,11 +26,6 @@
 	float calculResult[10];
 	char STR[100];
 	char v[20];
-	char tem[20];
-	int mmmmm;
-	int mmm;
-	int mmmm;
-	int mm;
 	int  valCst;
 	int valCst2;
 	char *valChar;
@@ -272,10 +267,8 @@ DIS : mc_display pa_ouv cst_str Dpoint idf_DIS pa_fer point { 	strcpy(displ,$3);
 																printf ("Erreur Semantique : y'a un difference entre le nombre des idf est le sign pour afficher !! a la ligne %d",nb_ligne);
 																return -1;
 																}
-																else if (Incomsign(IDFD,sign,t) == -1)
-																{
-															    printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
-																printf ("\n\n\n======== %s \n ======== %s \n ======== %s \n======== %s \n\n\n", &IDFD[0],&IDFD[1],&sign[0],&sign[1]);
+																if (Incomsign(IDFD,sign,t) == -1)
+															    {printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne);
 															    return -1;
 																}
 
@@ -292,13 +285,11 @@ DIS : mc_display pa_ouv cst_str Dpoint idf_DIS pa_fer point { 	strcpy(displ,$3);
 idf_DIS : idf vrg idf_DIS {if (nonDeclared($1)==-1)
 							{printf("\n ==============> Erreur Semantique valeur non declarer a la ligne %d <==============\n",nb_ligne);
 							 return -1;}  
-						  else 	 
-						  {
-							strcpy(IDFD[t],$1);
-							t++;
-						  }
-							 
-							 
+						     else 	 
+						     {
+							 strcpy(IDFD[t],$1);
+							 t++;
+						     }
 							 }
 
 		|idf {if (nonDeclared($1)==-1)
