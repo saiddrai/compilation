@@ -5,6 +5,7 @@
 	int j=0;
 	int t=0;
 	int s;
+	int A=1;
 	int operateur[10];
 	int opera = 0;
 	float k;
@@ -256,7 +257,7 @@ ACC : mc_accept pa_ouv cst_str Dpoint aro idf pa_fer point { strcpy(STR,$3);
 ;    
 /*__________________________________________________________________________________________________________________________*/
 
-DIS : mc_display pa_ouv cst_str Dpoint idf_DIS pa_fer point { 
+DIS : mc_display pa_ouv cst_str Dpoint idf_DIS pa_fer point {   A=0;
 																strcpy(displ,$3);
 																chercher_sign(displ, sign);
 																SuppMsg($3);

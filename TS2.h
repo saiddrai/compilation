@@ -11,6 +11,7 @@ typedef struct
   char type[60];
   char val[60];
   int VS;         /*si 1 --> varriable si 0 --> Constante */
+  int D;     /*if la case a ete ecraser */
 } element;
 
 typedef struct
@@ -49,11 +50,13 @@ void inserer(char entite[], char code[], char type[], char val[], int y, int i)
   switch (y)
   {
   case 0: /*insertion dans la table des IDF et des const */
+    if (tab[i-1].D == 1) i=i-1;
     tab[i].state = 1;
     strcpy(tab[i].name, entite);
     strcpy(tab[i].code, code);
     strcpy(tab[i].type, type);
     strcpy(tab[i].val,val);
+    tab[i].D=0;
     break;
 
   case 1: /*insertion dans la table des mc*/
@@ -511,6 +514,7 @@ void SuppMsg(char entite [50])
 	strcpy(tab[pos].code,"");
 	strcpy(tab[pos].type,"");
 	strcpy(tab[pos].val,"");
+  tab[pos].D=1;
   }
 }
 
