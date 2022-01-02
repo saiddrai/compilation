@@ -12,6 +12,7 @@ WORKING-STORAGE SECTION.
 E INTEGER.
 A INTEGER.
 C INTEGER.
+T FLOAT.
 H CHAR.
 S STRING.
 CONST K = 123 .
@@ -40,7 +41,7 @@ C=K*3.
 DISPLAY ("Bonjour").
 DISPLAY ("cest une chaine de caracteres $ # ":A,Sb).
 DISPLAY ("cest un caractere $":C ).
-ACCEPT ("$":@ C ).
+ACCEPT ("$":@ C).
 
 #******************************************!
 #if simple !
@@ -75,7 +76,7 @@ END.
 
 # boucle simple !
 MOVE 3 TO 5
-DISPLAY ("c’est un entire $":A ).
+DISPLAY ("c’est un entire % & #":T,H,Fb).
 END.
 
 
