@@ -516,8 +516,8 @@ void SuppMsg(char entite [50])
 
 void chercher_sign(char txt[100],char sign [20])
 {
-int i;
-int j=0;
+  int i;
+  int j=0;
 
  for (i=0 ; i<strlen(txt) ; i++)
 		{
@@ -553,6 +553,6 @@ int Incomsign(char IDFD [100][20],char sign [40] , int t)
 		case '&' : {if (get_type(idf) != 3){return -1; }}break;
     case '#' : {if (get_type(idf) != 4){return -1; }}break;
 	}
-	}	
+	}
 	return 0 ; 
 }
