@@ -314,7 +314,7 @@ void insererVAL(char entite[], char val[])
 {
   int pos = Rechercher_PosIDF(entite);printf("pos = %d ===== val = %s\n",pos,val);
   if  (pos != -1) {
-                    strcpy(tab[pos].val,val);printf("tab.val ===%s\n=========================================");
+                    strcpy(tab[pos].val,val);printf("tab.val ===%s\n========================================= %s ",tab[pos].val,tab[pos].name);
                    }
 }                   
 
@@ -379,7 +379,7 @@ void calcul(char entite1[],char entite2[],int oper,float *x){
   float v1= atof(val1);
   float v2 = atof(val2);
   float result=0;
-printf("%f %f \n",v1,v2);
+  printf("%f %f \n",v1,v2);
   switch(oper){
     case 1:
         result = v1+v2;printf("%f\n",result);
@@ -399,7 +399,7 @@ printf("%f %f \n",v1,v2);
 
 
 void calculIdfXCst(char entite1[],float *v2,int oper,float *x){
-printf("valfloat inside the function = %f \n", *v2);
+  printf("valfloat inside the function = %f \n", *v2);
   // atof 
   int i = Rechercher_PosIDF(entite1);
   char val1[10];
@@ -409,7 +409,7 @@ printf("valfloat inside the function = %f \n", *v2);
   float v1= atof(val1);
   
   float result=0;
-printf("%f %f \n",v1, *v2);
+  printf("%f %f \n",v1, *v2);
   switch(oper){
     case 1:
         result = v1+(*v2);printf("%f\n",result);
@@ -429,23 +429,23 @@ printf("%f %f \n",v1, *v2);
 
 
 
-void calculCstXCst(float v1,float v2,int oper,float *x){
+void calculCstXCst(float *v1,float *v2,int oper,float *x){
 
   
   float result=0;
-printf("%f %f \n",v1,v2);
+  printf("%f %f \n",*v1, *v2);
   switch(oper){
     case 1:
-        result = v1+v2;
+        result = *v1+ (*v2);
       *x= result;  printf("%f \n",result); break;
     case 2:
-      result = v1-v2;printf("%f\n",result);
+      result = *v1-(*v2);printf("%f\n",result);
       *x= result;break;
     case 3:
-      result= v1*v2;printf("%f\n",result);
+      result= *v1*(*v2);printf("%f\n",result);
       *x= result;break;
     case 4:
-      result=v1/v2;printf("%f\n",result);
+      result=*v1/(*v2);printf("%f\n",result);
       *x= result;break;
   }
 

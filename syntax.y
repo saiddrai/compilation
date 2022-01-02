@@ -32,6 +32,7 @@
 	int mmmm;
 	int mm;
 	int  valCst;
+	int valCst2;
 	char *valChar;
 	float valFloat;
 	char *valStr;
@@ -375,8 +376,8 @@ EXPR_ARITH:idf egl CALCUL point{
 															}
 								else{} /* if (get_type($1) != get_type()) {printf("Erreur semantique : incompatibilite de Type a la ligne %d", nb_ligne); return -1 ;} */
 								
-								printf("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv %d \n",calculResult[j]);
-								sprintf(v , "%f" , calculResult[j]);												
+								
+								sprintf(v , "%f" , calculResult[j-1]);												
 													insererVAL($1,v);  // zidlha type
 								
 								}
@@ -406,9 +407,9 @@ EXPR_ARITH:idf egl CALCUL point{
 								else switch (type)
 											{
 											case 1 : 
-											printf("floooooooat = %f\n",valFloat);
-												sprintf(v , "%f" , valFloat);printf("%s\n",v);
+												sprintf(v , "%f" , valFloat);
 												insererVAL($1,v);
+												
 											break;
 											case 2 :
 												sprintf(v , "%f" , valFloat);												
@@ -465,8 +466,10 @@ CALCUL: idf OPERATEUR idf {
 									printf("Erreur Semantique : incompatibilte de type  a la ligne %d !!! \n",nb_ligne);
 										return -1;
 								}
-					calcul($1,$3,operateur,&k);printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=   %f",k);
-					calculResult[j]= k; 
+					
+					
+					calcul($1,$3,operateur,&k);
+					calculResult[j]= k;  j++;
 					
 
 
@@ -487,9 +490,9 @@ CALCUL: idf OPERATEUR idf {
 									printf("erreur semantique devision sur zerooooooooo a la ligne %d \n",nb_ligne);
 									return -1;
 								}
-								printf("valFloat before the function = %f \n",valFloat);
-								 calculIdfXCst($1,&valFloat,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);
-								 					calculResult[j]= k; 
+								
+								 calculIdfXCst($1,&valFloat,operateur,&k); 
+								 					calculResult[j]= k; j++;
 
 								
 
@@ -497,8 +500,10 @@ CALCUL: idf OPERATEUR idf {
 
 		}
 		| CST_NUM OPERATEUR CST_NUM{
-
-							//lzm deuxieme variable const2 bach f grammaire ta3 constante n7ato kol const f wahed , meme type lzm deuxieme
+			
+			calculCstXCst(&cstNum[y-1],&cstNum[y-2],operateur,&k);
+			
+			calculResult[j]=k;	j++;				
 
 
 		}
@@ -512,8 +517,8 @@ CALCUL: idf OPERATEUR idf {
 									printf("Erreur Semantique : imncompatibilte de type  a la ligne %d !!! \n",nb_ligne);
 								return -1;}
 								
-								 calculIdfXCst($3,&valFloat,operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k);	 
-										 					calculResult[j]= k; 
+								 calculIdfXCst($3,&valFloat,operateur,&k);
+										 					calculResult[j]= k;j++; 
 
 										 
 										 	}
@@ -521,9 +526,11 @@ CALCUL: idf OPERATEUR idf {
 	 								if(nonDeclared($1 )==-1 ){
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
-										printf("\n%d\n",k);
-								calculIdfXCst($1,&calculResult[j],operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); 
-								calculResult[i]= k;
+										
+								calculIdfXCst($1,&calculResult[j-1],operateur,&k);
+								
+								calculResult[j]= k; j++;
+								 
 
 
 								// na7sbo w n7ato f sommet de pile, resultat ta3 calcul tkon f sommet sema hna ndiro idf operateur sommet de pile, apres nremplaciw sommet l9dim b resultat jdida,
@@ -538,21 +545,25 @@ CALCUL: idf OPERATEUR idf {
 		 							printf("erreur semantique idf non declare a la ligne %d ",nb_ligne);return -1;
 	 									}
 										 
-										 calculIdfXCst($3,&calculResult[j],operateur,&k); printf("cstcssssssssssssssssssssssssssssss = %f \n",k); 
-								calculResult[i]= k;
+										 calculIdfXCst($3,&calculResult[j-1],operateur,&k); 
+										 
+										
+								calculResult[j]= k; j++;
 										 
 										 }
 		| CST_NUM OPERATEUR CALCUL {
-			calculCstXCst(cstNum[y-1],calculResult[j],operateur,&k);
-			calculResult[j]=k;
+			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k);
+			calculResult[j]=k;j++;
 
 		}
-		| CALCUL  OPERATEUR CST_NUM
+		| CALCUL  OPERATEUR CST_NUM {
+			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k);
+			calculResult[j]=k;j++;
+		}
 		| pa_ouv CALCUL pa_fer	   {}
 		| CALCUL OPERATEUR CALCUL  {
-			j--; 
-			calculCstXCst(calculResult[j], calculResult[j-1],operateur,&k);printf("%d \n",k);
-			calculResult[j]=k;
+			calculCstXCst(&calculResult[j-1], &calculResult[j-2],operateur,&k);
+			calculResult[j]=k;j++;
 		}
 ;
 /*__________________________________________________________________________________________________________________________*/

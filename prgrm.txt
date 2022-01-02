@@ -28,12 +28,12 @@ PROCEDURE DIVISION.
 
 #les expressions arithmetiques !
 H='h'.
-A=3.
+A=5.
 C=A.
-A=((1+1)+(1+1)).
+A=C+(A+A).
 
 
-C=K+K.
+C=K*3.
 #******************************************!
 #expression in out simple !
 
