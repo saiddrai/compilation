@@ -30,6 +30,7 @@
 	float valFloat;
 	char *valStr;
 
+	int condition=0;
 
 
 %}
@@ -318,12 +319,15 @@ CONDITION :  pa_ouv EXPRESSION EXP_COMPA EXPRESSION pa_fer EXP_LOG CONDITION
 			|mc_not EXPRESSION pa_fer EXP_LOG CONDITION
 			|mc_not CONDITION ;
 /*__________________________________________________________________________________________________________________________*/
-EXPRESSION: EX1 
+EXPRESSION: EX1 { if(type >2 ){
+	printf(" ==============> Erreur Semantique : incompatibilte de type  a la ligne: %d et la colonne : %d  !!! <============== \n",nb_ligne,col);
+										return -1;
+}}
 		   |CALCUL;
 
 /*__________________________________________________________________________________________________________________________*/
 
-EX1: CST_NUM | idf;
+EX1: CST_NUM {type = 1;}| idf { type = get_type($1);};
 /*__________________________________________________________________________________________________________________________*/
 
 EXP_LOG :mc_and | mc_or ;
@@ -369,18 +373,23 @@ EXPR_ARITH:idf egl CALCUL point{
 															}
 								else{} /* if (get_type($1) != get_type()) {printf(" ==============>Erreur semantique : incompatibilite de Type a la ligne %d et la colonne : %d <============== \n", nb_ligne,col); return -1 ;} */
 								
-								
-								sprintf(v , "%f" , calculResult[j-1]);												
-													insererVAL($1,v);  // zidlha type
-								
+								switch(get_type($1)){
+									case 1:
+										sprintf(v , "%d" , (int)calculResult[j-1]);	
+										insererVAL($1,v);  // zidlha type
+										break;
+									case 2:
+										sprintf(v , "%f" , calculResult[j-1]);	
+										insererVAL($1,v);  // zidlha type
+										break;
 								}
+								
+}
 								
 				
 				
 			
 	
-
-
 
 		   |idf egl CST point {	
 			   								
@@ -394,20 +403,26 @@ EXPR_ARITH:idf egl CALCUL point{
 															return -1;
 															}
 															 
+								if( ( type <2 && get_type($1) < 2 ) ){
+									switch(get_type($1)){
+										case 1: 
+											sprintf(v , "%d" , (int)valFloat);
+											insererVAL($1,v);
+											break;
+										case 2:
+											sprintf(v , "%f" , valFloat);
+											insererVAL($1,v);
+											break;
+									}
+								}
+
 								else if(get_type($1) != type){
 									printf(" ==============>Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonnes %d !!! <============== \n",nb_ligne);
 								return -1;}
+
+
 								else switch (type)
 											{
-											case 1 : 
-												sprintf(v , "%f" , valFloat);
-												insererVAL($1,v);
-												
-											break;
-											case 2 :
-												sprintf(v , "%f" , valFloat);												
-												insererVAL($1,v);
-											break;
 											case 3 :
 												insererVAL($1,cstStr);
 											break;
@@ -416,7 +431,7 @@ EXPR_ARITH:idf egl CALCUL point{
 											break;
 											
 											}
-							
+
 		   }
 									
 									
@@ -433,10 +448,15 @@ EXPR_ARITH:idf egl CALCUL point{
 									printf(" ==============> Erreur Semantique: variable %s non declare a la ligne : %d et la colonne : %d <============== \n",$3,nb_ligne,col);return -1;
 								}
 								
-								if(get_type($1) != get_type($3)){
-									printf(" ==============> Erreur Semantique : incompatibilte de type  a la ligne : %d et la colonne : %d !!! <============== \n",nb_ligne,col);
-										return -1;
+								if(get_type($1)<3 && get_type($3)<2){
+									if(get_type($1)==1){
+										updateValIdf($1,$3);
+									}
 								}
+								else	if(get_type($1) != get_type($3)){
+											printf(" ==============> Erreur Semantique : incompatibilte de type  a la ligne : %d et la colonne : %d !!! <============== \n",nb_ligne,col);
+										return -1;
+									}
 
 								updateValIdf($1,$3);
 
@@ -465,10 +485,10 @@ CALCUL: idf OPERATEUR idf {
 					calculResult[j]= k;  j++;
 					
 
-
-
-
  }
+
+
+
 		| idf OPERATEUR CST_NUM {
 	 								if(nonDeclared($1) == -1 ){
 		 							printf("==============> Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);
@@ -487,11 +507,11 @@ CALCUL: idf OPERATEUR idf {
 								 calculIdfXCst($1,&valFloat,operateur[opera-1],&k); opera--;
 								 					calculResult[j]= k; j++;
 
+		}
 								
 
 
 
-		}
 		| CST_NUM OPERATEUR CST_NUM{
 			
 			calculCstXCst(&cstNum[y-1],&cstNum[y-2],operateur[opera-1],&k); opera--;
@@ -510,11 +530,13 @@ CALCUL: idf OPERATEUR idf {
 									printf("==============> Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonne : %d  !!! <============== \n",nb_ligne,col);
 								return -1;}
 								
-								 calculIdfXCst($3,&valFloat,operateur[opera-1],&k);
+								 calculIdfXCst($3,&valFloat,operateur[opera-1],&k); opera--;
 										 					calculResult[j]= k;j++; 
 
 										 
 										 	}
+
+
 		| idf OPERATEUR  CALCUL	   { 
 	 								if(nonDeclared($1 )==-1 ){
 		 							printf("==============> Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n",nb_ligne,col);return -1;
@@ -538,19 +560,19 @@ CALCUL: idf OPERATEUR idf {
 		 							printf("==============> Erreur Semantique : idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);return -1;
 	 									}
 										 
-										 calculIdfXCst($3,&calculResult[j-1],operateur,&k); opera--;
+										 calculIdfXCst($3,&calculResult[j-1],operateur[opera-1],&k); opera--;
 										 
 										
 								calculResult[j]= k; j++;
 										 
 										 }
 		| CST_NUM OPERATEUR CALCUL {
-			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k); opera--;
+			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur[opera-1],&k); opera--;
 			calculResult[j]=k;j++;
 
 		}
 		| CALCUL  OPERATEUR CST_NUM {
-			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur,&k); opera--;
+			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur[opera-1],&k); opera--;
 			calculResult[j]=k;j++;
 		}
 		| pa_ouv CALCUL pa_fer	   {}

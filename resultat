@@ -106,7 +106,7 @@
 
 
 /* Line 189 of yacc.c  */
-#line 110 "syntax.tab.c"
+#line 110 "resultat"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -210,7 +210,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 214 "syntax.tab.c"
+#line 214 "resultat"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -222,7 +222,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 226 "syntax.tab.c"
+#line 226 "resultat"
 
 #ifdef short
 # undef short
@@ -2227,7 +2227,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2231 "syntax.tab.c"
+#line 2231 "resultat"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

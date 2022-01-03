@@ -30,11 +30,11 @@ PROCEDURE DIVISION.
 #les expressions arithmetiques !
 H='h'.
 A=5.
-C=A.
-A=A+C*A.
+C= B.
+A=A/2.
 
 
-C=K*3.
+
 #******************************************!
 #expression in out simple !
 
