@@ -31,7 +31,7 @@ PROCEDURE DIVISION.
 H='h'.
 A=5.
 C= 5.
-A=1+(1*2).
+A=A*C+3.
 
 
 

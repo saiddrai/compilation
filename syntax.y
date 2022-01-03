@@ -371,7 +371,7 @@ EXPR_ARITH:idf egl CALCUL point{
 															printf(" ==============>Erreur semantique : le %s c'est une constante , tu peut pas fait une affectation  , a la ligne %d et la colonne : %d<============== \n ",$1,nb_ligne,col);
 															return -1;
 															}
-								else{} /* if (get_type($1) != get_type()) {printf(" ==============>Erreur semantique : incompatibilite de Type a la ligne %d et la colonne : %d <============== \n", nb_ligne,col); return -1 ;} */
+								
 								
 								switch(get_type($1)){
 									case 1:
