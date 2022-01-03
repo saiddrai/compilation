@@ -9,7 +9,7 @@ PROGRAM-ID.Nompro.
 DATA DIVISION.
 WORKING-STORAGE SECTION.
 
-E INTEGER.
+E INTEGER. 
 A INTEGER.
 C INTEGER.
 T FLOAT.
@@ -30,8 +30,8 @@ PROCEDURE DIVISION.
 #les expressions arithmetiques !
 H='h'.
 A=5.
-C= B.
-A=A/2.
+C= 5.
+A=1+(1*2).
 
 
 
@@ -56,7 +56,7 @@ END.
 IF ((A.GE.5)):
 	ACCEPT ("#":@Fb).
 	ACCEPT ("$":@C ).
-	IF ((B.GE.C)):
+	IF ((A.GE.C)):
 		ACCEPT ("#":@Fb).
 		ACCEPT ("&":@H ).
 		ACCEPT ("&":@H).
