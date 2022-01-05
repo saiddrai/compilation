@@ -314,10 +314,11 @@ ELSE: mc_else Dpoint P_INST
 	  | ;
 /*__________________________________________________________________________________________________________________________*/
 
-CONDITION :  pa_ouv EXPRESSION EXP_COMPA EXPRESSION pa_fer EXP_LOG CONDITION
+CONDITION :  pa_ouv EXPRESSION EXP_COMPA EXPRESSION pa_fer EXP_LOG CONDITION 
 			|pa_ouv EXPRESSION EXP_COMPA EXPRESSION pa_fer
-			|mc_not EXPRESSION pa_fer EXP_LOG CONDITION
-			|mc_not CONDITION ;
+			|EXPRESSION EXP_COMPA EXPRESSION
+			|mc_not pa_ouv EXPRESSION pa_fer EXP_LOG CONDITION pa_fer
+			|mc_not pa_ouv CONDITION pa_fer;
 /*__________________________________________________________________________________________________________________________*/
 EXPRESSION: EX1 { if(type >2 ){
 	printf(" ==============> Erreur Semantique : incompatibilte de type  a la ligne: %d et la colonne : %d  !!! <============== \n",nb_ligne,col);
