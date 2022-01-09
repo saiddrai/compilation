@@ -384,13 +384,13 @@ EXPR_ARITH:idf egl CALCUL point{
 															printf(" ==============>Erreur semantique : le %s c'est une constante , tu peut pas fait une affectation  , a la ligne %d et la colonne : %d<============== \n ",$1,nb_ligne,col);
 															return -1;
 											}
-								
+									
 								}
 								
 								
 								switch(get_type($1)){
 									case 1:
-										sprintf(v , "%d" , (int)calculResult[j-1]);	printf("SUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+										sprintf(v , "%d" , (int)calculResult[j-1]);	
 										insererVAL($1,v);  
 										break;
 									case 2:
@@ -428,11 +428,15 @@ EXPR_ARITH:idf egl CALCUL point{
 									switch(get_type($1)){
 										case 1: 
 											sprintf(v , "%d" , (int)valFloat);
-											insererVAL($1,v);
+											insererVAL($1,v); 
+											setCstDec($1,0);
+
 											break;
 										case 2:
 											sprintf(v , "%f" , valFloat);
 											insererVAL($1,v);
+											setCstDec($1,0);
+
 											break;
 									}
 								}
@@ -449,9 +453,11 @@ EXPR_ARITH:idf egl CALCUL point{
 											{
 											case 3 :
 												insererVAL($1,cstStr);
+												setCstDec($1,0);
 											break;
 											case 4 :
 												insererVAL($1,cstStr);
+												setCstDec($1,0);
 											break;
 											
 											}

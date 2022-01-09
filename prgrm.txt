@@ -20,7 +20,7 @@ C INTEGER.
 
 CONST K = 123 .
 CONST B FLOAT. 
-
+CONST Ar =1.
 Sb | Fb STRING.
 
 Tab | W LINE 1 , SIZE 8 INTEGER .
@@ -34,8 +34,7 @@ H='h'.
 A=5.
 C= 5.
 A=A*C+3.
-
-
+Ar = 1.
 
 #******************************************!
 #expression in out simple !
