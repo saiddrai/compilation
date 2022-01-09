@@ -223,10 +223,10 @@ int doubleDeclaration(char entite[])
   pos = Rechercher_PosIDF(entite);
   if(pos!= -1){
 
-  if (strcmp(tab[pos].type,"") ==0  )
+  if (strcmp(tab[pos].type,"") ==0 )
     return 0;
   }
-  
+
     return -1;
 }
 

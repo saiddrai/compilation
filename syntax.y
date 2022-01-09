@@ -390,7 +390,7 @@ EXPR_ARITH:idf egl CALCUL point{
 								
 								switch(get_type($1)){
 									case 1:
-										sprintf(v , "%d" , (int)calculResult[j-1]);	
+										sprintf(v , "%d" , (int)calculResult[j-1]);	printf("SUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 										insererVAL($1,v);  
 										break;
 									case 2:
@@ -417,12 +417,14 @@ EXPR_ARITH:idf egl CALCUL point{
 								{printf(" ==============>Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne %d et la colonnes %d !!! <============== \n",$1,nb_ligne,col);
 								return -1;}
 								else if ( DemanderVS($1) ==0 ) {
-															
+												if(  getCstDec($1)==0){
+
 															printf(" ==============>Erreur semantique : le %s c'est une constante , tu peut pas fait une affectation  , a la ligne %d et la colonne : %d<============== \n",$1,nb_ligne,col);
 															return -1;
+												}			
 															}
 															 
-								if( ( type <2 && get_type($1) < 2 ) ){
+								if( ( type <3 && get_type($1) < 3 ) ){
 									switch(get_type($1)){
 										case 1: 
 											sprintf(v , "%d" , (int)valFloat);
@@ -436,8 +438,11 @@ EXPR_ARITH:idf egl CALCUL point{
 								}
 
 								else if(get_type($1) != type){
+
 									printf(" ==============>Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonnes %d !!! <============== \n",nb_ligne);
-								return -1;}
+								return -1;
+								}
+									
 
 
 								else switch (type)
@@ -460,14 +465,22 @@ EXPR_ARITH:idf egl CALCUL point{
 
 		   |idf egl idf point{  
 			   					if(nonDeclared($1) == -1){
-									   printf(" ==============> Erreur Semantique : variable %d declare comme constante dans la ligne : %d et la colonne : %d <==============\n",$1,nb_ligne,col );return -1;
+									   printf(" ==============> Erreur Semantique: variable %s non declare a la ligne : %d et la colonne : %d <============== \n",$3,nb_ligne,col);return -1;
 								   }
 																
 								if(nonDeclared($3) == -1){
 									printf(" ==============> Erreur Semantique: variable %s non declare a la ligne : %d et la colonne : %d <============== \n",$3,nb_ligne,col);return -1;
 								}
-								
-								if(get_type($1)<3 && get_type($3)<2){
+
+								if ( DemanderVS($1) ==0 ) {
+												if(  getCstDec($1)==0){
+
+															printf(" ==============>Erreur semantique : le %s c'est une constante , tu peut pas fait une affectation  , a la ligne %d et la colonne : %d<============== \n",$1,nb_ligne,col);
+															return -1;
+												}			
+															}
+
+								if(get_type($1)<2 && get_type($3)<2){
 									if(get_type($1)==1){
 										updateValIdf($1,$3);
 									}
@@ -494,7 +507,8 @@ CALCUL: idf OPERATEUR idf {
 					
 					
 
-					if(get_type($1) != get_type($3)){
+					if(get_type($1) != get_type($3)){ 
+
 									printf(" ==============> Erreur Semantique : incompatibilte de type  a la ligne: %d et la colonne : %d  !!! <============== \n",nb_ligne,col);
 										return -1;
 								}
@@ -514,7 +528,7 @@ CALCUL: idf OPERATEUR idf {
 									return -1;
 	 							}
 
-								 if(get_type($1) != type){
+								 if(get_type($1) >2 ||  type > 2 ){ printf("SUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 									printf("==============> Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonne : %d  !!!<============== \n",nb_ligne,col);
 								return -1;}
 								
@@ -545,7 +559,7 @@ CALCUL: idf OPERATEUR idf {
 		 								printf("==============>Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);return -1;
 	 									}
 										 
-									 if(get_type($3) != type){
+									 if(get_type($3) >2 ||  type > 2){
 									printf("==============> Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonne : %d  !!! <============== \n",nb_ligne,col);
 								return -1;}
 								

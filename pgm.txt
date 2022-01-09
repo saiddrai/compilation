@@ -11,6 +11,7 @@ WORKING-STORAGE SECTION.
     CONST K INTEGER.
 	 C FLOAT.
     CONST F FLOAT.
+    
 
 PROCEDURE DIVISION.
     A = 5.
@@ -46,13 +47,7 @@ PROCEDURE DIVISION.
 	Str2 ="Acad".
     Str = "Acad A".
 
-      IF (  (A+(-9)/B .GE. 5)):
-        DISPLAY ("la valeur de B est $ et la valeur de A est $ et pour K est $": B , A , K).
-        Var1= Xe+ 15.
-		Var1= Xe+ 15 + ((-19)+Var1 /20).
-		IF ((5 + A .GE. B)):
-         DISPLAY ("la valeur de B est $ et la valeur de A est  et pour K est ": B ).
-        END.
+     
 		MOVE A TO 100
 		  Var1= Xe+ 15.
 		END.
@@ -68,7 +63,7 @@ PROCEDURE DIVISION.
     END.
 
         END.
-    END.
+    
 
 
 STOP RUN.
