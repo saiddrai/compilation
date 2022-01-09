@@ -39,7 +39,7 @@ A=A*C+3.
 #expression in out simple !
 
 DISPLAY ("Bonjour").
-DISPLAY ("cest une chaine de caracteres $ # ":A,Sb).
+DISPLAY ("cest une ================================================chaine de caracteres %# ":A,Sb).
 DISPLAY ("cest un caractere $":C ).
 ACCEPT ("$":@ C).
 

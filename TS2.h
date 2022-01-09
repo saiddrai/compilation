@@ -6,7 +6,7 @@
 typedef struct
 {
   int state;
-  char name[60];
+  char name[200];
   char code[60];
   char type[60];
   char val[60];
@@ -294,13 +294,13 @@ void Change_affich(char val[20])
 
 int updateCodeCst(char entite[]){
     int i = Rechercher_PosIDF(entite);
-    strcpy(tab[i].code, "CST");printf("constante updated===================================== %s \n", tab[i].code);
+    strcpy(tab[i].code, "CST");
     return 0;
 }
 
 
 void updateType(char entite[], char type[]){
-  int i =0;printf("========================================================");
+  int i =0;
   while (i < 1000)
   {
     if (strcmp(entite, tab[i].name) == 0){
@@ -352,13 +352,13 @@ void calculIdfXCst(char entite1[],float *v2,int oper,float *x){
   // atof 
   int i = Rechercher_PosIDF(entite1);
   char val1[10];
-  float a=(*v2); printf("v2= %f \n",a);
+  float a=(*v2); 
   strcpy(val1,tab[i].val);
 
   float v1= atof(val1);
   
   float result=0;
-  printf("%f %f \n",v1, *v2);
+  
   switch(oper){
     case 1:
         result = v1+(*v2);printf("%f\n",result);
