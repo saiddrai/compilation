@@ -12,6 +12,7 @@ typedef struct
   char val[60];
   int VS;         /*si 1 --> varriable si 0 --> Constante */
   int D;     /*if la case a ete ecraser */
+  int cstDeclaration; // zero initializé, 1 non
 } element;
 
 typedef struct
@@ -220,9 +221,12 @@ int doubleDeclaration(char entite[])
 {
   int pos;
   pos = Rechercher_PosIDF(entite);
-  if (strcmp(tab[pos].type, "") == 0)
+  if(pos!= -1){
+
+  if (strcmp(tab[pos].type,"") ==0  )
     return 0;
-  else
+  }
+  
     return -1;
 }
 
@@ -230,7 +234,7 @@ int doubleDeclaration(char entite[])
 int nonDeclared(char entite[]){
  int pos;
   pos = Rechercher_PosIDF(entite);
-  if (strcmp(tab[pos].type, "") == 0)
+  if (strcmp(tab[pos].type,"") == 0)
     return -1;
   else
     return 0;
@@ -292,10 +296,11 @@ void Change_affich(char val[20])
 
 
 
-int updateCodeCst(char entite[]){
+void updateCodeCst(char entite[],int cstDec){
     int i = Rechercher_PosIDF(entite);
     strcpy(tab[i].code, "CST");
-    return 0;
+    tab[i].cstDeclaration = cstDec;
+
 }
 
 
@@ -500,4 +505,15 @@ int Incomsign(char IDFD [100][20],char sign [40] , int t)
 	}
 	}	
 	return 0 ; 
+}
+
+
+int getCstDec(char entite[]){
+  int i = Rechercher_PosIDF(entite);
+  return tab[i].cstDeclaration;
+}
+
+void setCstDec(char entite[],int val){
+  int i = Rechercher_PosIDF(entite);
+  tab[i].cstDeclaration= val;
 }

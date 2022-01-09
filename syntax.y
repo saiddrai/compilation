@@ -86,7 +86,7 @@ P_DEC_TAB: LIST_IDF mc_line cst_int vrg mc_size cst_int TYPE point { strcpy(sauv
 
 P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 								   { if(doubleDeclaration(IDF[j])==0)	
-								   	{
+								   	{ 
 										insererTypeIDF(IDF[j] , save);
 								   		DonnerVS(IDF[j] ,1);
 									}
@@ -104,27 +104,34 @@ P_DEC_VAR: LIST_IDF TYPE point {  for (j=0; j<i; j++)
 /*__________________________________________________________________________________________________________________________*/
 
 P_DEC_CONST: mc_const idf TYPE point { 
-						for (j=0; j<i; j++)
-										{ if(doubleDeclaration(IDF[j])==0)	
-											{insererTypeIDF(IDF[j] , save );
-											 DonnerVS(IDF[j] ,0);}
-										   else { if(doubleDeclaration(IDF[j])==-1)
-											{printf("\n ==============> Erreur Semantique : Double declaration a la ligne : %d et la colonne : %d <==============\n",nb_ligne,col);
-											return -1;}
-										  }
-										}
-											Re_TAB(IDF,i);i=0;
-	
-									int i = updateCodeCst($2);
-									updateType($2,save);
+						int x ;
+										 if(doubleDeclaration($2)==-1)	
+											{
+												printf("\n ==============> Erreur Semantique : Double declaration a la ligne : %d et la colonne : %d <==============\n",nb_ligne,col);
+											return -1;
+											}
+										   else {
+										insererTypeIDF($2 , save );
+											 DonnerVS($2 ,0);
+									updateCodeCst($2,1);
+										   }
 												
 												}
-
 			    | mc_const idf egl CST point {
+					int x = doubleDeclaration($2);
+												if(x==-1)
+													{
+														if(getCstDec($2)==0){
 
-												if(doubleDeclaration(IDF[j])==-1)
-													{printf("\n ==============> Erreur Semantique : Double declaration a la ligne %d <==============\n",nb_ligne);
-												return -1;}
+														printf("\n ==============> Erreur Semantique : Double declaration a la ligne %d <==============\n",nb_ligne);
+														return -1;
+														}
+														else if(get_type($2)!=type){
+															printf("\n ==============> Erreur Semantique :Incompatibilté des types a la ligne %d <==============\n",nb_ligne);
+														return -1;
+														}
+														
+													}
 												else switch (type)
 												{
 												case 1 : 
@@ -132,13 +139,14 @@ P_DEC_CONST: mc_const idf TYPE point {
 													sprintf(v , "%d" , valCst);
 													DonnerVS($2,0);
 													insererVAL($2,v);
+
 													
 												break;
 
 												case 2 :
 													insererTypeIDF($2 ,"FLOAT");
 													DonnerVS($2,0);
-													sprintf(v , "%f" , valCst);												
+													sprintf(v , "%f" , valCst);	
 													insererVAL($2,v);
 
 												break;
@@ -156,6 +164,8 @@ P_DEC_CONST: mc_const idf TYPE point {
 												break;
 												
 												} 
+													setCstDec($2,0);
+													updateCodeCst($2,0);
 
 												Re_TAB(IDF,i);i=0;
 												}
@@ -368,23 +378,31 @@ EXPR_ARITH:idf egl CALCUL point{
 			  					if (nonDeclared($1)==-1)
 								{printf(" ==============>Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne :%d et la colonne : %d !!! <============== \n",$1,nb_ligne,col);
 								return -1;
-								}else if (DemanderVS($1)==0) {
+								}
+								if(DemanderVS($1)==0){
+								if(  getCstDec($1)==0){
 															printf(" ==============>Erreur semantique : le %s c'est une constante , tu peut pas fait une affectation  , a la ligne %d et la colonne : %d<============== \n ",$1,nb_ligne,col);
 															return -1;
-															}
+											}
+								
+								}
 								
 								
 								switch(get_type($1)){
 									case 1:
 										sprintf(v , "%d" , (int)calculResult[j-1]);	
-										insererVAL($1,v);  // zidlha type
+										insererVAL($1,v);  
 										break;
 									case 2:
 										sprintf(v , "%f" , calculResult[j-1]);	
-										insererVAL($1,v);  // zidlha type
+										insererVAL($1,v);  
 										break;
 								}
-								
+								if(DemanderVS($1)==0){
+									if(getCstDec($1)==1)
+										setCstDec($1,0);
+								}
+
 }
 								
 				

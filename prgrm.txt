@@ -9,17 +9,19 @@ PROGRAM-ID.Nompro.
 DATA DIVISION.
 WORKING-STORAGE SECTION.
 
-E INTEGER. 
+
+CONST E INTEGER.
+
 A INTEGER.
-C INTEGER.
 T FLOAT.
 H CHAR.
 S STRING.
+C INTEGER.
+
 CONST K = 123 .
 CONST B FLOAT. 
-CONST B FLOAT. 
+
 Sb | Fb STRING.
-CONST B = 'b'.
 
 Tab | W LINE 1 , SIZE 8 INTEGER .
 
@@ -39,7 +41,6 @@ A=A*C+3.
 #expression in out simple !
 
 DISPLAY ("Bonjour").
-DISPLAY ("cest une ================================================chaine de caracteres %# ":A,Sb).
 DISPLAY ("cest un caractere $":C ).
 ACCEPT ("$":@ C).
 

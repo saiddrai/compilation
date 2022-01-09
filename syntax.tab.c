@@ -547,13 +547,13 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint16 yyrline[] =
 {
        0,    54,    54,    54,    57,    58,    59,    60,    65,    87,
-     106,   123,   169,   170,   171,   172,   177,   178,   182,   183,
-     184,   187,   188,   193,   194,   195,   196,   197,   201,   201,
-     203,   261,   282,   286,   298,   310,   313,   314,   317,   318,
-     319,   320,   321,   323,   327,   331,   331,   334,   334,   337,
-     337,   337,   337,   337,   337,   341,   352,   362,   367,   395,
-     443,   469,   493,   516,   524,   541,   559,   570,   575,   579,
-     580,   587,   587,   587,   587
+     106,   120,   179,   180,   181,   182,   187,   188,   192,   193,
+     194,   197,   198,   203,   204,   205,   206,   207,   211,   211,
+     213,   271,   292,   296,   308,   320,   323,   324,   327,   328,
+     329,   330,   331,   333,   337,   341,   341,   344,   344,   347,
+     347,   347,   347,   347,   347,   351,   362,   372,   377,   413,
+     461,   487,   511,   534,   542,   559,   577,   588,   593,   597,
+     598,   605,   605,   605,   605
 };
 #endif
 
@@ -1621,7 +1621,7 @@ yyreduce:
 #line 87 "syntax.y"
     {  for (j=0; j<i; j++)
 								   { if(doubleDeclaration(IDF[j])==0)	
-								   	{
+								   	{ 
 										insererTypeIDF(IDF[j] , save);
 								   		DonnerVS(IDF[j] ,1);
 									}
@@ -1643,19 +1643,17 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 106 "syntax.y"
     { 
-						for (j=0; j<i; j++)
-										{ if(doubleDeclaration(IDF[j])==0)	
-											{insererTypeIDF(IDF[j] , save );
-											 DonnerVS(IDF[j] ,0);}
-										   else { if(doubleDeclaration(IDF[j])==-1)
-											{printf("\n ==============> Erreur Semantique : Double declaration a la ligne : %d et la colonne : %d <==============\n",nb_ligne,col);
-											return -1;}
-										  }
-										}
-											Re_TAB(IDF,i);i=0;
-	
-									int i = updateCodeCst((yyvsp[(2) - (4)].str));
-									updateType((yyvsp[(2) - (4)].str),save);
+						int x ;
+										 if(doubleDeclaration((yyvsp[(2) - (4)].str))==-1)	
+											{
+												printf("\n ==============> Erreur Semantique : Double declaration a la ligne : %d et la colonne : %d <==============\n",nb_ligne,col);
+											return -1;
+											}
+										   else {
+										insererTypeIDF((yyvsp[(2) - (4)].str) , save );
+											 DonnerVS((yyvsp[(2) - (4)].str) ,0);
+									updateCodeCst((yyvsp[(2) - (4)].str),1);
+										   }
 												
 												;}
     break;
@@ -1663,12 +1661,22 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 123 "syntax.y"
+#line 120 "syntax.y"
     {
+					int x = doubleDeclaration((yyvsp[(2) - (5)].str));
+												if(x==-1)
+													{
+														if(getCstDec((yyvsp[(2) - (5)].str))==0){
 
-												if(doubleDeclaration(IDF[j])==-1)
-													{printf("\n ==============> Erreur Semantique : Double declaration a la ligne %d <==============\n",nb_ligne);
-												return -1;}
+														printf("\n ==============> Erreur Semantique : Double declaration a la ligne %d <==============\n",nb_ligne);
+														return -1;
+														}
+														else if(get_type((yyvsp[(2) - (5)].str))!=type){
+															printf("\n ==============> Erreur Semantique :Incompatibilté des types a la ligne %d <==============\n",nb_ligne);
+														return -1;
+														}
+														
+													}
 												else switch (type)
 												{
 												case 1 : 
@@ -1676,13 +1684,14 @@ yyreduce:
 													sprintf(v , "%d" , valCst);
 													DonnerVS((yyvsp[(2) - (5)].str),0);
 													insererVAL((yyvsp[(2) - (5)].str),v);
+
 													
 												break;
 
 												case 2 :
 													insererTypeIDF((yyvsp[(2) - (5)].str) ,"FLOAT");
 													DonnerVS((yyvsp[(2) - (5)].str),0);
-													sprintf(v , "%f" , valCst);												
+													sprintf(v , "%f" , valCst);	
 													insererVAL((yyvsp[(2) - (5)].str),v);
 
 												break;
@@ -1700,6 +1709,8 @@ yyreduce:
 												break;
 												
 												} 
+													setCstDec((yyvsp[(2) - (5)].str),0);
+													updateCodeCst((yyvsp[(2) - (5)].str),0);
 
 												Re_TAB(IDF,i);i=0;
 												;}
@@ -1708,77 +1719,77 @@ yyreduce:
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 169 "syntax.y"
+#line 179 "syntax.y"
     {strcpy(save,"INT");;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 170 "syntax.y"
+#line 180 "syntax.y"
     {strcpy(save,"FLOAT");;}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 171 "syntax.y"
+#line 181 "syntax.y"
     {strcpy(save,"CHAR");;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 172 "syntax.y"
+#line 182 "syntax.y"
     {strcpy(save,"STRING");;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 177 "syntax.y"
+#line 187 "syntax.y"
     {  strcpy(IDFF , (yyvsp[(1) - (3)].str));  strcpy(IDF[i] , IDFF);  i++;  ;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 178 "syntax.y"
+#line 188 "syntax.y"
     { strcpy(IDFF , (yyvsp[(1) - (1)].str));  strcpy(IDF[i], IDFF);  i++;  ;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 182 "syntax.y"
+#line 192 "syntax.y"
     { strcpy(cstStr,(yyvsp[(1) - (1)].str));   type =3; ;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 183 "syntax.y"
+#line 193 "syntax.y"
     { strcpy(cstStr,(yyvsp[(1) - (1)].str)); 	 type =4; ;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 187 "syntax.y"
+#line 197 "syntax.y"
     {valCst=(yyvsp[(1) - (1)].entier);valFloat=(yyvsp[(1) - (1)].entier); cstNum[y]=valCst; y++; type=1; ;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 188 "syntax.y"
+#line 198 "syntax.y"
     {valCst=(yyvsp[(1) - (1)].reel); valFloat=(yyvsp[(1) - (1)].reel); cstNum[y]=valCst; y++; type=2; ;}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 203 "syntax.y"
+#line 213 "syntax.y"
     { strcpy(STR,(yyvsp[(3) - (8)].str));	
 															 SuppMsg((yyvsp[(3) - (8)].str));
 
@@ -1839,7 +1850,7 @@ yyreduce:
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 261 "syntax.y"
+#line 271 "syntax.y"
     {   A=0;
 																strcpy(displ,(yyvsp[(3) - (7)].str));
 																chercher_sign(displ, sign);
@@ -1864,14 +1875,14 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 282 "syntax.y"
+#line 292 "syntax.y"
     {SuppMsg((yyvsp[(3) - (5)].str));;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 286 "syntax.y"
+#line 296 "syntax.y"
     {if (nonDeclared((yyvsp[(1) - (3)].str))==-1)
 							{printf("\n ==============> Erreur Semantique : valeur non declarer a la ligne %d <============== \n",nb_ligne);
 							 return -1;}  
@@ -1888,7 +1899,7 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 298 "syntax.y"
+#line 308 "syntax.y"
     {if (nonDeclared((yyvsp[(1) - (1)].str))==-1)
 				{printf("\n ==============> Erreur Semantique : valeur non declarer a la ligne %d <============== \n",nb_ligne);
 				 return -1;}
@@ -1902,7 +1913,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 323 "syntax.y"
+#line 333 "syntax.y"
     { if(type >2 ){
 	printf(" ==============> Erreur Semantique : incompatibilte de type  a la ligne: %d et la colonne : %d  !!! <============== \n",nb_ligne,col);
 										return -1;
@@ -1912,21 +1923,21 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 331 "syntax.y"
+#line 341 "syntax.y"
     {type = 1;;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 331 "syntax.y"
+#line 341 "syntax.y"
     { type = get_type((yyvsp[(1) - (1)].str));;}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 341 "syntax.y"
+#line 351 "syntax.y"
     {if (nonDeclared((yyvsp[(2) - (7)].str))==-1 || nonDeclared((yyvsp[(4) - (7)].str))==-1)
 													
 													{printf(" ==============>Erreur Semantique : l 'idf est non Declarer dans la  partie declaration  a la ligne %d et la colonne : %d !!! <============== \n",nb_ligne,col);
@@ -1942,7 +1953,7 @@ yyreduce:
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 352 "syntax.y"
+#line 362 "syntax.y"
     { if (nonDeclared((yyvsp[(2) - (7)].str))==-1)
 													
 													{printf(" ==============>Erreur Semantique : l'idf est non Declarer dans la  partie declaration  a la ligne %d et la colonne  !!! <==============\n",nb_ligne,col);
@@ -1958,35 +1969,43 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 367 "syntax.y"
+#line 377 "syntax.y"
     {
 			  					if (nonDeclared((yyvsp[(1) - (4)].str))==-1)
 								{printf(" ==============>Erreur Semantique : la variable %s est non Declarer dans la  partie declaration  a la ligne :%d et la colonne : %d !!! <============== \n",(yyvsp[(1) - (4)].str),nb_ligne,col);
 								return -1;
-								}else if (DemanderVS((yyvsp[(1) - (4)].str))==0) {
+								}
+								if(DemanderVS((yyvsp[(1) - (4)].str))==0){
+								if(  getCstDec((yyvsp[(1) - (4)].str))==0){
 															printf(" ==============>Erreur semantique : le %s c'est une constante , tu peut pas fait une affectation  , a la ligne %d et la colonne : %d<============== \n ",(yyvsp[(1) - (4)].str),nb_ligne,col);
 															return -1;
-															}
+											}
+								
+								}
 								
 								
 								switch(get_type((yyvsp[(1) - (4)].str))){
 									case 1:
 										sprintf(v , "%d" , (int)calculResult[j-1]);	
-										insererVAL((yyvsp[(1) - (4)].str),v);  // zidlha type
+										insererVAL((yyvsp[(1) - (4)].str),v);  
 										break;
 									case 2:
 										sprintf(v , "%f" , calculResult[j-1]);	
-										insererVAL((yyvsp[(1) - (4)].str),v);  // zidlha type
+										insererVAL((yyvsp[(1) - (4)].str),v);  
 										break;
 								}
-								
+								if(DemanderVS((yyvsp[(1) - (4)].str))==0){
+									if(getCstDec((yyvsp[(1) - (4)].str))==1)
+										setCstDec((yyvsp[(1) - (4)].str),0);
+								}
+
 ;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 395 "syntax.y"
+#line 413 "syntax.y"
     {	
 			   								
 
@@ -2034,7 +2053,7 @@ yyreduce:
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 443 "syntax.y"
+#line 461 "syntax.y"
     {  
 			   					if(nonDeclared((yyvsp[(1) - (4)].str)) == -1){
 									   printf(" ==============> Erreur Semantique : variable %d declare comme constante dans la ligne : %d et la colonne : %d <==============\n",(yyvsp[(1) - (4)].str),nb_ligne,col );return -1;
@@ -2064,7 +2083,7 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 469 "syntax.y"
+#line 487 "syntax.y"
     {
 	 				if(nonDeclared((yyvsp[(1) - (3)].str) )==-1 ){
 		 				printf("Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);return -1;
@@ -2091,7 +2110,7 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 493 "syntax.y"
+#line 511 "syntax.y"
     {
 	 								if(nonDeclared((yyvsp[(1) - (3)].str)) == -1 ){
 		 							printf("==============> Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);
@@ -2116,7 +2135,7 @@ yyreduce:
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 516 "syntax.y"
+#line 534 "syntax.y"
     {
 			
 			calculCstXCst(&cstNum[y-1],&cstNum[y-2],operateur[opera-1],&k); opera--;
@@ -2130,7 +2149,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 524 "syntax.y"
+#line 542 "syntax.y"
     {
 
 	 								if(nonDeclared((yyvsp[(3) - (3)].str) )==-1 ){
@@ -2151,7 +2170,7 @@ yyreduce:
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 541 "syntax.y"
+#line 559 "syntax.y"
     { 
 	 								if(nonDeclared((yyvsp[(1) - (3)].str) )==-1 ){
 		 							printf("==============> Erreur Semantique idf non declare a la ligne : %d et la colonne : %d <============== \n",nb_ligne,col);return -1;
@@ -2175,7 +2194,7 @@ yyreduce:
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 559 "syntax.y"
+#line 577 "syntax.y"
     {
 	 								if(nonDeclared((yyvsp[(3) - (3)].str) )==-1 ){
 		 							printf("==============> Erreur Semantique : idf non declare a la ligne : %d et la colonne : %d <============== \n ",nb_ligne,col);return -1;
@@ -2192,7 +2211,7 @@ yyreduce:
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 570 "syntax.y"
+#line 588 "syntax.y"
     {
 			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur[opera-1],&k); opera--;
 			calculResult[j]=k;j++;
@@ -2203,7 +2222,7 @@ yyreduce:
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 575 "syntax.y"
+#line 593 "syntax.y"
     {
 			calculCstXCst(&cstNum[y-1],&calculResult[j-1],operateur[opera-1],&k); opera--;
 			calculResult[j]=k;j++;
@@ -2213,14 +2232,14 @@ yyreduce:
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 579 "syntax.y"
+#line 597 "syntax.y"
     {;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 580 "syntax.y"
+#line 598 "syntax.y"
     {
 			calculCstXCst(&calculResult[j-1], &calculResult[j-2],operateur,&k);opera--;
 			calculResult[j]=k;j++;
@@ -2230,35 +2249,35 @@ yyreduce:
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 587 "syntax.y"
+#line 605 "syntax.y"
     { operateur[opera]=1;opera++; ;}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 587 "syntax.y"
+#line 605 "syntax.y"
     { operateur[opera]=2;opera++; ;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 587 "syntax.y"
+#line 605 "syntax.y"
     { operateur[opera]=3;opera++; ;}
     break;
 
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 587 "syntax.y"
+#line 605 "syntax.y"
     { operateur[opera]=4; opera++;;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2262 "syntax.tab.c"
+#line 2281 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2470,7 +2489,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 594 "syntax.y"
+#line 612 "syntax.y"
 
 int yyerror(char*msg)
 {
