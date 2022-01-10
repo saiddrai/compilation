@@ -2137,7 +2137,7 @@ yyreduce:
 									return -1;
 	 							}
 
-								 if(get_type((yyvsp[(1) - (3)].str)) >2 ||  type > 2 ){ printf("SUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+								 if(get_type((yyvsp[(1) - (3)].str)) >2 ||  type > 2 ){ 
 									printf("==============> Erreur Semantique : imncompatibilte de type  a la ligne : %d et la colonne : %d  !!!<============== \n",nb_ligne,col);
 								return -1;}
 								
